@@ -8,8 +8,10 @@
 </app-navbar>
 
 <mat-progress-bar *ngIf="(loading$ | async) > 0"
-                  mode="determinate"
-                  [value]="loading$ | async"></mat-progress-bar>
+                  mode="buffer"
+                  [value]="loading$ | async"
+                  [bufferValue]="(loading$ | async) + ((loading$ | async) % 7)"
+                  ></mat-progress-bar>
 
 <mat-drawer-container fxFlex='grow'>
   <mat-drawer #drawer
