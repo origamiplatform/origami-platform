@@ -5,6 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+/* firebase moduleds */
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+
 /* ngrx moduleds */
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -34,6 +40,10 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument({

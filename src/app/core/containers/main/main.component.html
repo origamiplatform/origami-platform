@@ -1,28 +1,29 @@
-<app-navbar fxFlex='nogrow'>
-  <!-- <app-tab-link [active]="loggedIn$"></app-tab-link>
-  <div fxFlex='grow'
-       id='spacer'></div>
-  <app-menu *ngIf="email"
-            icon="account_box"
-            [text]="email">
-    <app-menu-item (select)="logout()">logout</app-menu-item>
-  </app-menu>
-  <div>
-    <button mat-button
-            *ngIf="currentNamespace"
-            (click)="openDialog()">
-      <div fxLayout="row"
-           fxLayoutAlign="center center">
-        <mat-icon>bubble_chart</mat-icon>
-        <div> {{ currentNamespace}} </div>
-        <mat-icon>arrow_drop_down</mat-icon>
-      </div>
-    </button>
-  </div> -->
+<app-navbar>
+  ORIGAMI
+  <button type="button"
+          mat-button
+          (click)="drawer.toggle()">
+    Toggle sidenav
+  </button>
 </app-navbar>
 
-<mat-sidenav-container fxFlex='grow'>
+<!-- <mat-sidenav-container fxFlex='grow'>
   <mat-sidenav-content>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
-</mat-sidenav-container>
+</mat-sidenav-container> -->
+
+
+<mat-drawer-container fxFlex='grow'>
+  <mat-drawer #drawer
+              class="sidenav"
+              mode="side">
+    <p>sidenav</p>
+  </mat-drawer>
+
+  <mat-drawer-content class="sidenav-content">
+    Main content
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>
