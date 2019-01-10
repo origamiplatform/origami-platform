@@ -9,9 +9,12 @@
 
   <div mat-dialog-content>
     content
+    {{ downloadURL | async }}
   </div>
 
   <div mat-dialog-actions>
-
+    <file-upload-button (fileSet)='onFileSet($event)'>
+      Upload Video
+    </file-upload-button>
   </div>
 </section>

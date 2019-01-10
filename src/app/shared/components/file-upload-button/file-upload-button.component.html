@@ -10,7 +10,7 @@
             [ngClass]="file ? '' : 'unselected'"
             color="primary"
             (click)="file ? reset() : openFileUploder()">
-      {{ file ? 'REMOVE FILE' : 'ADD FILE' }}
+      <ng-content></ng-content>
     </button>
   </div>
 </div>

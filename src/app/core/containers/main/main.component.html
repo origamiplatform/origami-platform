@@ -7,12 +7,9 @@
   </button>
 </app-navbar>
 
-<!-- <mat-sidenav-container fxFlex='grow'>
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container> -->
-
+<mat-progress-bar *ngIf="(loading$ | async) > 0"
+                  mode="determinate"
+                  [value]="loading$ | async"></mat-progress-bar>
 
 <mat-drawer-container fxFlex='grow'>
   <mat-drawer #drawer

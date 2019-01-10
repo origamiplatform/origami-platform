@@ -7,7 +7,6 @@ import { ComponentsModule } from './components/components.module';
 import { ExternalModule } from './externals/external.module';
 import { ServiceModule } from './services/service.module';
 
-
 const MODULES = [
   CommonModule,
   RouterModule,

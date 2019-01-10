@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { select, Store } from '@ngrx/store';
+import * as LayoutActions from '@core/actions/layout.actions';
+import * as fromRoot from '../../../reducers';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +11,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  title = 'origami-platform';
+  loading$: Observable<number>;
+
+  constructor(
+    private store: Store<fromRoot.State>
+  ) {
+    this.loading$ = this.store.pipe(select(fromRoot.getLoading));
+  }
+
 }
