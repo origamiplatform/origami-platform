@@ -26,6 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from '@core/core.module';
 import { SharedModule } from '@shared/shared.module';
 import { CustomRouterStateSerializer } from '@core/utils/CustomRouterStateSerializer';
+import { AdminModule } from '@admin/admin.module';
 
 /* root component */
 import { MainComponent } from '@core/containers/main/main.component';
@@ -33,6 +34,7 @@ import { MainComponent } from '@core/containers/main/main.component';
 /* others */
 import { environment } from '../environments/environment';
 import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   imports: [
@@ -51,14 +53,15 @@ import { ToastrModule } from 'ngx-toastr';
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
-    AppRoutingModule,
     CoreModule,
     SharedModule.forRoot(),
+    AdminModule,
     ToastrModule.forRoot({
       timeOut: 1000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    AppRoutingModule,
   ],
   providers: [
     /**

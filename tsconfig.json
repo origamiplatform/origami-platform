@@ -27,6 +27,9 @@
       "@auth/*": [
         "app/auth/*"
       ],
+      "@admin/*": [
+        "app/admin/*"
+      ],
       "@shared/*": [
         "app/shared/*"
       ],

@@ -1,0 +1,16 @@
+<input fxHide
+       type="file"
+       (change)="setFile($event.target.files)"
+       #fileUploader>
+
+<div fxLayout="column"
+     fxLayoutAlign="stretch">
+  <div>
+    <button mat-raised-button
+            [ngClass]="file ? '' : 'unselected'"
+            color="primary"
+            (click)="file ? reset() : openFileUploder()">
+      {{ file ? 'REMOVE FILE' : 'ADD FILE' }}
+    </button>
+  </div>
+</div>
