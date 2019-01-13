@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { CommonActionService } from './common-action.service';

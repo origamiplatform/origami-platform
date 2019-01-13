@@ -1,0 +1,42 @@
+<h1 mat-dialog-title> Add New Category</h1>
+<div mat-dialog-content>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let category of data | async as categories">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{category?.name || 'ADD'}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{category.name ? (category?.children?.length || '0' ) + ' sub categories' : '' }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <p *ngFor="let subCategory of category.children">
+          {{ subCategory.name }}
+        </p>
+      </div>
+
+      <div fxFlex="grow"
+           fxLayout="row">
+        <mat-form-field fxFlex="grow">
+          <input matInput
+                 placeholder="New category"
+                 [(ngModel)]="newCategoryName">
+        </mat-form-field>
+        <button mat-icon-button
+                (click)="submit(category)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- <div mat-dialog-actions>
+    <button mat-button
+          (click)="onNoClick()">No Thanks</button>
+  <button mat-button
+          [mat-dialog-close]="data.animal"
+          cdkFocusInitial>Ok</button>
+  </div> -->

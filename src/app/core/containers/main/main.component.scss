@@ -13,8 +13,9 @@
 }
 
 .sidenav-content {
-  @include relative_full();
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
+  padding: 1em;
+}
+
+.mat-progress-bar {
+  height: 1px;
 }

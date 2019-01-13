@@ -1,17 +1,17 @@
 <app-navbar>
-  ORIGAMI
-  <button type="button"
-          mat-button
+  <button mat-icon-button
           (click)="drawer.toggle()">
-    Toggle sidenav
+    <mat-icon>menu</mat-icon>
   </button>
+  <span>
+    ORIGAMI
+  </span>
 </app-navbar>
 
 <mat-progress-bar *ngIf="(loading$ | async) > 0"
-                  mode="buffer"
+                  mode="determinate"
                   [value]="loading$ | async"
-                  [bufferValue]="(loading$ | async) + ((loading$ | async) % 7)"
-                  ></mat-progress-bar>
+                  [bufferValue]="(loading$ | async) + ((loading$ | async) % 7 + 5)"></mat-progress-bar>
 
 <mat-drawer-container fxFlex='grow'>
   <mat-drawer #drawer

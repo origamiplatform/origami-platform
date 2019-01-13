@@ -1,13 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300');
-// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 // @import "~bootstrap/scss/bootstrap-grid";
 
 @import 'variables';
 @import 'mixins';
 @import 'keyframes';
-@import 'theme';
+// @import 'theme';
 
 html,
 body,

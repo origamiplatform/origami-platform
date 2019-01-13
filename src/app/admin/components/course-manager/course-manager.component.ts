@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { Dialog } from '@classes/Dialog/class';
 import { StorageService } from '@shared/services/storage.service';
 
-
 @Component({
   selector: 'course-manager',
   templateUrl: './course-manager.component.html',
