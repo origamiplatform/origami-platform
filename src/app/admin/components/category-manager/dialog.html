@@ -5,10 +5,12 @@
     <mat-expansion-panel *ngFor="let category of data | async as categories">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{category?.name || 'ADD'}}
+          {{category.name }}
         </mat-panel-title>
         <mat-panel-description>
-          {{category.name ? (category?.children?.length || '0' ) + ' sub categories' : '' }}
+          <span>
+            {{ (category.children?.length || '0' )}} sub categories
+          </span>
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -27,6 +29,29 @@
         </mat-form-field>
         <button mat-icon-button
                 (click)="submit(category)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{'ADD'}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div fxFlex="grow"
+           fxLayout="row">
+        <mat-form-field fxFlex="grow">
+          <input matInput
+                 placeholder="New category"
+                 [(ngModel)]="newCategoryName">
+        </mat-form-field>
+        <button mat-icon-button
+                (click)="submit()">
           <mat-icon>add</mat-icon>
         </button>
       </div>

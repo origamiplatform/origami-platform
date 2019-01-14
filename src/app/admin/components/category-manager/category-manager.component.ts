@@ -23,32 +23,20 @@ export class CategoryManagerComponent implements OnInit {
     const dialogRef = this.dialog.open(CategoryDialog, {
       width: '100vw',
       height: '80vh',
-      data: this.db.categories
+      data: this.db.categoryCollection.valueChanges()
     });
 
     dialogRef.afterClosed().subscribe(category => {
       if (category) {
         console.log('The dialog was closed', category);
-
         if (category.children) {
           this.db.updateCategory(category);
         } else {
           this.db.addCategory(category);
         }
-
       }
     });
   }
-
-  addCategory(name: string) {
-    // const category: Category = { name };
-    // this.db.addCategory(category);
-  }
-
-  // updateCategory() {
-  //   const category: Category = {};
-  //   this.db.addCategory(category);
-  // }
 }
 
 
@@ -62,23 +50,23 @@ export class CategoryDialog {
   constructor(
     public dialogRef: MatDialogRef<CategoryDialog>,
     @Inject(MAT_DIALOG_DATA) public data: Observable<Category[]>) {
+    console.log(data);
   }
 
-  submit(c: Category) {
+  submit(c?: Category) {
     const category: Category = {
       name: this.newCategoryName,
       depth: 0
     };
-    if (c.name) {
+    if (c && c.id) {
       category.depth = 1;
       if (!c.children) {
         c.children = [];
       }
       c.children.push(category);
-      this.dialogRef.close(c);
-    } else {
-      this.dialogRef.close(category);
+      return this.dialogRef.close(c);
     }
+    return this.dialogRef.close(category);
   }
 
   close(): void {
