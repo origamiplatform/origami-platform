@@ -18,6 +18,7 @@ export class DatabaseService {
   constructor(private readonly afs: AngularFirestore) {
     this.categoryCollection = this.afs.collection<Category>(COLLECTION_NAME);
     this.categoryCollection.valueChanges().subscribe(data => this.categories = new BehaviorSubject(data));
+
     // this.categories.subscribe(data => console.log('change', data));
   }
 

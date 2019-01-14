@@ -23,7 +23,7 @@ export class CategoryManagerComponent implements OnInit {
     const dialogRef = this.dialog.open(CategoryDialog, {
       width: '100vw',
       height: '80vh',
-      data: this.db.categoryCollection.valueChanges()
+      data: this.db.categories
     });
 
     dialogRef.afterClosed().subscribe(category => {
