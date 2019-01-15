@@ -11,14 +11,14 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'lodash';
 import * as CategoryActions from '../actions/category.actions';
-import { Category } from '@shared/models/database';
+import { CategoryNode } from '@shared/models/database';
 
 const COLLECTION_NAME = 'categories';
 
 @Injectable()
 export class CategoryEffects {
-    categoryCollection: AngularFirestoreCollection<Category>;
-    categories$: Observable<Category[]>;
+    categoryCollection: AngularFirestoreCollection<CategoryNode>;
+    categories$: Observable<CategoryNode[]>;
 
     @Effect()
     Create$: Observable<Action> = this.actions$.pipe(
@@ -49,7 +49,10 @@ export class CategoryEffects {
         ofType<CategoryActions.Update>(CategoryActions.ActionTypes.Update),
         map(action => action.payload),
         exhaustMap(category => {
-            this.categoryCollection.doc(category.id).update(category);
+            const jsonObject = JSON.parse(JSON.stringify(category));
+            console.log(jsonObject);
+
+            this.categoryCollection.doc(category.id).update(jsonObject);
             return this.categories$.pipe(
                 map(categories => new CategoryActions.Complete(categories))
             );
@@ -60,7 +63,7 @@ export class CategoryEffects {
         private actions$: Actions,
         private readonly afs: AngularFirestore,
     ) {
-        this.categoryCollection = this.afs.collection<Category>(COLLECTION_NAME);
+        this.categoryCollection = this.afs.collection<CategoryNode>(COLLECTION_NAME);
         this.categories$ = this.categoryCollection.valueChanges();
     }
 }

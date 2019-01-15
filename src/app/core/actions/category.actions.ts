@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Category } from '@shared/models/database';
+import { CategoryNode } from '@shared/models/database';
 
 export enum ActionTypes {
     Create = '[Category] Create',
@@ -10,7 +10,7 @@ export enum ActionTypes {
 }
 
 export class Create implements Action {
-    constructor(public payload: Category) { }
+    constructor(public payload: CategoryNode) { }
     readonly type = ActionTypes.Create;
 }
 
@@ -19,17 +19,17 @@ export class Read implements Action {
 }
 
 export class Update implements Action {
-    constructor(public payload: Category) { }
+    constructor(public payload: CategoryNode) { }
     readonly type = ActionTypes.Update;
 }
 
 export class Delete implements Action {
-    constructor(public payload: Category) { }
+    constructor(public payload: CategoryNode) { }
     readonly type = ActionTypes.Delete;
 }
 
 export class Complete implements Action {
-    constructor(public payload: Category[]) { }
+    constructor(public payload: CategoryNode[]) { }
     readonly type = ActionTypes.Complete;
 }
 

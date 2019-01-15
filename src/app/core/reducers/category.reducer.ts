@@ -1,8 +1,8 @@
 import * as CategoryActions from '../actions/category.actions';
-import { Category } from '@shared/models/database';
+import { CategoryNode } from '@shared/models/database';
 
 export interface State {
-    categories: Category[];
+    categories: CategoryNode[];
 }
 
 const initialState: State = {
