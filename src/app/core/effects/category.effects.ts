@@ -8,7 +8,7 @@ import {
 } from 'rxjs/operators';
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { ToastrService } from 'ngx-toastr';
+
 import * as _ from 'lodash';
 import * as CategoryActions from '../actions/category.actions';
 import { CategoryNode } from '@shared/models/database';
@@ -25,8 +25,9 @@ export class CategoryEffects {
         ofType<CategoryActions.Create>(CategoryActions.ActionTypes.Create),
         map(action => action.payload),
         exhaustMap(category => {
+            const jsonObject = JSON.parse(JSON.stringify(category));
             const id = this.afs.createId();
-            this.categoryCollection.doc(id).set({ id, ...category });
+            this.categoryCollection.doc(id).set({ id, ...jsonObject });
             return this.categories$.pipe(
                 map(categories => new CategoryActions.Complete(categories))
             );
@@ -50,8 +51,6 @@ export class CategoryEffects {
         map(action => action.payload),
         exhaustMap(category => {
             const jsonObject = JSON.parse(JSON.stringify(category));
-            console.log(jsonObject);
-
             this.categoryCollection.doc(category.id).update(jsonObject);
             return this.categories$.pipe(
                 map(categories => new CategoryActions.Complete(categories))

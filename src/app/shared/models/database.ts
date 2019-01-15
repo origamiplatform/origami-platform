@@ -2,9 +2,11 @@ export class CategoryNode {
     id?: string;
     name: string;
     level: number;
-    children?: CategoryNode[];
+    children: CategoryNode[];
 
-    public addChild(n: CategoryNode) { this.children.push(n); }
+    constructor() {
+        this.children = [];
+    }
 }
 
 export class CategoryFlatNode {

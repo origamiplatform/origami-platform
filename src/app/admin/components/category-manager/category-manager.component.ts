@@ -55,7 +55,7 @@ export class CategoryManagerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(category => {
       if (category) {
         console.log('The dialog was closed', category);
-        if (category.children) {
+        if (category.children.length > 0) {
           this.categoryService.update(category);
         } else {
           this.categoryService.create(category);
@@ -78,22 +78,26 @@ export class CategoryDialog {
     @Inject(MAT_DIALOG_DATA) public data: Observable<CategoryNode[]>) {
   }
 
-  submit(c?: CategoryNode) {
-    const category = new CategoryNode();
-    category.name = this.newCategoryName;
-    category.level = 0;
+  submit(node?: CategoryNode) {
+    const child = new CategoryNode();
+    child.name = this.newCategoryName;
+    child.level = 0;
 
-    const copy = _.clone(c);
+    if (node && node.id) {
+      child.level = 1;
+      const parent = new CategoryNode();
+      parent.id = node.id;
+      parent.name = node.name;
+      parent.level = node.level;
+      parent.children = _.concat(node.children, child);
 
-    if (c && c.id) {
-      category.level = 1;
-      if (!copy.children) {
-        copy.children = [];
-      }
-      copy.addChild(category);
-      return this.dialogRef.close(copy);
+      console.log(node);
+      console.log(parent);
+
+
+      return this.dialogRef.close(parent);
     }
-    return this.dialogRef.close(category);
+    return this.dialogRef.close(child);
   }
 
   close(): void {
