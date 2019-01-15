@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DatabaseService } from '@shared/services/database.service';
+import { CategoryService } from '@shared/services/category.service';
 import { Category } from '@shared/models/database';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 
@@ -13,7 +13,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 export class CategoryManagerComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
-    private db: DatabaseService,
+    private categoryService: CategoryService,
   ) { }
 
   ngOnInit() {
@@ -23,16 +23,16 @@ export class CategoryManagerComponent implements OnInit {
     const dialogRef = this.dialog.open(CategoryDialog, {
       width: '100vw',
       height: '80vh',
-      data: this.db.categories
+      data: this.categoryService.categories$
     });
 
     dialogRef.afterClosed().subscribe(category => {
       if (category) {
         console.log('The dialog was closed', category);
         if (category.children) {
-          this.db.updateCategory(category);
+          this.categoryService.update(category);
         } else {
-          this.db.addCategory(category);
+          this.categoryService.create(category);
         }
       }
     });
