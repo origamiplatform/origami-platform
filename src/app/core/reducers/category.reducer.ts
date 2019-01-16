@@ -1,5 +1,5 @@
 import * as CategoryActions from '../actions/category.actions';
-import { CategoryNode } from '@shared/models/database';
+import { CategoryNode } from '@core/models/category';
 
 export interface State {
     categories: CategoryNode[];

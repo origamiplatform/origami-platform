@@ -3,9 +3,17 @@
           (click)="drawer.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
+  
   <span>
     ORIGAMI
   </span>
+
+  <navbar-item *ngFor="let route of routes"
+               [ngClass]="{ 'selected': router.url.includes(route.path) }"
+               (click)="navigateTo(route.path)"
+               [fxShow]="showLink(route.onlyAdmin)">
+    {{ route.label }}
+  </navbar-item>
 </app-navbar>
 
 <mat-progress-bar *ngIf="(loading$ | async) > 0"

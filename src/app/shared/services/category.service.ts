@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as CategoryActions from '@core/actions/category.actions';
-import { CategoryNode } from '@shared/models/database';
+import { CategoryNode } from '@core/models/category';
 
 
 @Injectable({

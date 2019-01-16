@@ -11,7 +11,7 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 
 import * as _ from 'lodash';
 import * as CategoryActions from '../actions/category.actions';
-import { CategoryNode } from '@shared/models/database';
+import { CategoryNode } from '@core/models/category';
 
 const COLLECTION_NAME = 'categories';
 

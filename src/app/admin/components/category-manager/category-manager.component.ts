@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable, of as observableOf } from 'rxjs';
 import { CategoryService } from '@shared/services/category.service';
-import { CategoryNode, CategoryFlatNode } from '@shared/models/database';
+import { CategoryNode, CategoryFlatNode } from '@core/models/category';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import * as _ from 'lodash';
