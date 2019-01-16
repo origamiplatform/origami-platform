@@ -32,10 +32,13 @@ export class CategoryManagerComponent implements OnInit {
 
   onCategoriesUpdate(categories: CategoryNode[]) {
     this.dataSource.data = categories;
+    console.log(this.dataSource.data);
+
   }
 
   transformer = (node: CategoryNode, level: number) => {
-    return new CategoryFlatNode(node.children.length > 0, node.name, level);
+    const expandable = node.children ? node.children.length > 0 : false;
+    return new CategoryFlatNode(expandable, node.name, level);
   }
 
   private _isExpandable = (node: CategoryFlatNode) => node.expandable;
