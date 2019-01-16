@@ -1,23 +1,25 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { CourseComponent } from './containers/course/course.component';
+import { ExploreComponent } from './containers/explore/explore.component';
 
 const routes: Routes = [
-    // {
-    //     path: '',
-    //     component: AdminComponent,
-    //     children: [
-    //         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    //         { path: 'dashboard', component: DashboardComponent },
-    //         // { path: 'posts/:id', component: PostViewComponent },
-    //         // {
-    //         //     path: 'dashboard',
-    //         //     component: PostDashboardComponent,
-    //         //     canActivate: [AuthGuard],
-    //         // },
-    //         { path: '**', redirectTo: 'dashboard' }
-    //     ]
-    // },
+    {
+        path: '',
+        component: CourseComponent,
+        children: [
+            { path: '', redirectTo: 'explore', pathMatch: 'full' },
+            { path: 'explore', component: ExploreComponent },
+            // { path: 'posts/:id', component: PostViewComponent },
+            // {
+            //     path: 'dashboard',
+            //     component: PostDashboardComponent,
+            //     canActivate: [AuthGuard],
+            // },
+            { path: '**', redirectTo: 'explore' }
+        ]
+    },
 ];
 
 

@@ -2,16 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: '', redirectTo: 'course', pathMatch: 'full' },
+  {
+    path: 'course',
+    loadChildren: './course/course.module#CourseModule',
+  },
   {
     path: 'admin',
     loadChildren: './admin/admin.module#AdminModule',
   },
-  // {
-  //   path: 'blog',
-  //   loadChildren: './blog/blog.module#BlogModule',
-  // },
-  { path: '**', redirectTo: 'admin' }
+
+  { path: '**', redirectTo: 'course' }
 ];
 
 @NgModule({

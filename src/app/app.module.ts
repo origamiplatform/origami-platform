@@ -55,7 +55,6 @@ import { ToastrModule } from 'ngx-toastr';
     EffectsModule.forRoot([]),
     CoreModule,
     SharedModule.forRoot(),
-    AdminModule,
     ToastrModule.forRoot({
       timeOut: 1000,
       positionClass: 'toast-bottom-right',

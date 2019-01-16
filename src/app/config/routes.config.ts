@@ -5,7 +5,7 @@ export interface IRoutes {
 }
 
 export const ROUTES: IRoutes[] = [
-    // { label: 'Home', path: '/home', onlyAdmin: false },
-    // { label: 'Blog', path: '/blog', onlyAdmin: false },
+    { label: 'Explore', path: '/explore', onlyAdmin: false },
+    { label: 'Courses', path: '/course', onlyAdmin: false },
     { label: 'Admin', path: '/admin', onlyAdmin: true },
 ];

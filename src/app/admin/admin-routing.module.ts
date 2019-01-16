@@ -18,7 +18,7 @@ const routes: Routes = [
             //     component: PostDashboardComponent,
             //     canActivate: [AuthGuard],
             // },
-            { path: '**', redirectTo: 'dashboard' }
+            // { path: '**', redirectTo: 'dashboard' }
         ]
     },
 ];
