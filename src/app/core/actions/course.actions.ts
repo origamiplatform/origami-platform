@@ -1,16 +1,16 @@
 import { Action } from '@ngrx/store';
-import { CategoryNode } from '@core/models/category';
+import { Course } from '@core/models/course';
 
 export enum ActionTypes {
-    Create = '[Category] Create',
-    Read = '[Category] Read',
-    Update = '[Category] Update',
-    Delete = '[Category] Delete',
-    Complete = '[Category] Complete',
+    Create = '[Course] Create',
+    Read = '[Course] Read',
+    Update = '[Course] Update',
+    Delete = '[Course] Delete',
+    Complete = '[Course] Complete',
 }
 
 export class Create implements Action {
-    constructor(public payload: CategoryNode) { }
+    constructor(public payload: Course) { }
     readonly type = ActionTypes.Create;
 }
 
@@ -19,17 +19,17 @@ export class Read implements Action {
 }
 
 export class Update implements Action {
-    constructor(public payload: CategoryNode) { }
+    constructor(public payload: Course) { }
     readonly type = ActionTypes.Update;
 }
 
 export class Delete implements Action {
-    constructor(public payload: CategoryNode) { }
+    constructor(public payload: Course) { }
     readonly type = ActionTypes.Delete;
 }
 
 export class Complete implements Action {
-    constructor(public payload: CategoryNode[]) { }
+    constructor(public payload: Course[]) { }
     readonly type = ActionTypes.Complete;
 }
 

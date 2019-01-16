@@ -25,7 +25,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import * as fromLayout from '@core/reducers/layout.reducer';
 import * as fromCategory from '@core/reducers/category.reducer';
-
+import * as fromCourse from '@core/reducers/course.reducer';
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
@@ -34,6 +34,7 @@ export interface State {
     layout: fromLayout.State;
     router: fromRouter.RouterReducerState<RouterStateUrl>;
     category: fromCategory.State;
+    courses: fromCourse.State;
 }
 
 /**
@@ -45,6 +46,7 @@ export const reducers: ActionReducerMap<State> = {
     layout: fromLayout.reducer,
     router: fromRouter.routerReducer,
     category: fromCategory.reducer,
+    courses: fromCourse.reducer
 };
 
 // console.log all actions
@@ -88,4 +90,14 @@ export const getCategoryState = createFeatureSelector<fromCategory.State>('categ
 export const getCategories = createSelector(
     getCategoryState,
     fromCategory.getCategories
+);
+
+/**
+ * Course Reducers
+ */
+export const getCourseState = createFeatureSelector<fromCourse.State>('course');
+
+export const getCourses = createSelector(
+    getCourseState,
+    fromCourse.getCourses
 );
