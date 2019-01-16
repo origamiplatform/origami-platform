@@ -10,26 +10,25 @@ import {
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 
 import * as _ from 'lodash';
-import * as CategoryActions from '../actions/category.actions';
-import { CategoryNode } from '@core/models/category';
+import * as CourseActions from '../actions/course.actions';
+import { Course } from '@core/models/course';
 
-const COLLECTION_NAME = 'categories';
+const COLLECTION_NAME = 'courses';
 
 @Injectable()
 export class CourseEffects {
-    categoryCollection: AngularFirestoreCollection<CategoryNode>;
-    categories$: Observable<CategoryNode[]>;
+    courseCollection: AngularFirestoreCollection<Course>;
+    courses$: Observable<Course[]>;
 
     @Effect()
     Create$: Observable<Action> = this.actions$.pipe(
-        ofType<CategoryActions.Create>(CategoryActions.ActionTypes.Create),
+        ofType<CourseActions.Create>(CourseActions.ActionTypes.Create),
         map(action => action.payload),
-        exhaustMap(category => {
-            const jsonObject = JSON.parse(JSON.stringify(category));
+        exhaustMap(course => {
             const id = this.afs.createId();
-            this.categoryCollection.doc(id).set({ id, ...jsonObject });
-            return this.categories$.pipe(
-                map(categories => new CategoryActions.Complete(categories))
+            this.courseCollection.doc(id).set({ id, ...course });
+            return this.courses$.pipe(
+                map(courses => new CourseActions.Complete(courses))
             );
         })
     );
@@ -37,23 +36,22 @@ export class CourseEffects {
 
     @Effect()
     Read$: Observable<Action> = this.actions$.pipe(
-        ofType<CategoryActions.Read>(CategoryActions.ActionTypes.Read),
+        ofType<CourseActions.Read>(CourseActions.ActionTypes.Read),
         exhaustMap(() => {
-            return this.categories$.pipe(
-                map(categories => new CategoryActions.Complete(categories))
+            return this.courses$.pipe(
+                map(courses => new CourseActions.Complete(courses))
             );
         })
     );
 
     @Effect()
     Update$: Observable<Action> = this.actions$.pipe(
-        ofType<CategoryActions.Update>(CategoryActions.ActionTypes.Update),
+        ofType<CourseActions.Update>(CourseActions.ActionTypes.Update),
         map(action => action.payload),
-        exhaustMap(category => {
-            const jsonObject = JSON.parse(JSON.stringify(category));
-            this.categoryCollection.doc(category.id).update(jsonObject);
-            return this.categories$.pipe(
-                map(categories => new CategoryActions.Complete(categories))
+        exhaustMap(course => {
+            this.courseCollection.doc(course.id).update(course);
+            return this.courses$.pipe(
+                map(courses => new CourseActions.Complete(courses))
             );
         })
     );
@@ -62,7 +60,7 @@ export class CourseEffects {
         private actions$: Actions,
         private readonly afs: AngularFirestore,
     ) {
-        this.categoryCollection = this.afs.collection<CategoryNode>(COLLECTION_NAME);
-        this.categories$ = this.categoryCollection.valueChanges();
+        this.courseCollection = this.afs.collection<Course>(COLLECTION_NAME);
+        this.courses$ = this.courseCollection.valueChanges();
     }
 }
