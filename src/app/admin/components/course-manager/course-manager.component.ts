@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 
 import { StorageService } from '@shared/services/storage.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { CourseService } from '@shared/services/course.service';
+import { Course } from '@core/models/course';
 
 @Component({
   selector: 'course-manager',
@@ -14,6 +16,7 @@ export class CourseManagerComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private courseService: CourseService,
   ) {
 
   }
@@ -26,7 +29,6 @@ export class CourseManagerComponent implements OnInit {
     const dialogRef = this.dialog.open(CourseDialog, {
       width: '100vw',
       height: '80vh',
-      // data: this.categoryService.categories$
     });
 
     // dialogRef.afterClosed().subscribe(category => {
@@ -53,6 +55,7 @@ export class CourseDialog {
   constructor(
     public dialogRef: MatDialogRef<CourseDialog>,
     private storageService: StorageService,
+    private courseService: CourseService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
