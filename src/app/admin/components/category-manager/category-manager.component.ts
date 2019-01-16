@@ -35,13 +35,14 @@ export class CategoryManagerComponent implements OnInit {
   }
 
   transformer = (node: CategoryNode, level: number) => {
-    return new CategoryFlatNode(!!node.children, node.name, level);
+    return new CategoryFlatNode(node.children.length > 0, node.name, level);
   }
 
   private _isExpandable = (node: CategoryFlatNode) => node.expandable;
 
   private _getChildren = (node: CategoryNode): Observable<CategoryNode[]> => observableOf(node.children);
 
+  // tslint:disable-next-line:no-shadowed-variable
   hasChild = (_: number, _nodeData: CategoryFlatNode) => _nodeData.expandable;
   private _getLevel = (node: CategoryFlatNode) => node.level;
 
