@@ -1,0 +1,25 @@
+.card-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  border-radius: 3px;
+  background-color: #999;
+  padding: 0.5em;
+  margin-top: -23px;
+
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14),
+    0 7px 10px -5px rgba(76, 175, 80, .4);
+
+  background: linear-gradient(60deg, #66bb6a, #43a047)
+}
+
+.mat-card-avatar .mat-icon {
+  color: white;
+}
+
+.mat-card {
+    margin: 1em;
+}

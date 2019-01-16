@@ -70,6 +70,7 @@ export class CategoryManagerComponent implements OnInit {
 @Component({
   selector: 'category-dialog',
   templateUrl: './dialog.html',
+  styleUrls: ['./dialog.scss']
 })
 export class CategoryDialog {
   newCategoryName: string;
@@ -91,11 +92,6 @@ export class CategoryDialog {
       parent.name = node.name;
       parent.level = node.level;
       parent.children = _.concat(node.children, child);
-
-      console.log(node);
-      console.log(parent);
-
-
       return this.dialogRef.close(parent);
     }
     return this.dialogRef.close(child);

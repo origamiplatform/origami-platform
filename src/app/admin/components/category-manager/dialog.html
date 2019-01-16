@@ -14,24 +14,25 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div>
+      <div fxLayout="column">
         <p *ngFor="let subCategory of category.children">
           {{ subCategory.name }}
         </p>
+
+        <div fxFlex="grow"
+             fxLayout="row">
+          <mat-form-field fxFlex="grow">
+            <input matInput
+                   placeholder="New category"
+                   [(ngModel)]="newCategoryName">
+          </mat-form-field>
+          <button mat-icon-button
+                  (click)="submit(category)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
       </div>
 
-      <div fxFlex="grow"
-           fxLayout="row">
-        <mat-form-field fxFlex="grow">
-          <input matInput
-                 placeholder="New category"
-                 [(ngModel)]="newCategoryName">
-        </mat-form-field>
-        <button mat-icon-button
-                (click)="submit(category)">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
     </mat-expansion-panel>
   </mat-accordion>
 
@@ -58,10 +59,4 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <!-- <div mat-dialog-actions>
-    <button mat-button
-          (click)="onNoClick()">No Thanks</button>
-  <button mat-button
-          [mat-dialog-close]="data.animal"
-          cdkFocusInitial>Ok</button>
-  </div> -->
+</div>

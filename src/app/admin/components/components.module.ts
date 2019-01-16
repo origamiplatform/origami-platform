@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
-import { CourseManagerComponent } from './course-manager/course-manager.component';
+import { CourseManagerComponent, CourseDialog } from './course-manager/course-manager.component';
 import { CategoryManagerComponent, CategoryDialog } from './category-manager/category-manager.component';
 
 const COMPONENTS = [
   CourseManagerComponent,
+  CourseDialog,
   CategoryManagerComponent,
   CategoryDialog
 ];
@@ -16,7 +17,7 @@ const COMPONENTS = [
   ],
   entryComponents: [
     CategoryDialog,
-    CourseManagerComponent
+    CourseDialog
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS
