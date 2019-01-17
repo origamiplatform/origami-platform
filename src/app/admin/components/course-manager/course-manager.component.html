@@ -7,12 +7,16 @@
     <mat-card-title>Course</mat-card-title>
   </mat-card-header>
 
+  <div *ngFor="let course of courseService.courses$ | async">
+    <button mat-button
+(click)="openLectureDialog(course)"> {{ course.name }}</button>
+  </div>
   <mat-card-content>
 
   </mat-card-content>
 
   <mat-card-actions align='end'>
     <button mat-button
-            (click)="openDialog()">ADD</button>
+            (click)="openCourseDialog()">ADD</button>
   </mat-card-actions>
 </mat-card>

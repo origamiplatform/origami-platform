@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 
 import { StorageService } from '@shared/services/storage.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { CourseService } from '@shared/services/course.service';
-import { Course } from '@core/models/course';
+import { Course, Lecture } from '@core/models/course';
+
+import { LectureManagerComponent } from '../lecture-manager/lecture-manager.component';
 
 @Component({
   selector: 'course-manager',
@@ -15,7 +16,8 @@ import { Course } from '@core/models/course';
 export class CourseManagerComponent implements OnInit {
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private courseService: CourseService,
   ) {
 
   }
@@ -24,22 +26,19 @@ export class CourseManagerComponent implements OnInit {
 
   }
 
-  openDialog(): void {
+  openLectureDialog(course: Course): void {
+    const dialogRef = this.dialog.open(LectureManagerComponent, {
+      width: '100vw',
+      height: '80vh',
+      data: course
+    });
+  }
+
+  openCourseDialog(): void {
     const dialogRef = this.dialog.open(CourseDialog, {
       width: '100vw',
       height: '80vh',
     });
-
-    // dialogRef.afterClosed().subscribe(category => {
-    //   if (category) {
-    //     console.log('The dialog was closed', category);
-    //     if (category.children.length > 0) {
-    //       this.categoryService.update(category);
-    //     } else {
-    //       this.categoryService.create(category);
-    //     }
-    //   }
-    // });
   }
 }
 
@@ -60,6 +59,12 @@ export class CourseDialog {
 
   async onFileSet(file: File) {
     this.downloadURL = await this.storageService.uploadVideo(file);
+  }
+
+  add(name, description) {
+    const lectures: Lecture[] = [];
+    const course: Course = { name, description, lectures };
+    this.courseService.create(course);
   }
 
   close(): void {

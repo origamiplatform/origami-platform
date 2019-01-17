@@ -1,26 +1,26 @@
 <h1 mat-dialog-title> Add New Course</h1>
 
-
-  <!-- <button mat-icon-button
-          class='close-dialog'
-          (click)="closeDialog()">
-    <mat-icon>close</mat-icon>
-  </button> -->
-
-
 <div mat-dialog-content>
-  <mat-video *ngIf="downloadURL | async"
-             [preload]="true"
-             color="accent"
-             spinner="dot">
-    <source matVideoSource
-            [src]="downloadURL | async"
-            type="video/mp4">
-  </mat-video>
+  <p>Course Name</p>
+  <mat-form-field>
+    <input matInput
+           placeholder="Name"
+           #name>
+  </mat-form-field>
+  <p>Course Description</p>
+  <mat-form-field>
+    <textarea matInput
+              placeholder="Description"
+              #desc></textarea>
+  </mat-form-field>
 </div>
 
 <div mat-dialog-actions>
-  <file-upload-button (fileSet)='onFileSet($event)'>
-    Upload Video
-  </file-upload-button>
+  <button mat-raised-button
+          color="primary"
+          [mat-dialog-close]>Close</button>
+
+  <button mat-raised-button
+          color="primary"
+          (click)="add(name.value, desc.value)">Add</button>
 </div>

@@ -101,7 +101,7 @@ export class CategoryDialog {
 
 
 
-  close(): void {
-    this.dialogRef.close();
-  }
+  // close(): void {
+  //   this.dialogRef.close();
+  // }
 }
