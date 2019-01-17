@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CourseService } from '@shared/services/course.service';
+import { Course } from '@core/models/course';
 
 @Component({
   selector: 'app-explore',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExploreComponent implements OnInit {
 
-  constructor() { }
+  constructor(private courseService: CourseService) { }
 
   ngOnInit() {
+    this.courseService.courses$.subscribe(data => this.onCourseUpdate(data));
+  }
+
+  onCourseUpdate(courses: Course[]) {
+    console.log(courses);
+
   }
 
 }

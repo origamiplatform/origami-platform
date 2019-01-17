@@ -34,7 +34,7 @@ export interface State {
     layout: fromLayout.State;
     router: fromRouter.RouterReducerState<RouterStateUrl>;
     category: fromCategory.State;
-    courses: fromCourse.State;
+    course: fromCourse.State;
 }
 
 /**
@@ -46,7 +46,7 @@ export const reducers: ActionReducerMap<State> = {
     layout: fromLayout.reducer,
     router: fromRouter.routerReducer,
     category: fromCategory.reducer,
-    courses: fromCourse.reducer
+    course: fromCourse.reducer
 };
 
 // console.log all actions

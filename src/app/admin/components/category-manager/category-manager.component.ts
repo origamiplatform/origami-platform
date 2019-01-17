@@ -32,8 +32,6 @@ export class CategoryManagerComponent implements OnInit {
 
   onCategoriesUpdate(categories: CategoryNode[]) {
     this.dataSource.data = categories;
-    console.log(this.dataSource.data);
-
   }
 
   transformer = (node: CategoryNode, level: number) => {
@@ -57,14 +55,13 @@ export class CategoryManagerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(category => {
-      if (category) {
-        console.log('The dialog was closed', category);
-        if (category.children.length > 0) {
-          this.categoryService.update(category);
-        } else {
-          this.categoryService.create(category);
-        }
-      }
+      // if (category) {
+      //   if (category.children.length > 0) {
+      //     this.categoryService.update(category);
+      //   } else {
+      //     this.categoryService.create(category);
+      //   }
+      // }
     });
   }
 }
@@ -76,29 +73,33 @@ export class CategoryManagerComponent implements OnInit {
   styleUrls: ['./dialog.scss']
 })
 export class CategoryDialog {
-  newCategoryName: string;
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Observable<CategoryNode[]>) {
+    private categoryService: CategoryService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
-  submit(node?: CategoryNode) {
-    const child = new CategoryNode();
-    child.name = this.newCategoryName;
-    child.level = 0;
+  submit(name: string, node?: CategoryNode) {
+    const newNode = new CategoryNode();
+    newNode.name = name;
+    newNode.level = 0;
 
     if (node && node.id) {
-      child.level = 1;
+      newNode.level = 1;
       const parent = new CategoryNode();
       parent.id = node.id;
       parent.name = node.name;
       parent.level = node.level;
-      parent.children = _.concat(node.children, child);
-      return this.dialogRef.close(parent);
+      parent.children = _.concat(node.children, newNode);
+      this.categoryService.update(parent);
+      // return this.dialogRef.close(parent);
     }
-    return this.dialogRef.close(child);
+    this.categoryService.create(newNode);
+    // return this.dialogRef.close(child);
   }
+
+
 
   close(): void {
     this.dialogRef.close();

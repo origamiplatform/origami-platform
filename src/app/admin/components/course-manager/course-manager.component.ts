@@ -15,8 +15,7 @@ import { Course } from '@core/models/course';
 export class CourseManagerComponent implements OnInit {
 
   constructor(
-    public dialog: MatDialog,
-    private courseService: CourseService,
+    public dialog: MatDialog
   ) {
 
   }
