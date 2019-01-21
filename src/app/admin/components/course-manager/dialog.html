@@ -1,12 +1,35 @@
 <h1 mat-dialog-title> Add New Course</h1>
 
 <div mat-dialog-content>
+
+  <img *ngIf="downloadURL"
+       [src]="downloadURL | async">
+
+  <file-upload-button (fileSet)='onFileSet($event)'>
+    Upload Image
+  </file-upload-button>
+  
+  <mat-form-field>
+    <mat-select>
+      <mat-option>-- None --</mat-option>
+      <mat-optgroup *ngFor="let category of categoryService.categories$ | async as categories"
+                    [label]="category.name">
+        <mat-option *ngFor="let subCategory of category.children"
+                    [value]="subCategory.name">
+          {{c.name}}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+
   <p>Course Name</p>
   <mat-form-field>
     <input matInput
            placeholder="Name"
            #name>
   </mat-form-field>
+
   <p>Course Description</p>
   <mat-form-field>
     <textarea matInput

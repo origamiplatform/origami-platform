@@ -7,6 +7,7 @@ import { CourseService } from '@shared/services/course.service';
 import { Course, Lecture } from '@core/models/course';
 
 import { LectureManagerComponent } from '../lecture-manager/lecture-manager.component';
+import { CategoryService } from '@shared/services/category.service';
 
 @Component({
   selector: 'course-manager',
@@ -54,6 +55,7 @@ export class CourseDialog {
     public dialogRef: MatDialogRef<CourseDialog>,
     private storageService: StorageService,
     private courseService: CourseService,
+    private categoryService: CategoryService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
