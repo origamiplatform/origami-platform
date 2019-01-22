@@ -2,40 +2,55 @@
 
 <div mat-dialog-content>
 
-  <img *ngIf="downloadURL"
-       [src]="downloadURL | async">
+  <p>
+    <span>Course Category</span>
+    <mat-form-field>
+      <mat-select placeholder="Category">
+        <mat-option>-- None --</mat-option>
+        <mat-optgroup *ngFor="let category of categoryService.categories$ | async as categories"
+                      [label]="category.name">
+          <mat-option *ngFor="let subCategory of category.children"
+                      [value]="subCategory.name">
+            {{subCategory.name}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <span>Course Name</span>
+    <mat-form-field>
+      <input matInput
+             placeholder="Name"
+             #name>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <span>Course Description</span>
+    <mat-form-field>
+      <textarea matInput
+                placeholder="Description"
+                #desc></textarea>
+    </mat-form-field>
+  </p>
+
+  <div *ngIf="downloadURL$">
+    <div *ngIf="downloadURL$ | async as downloadURL; else loading">
+      <ng-container *ngIf="downloadURL">
+        <img [src]="downloadURL">
+      </ng-container>
+    </div>
+    <ng-template #loading>
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </ng-template>
+  </div>
 
   <file-upload-button (fileSet)='onFileSet($event)'>
     Upload Image
   </file-upload-button>
 
-  <mat-form-field>
-    <mat-select>
-      <mat-option>-- None --</mat-option>
-      <mat-optgroup *ngFor="let category of categoryService.categories$ | async as categories"
-                    [label]="category.name">
-        <mat-option *ngFor="let subCategory of category.children"
-                    [value]="subCategory.name">
-          {{subCategory.name}}
-        </mat-option>
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
-
-
-  <p>Course Name</p>
-  <mat-form-field>
-    <input matInput
-           placeholder="Name"
-           #name>
-  </mat-form-field>
-
-  <p>Course Description</p>
-  <mat-form-field>
-    <textarea matInput
-              placeholder="Description"
-              #desc></textarea>
-  </mat-form-field>
 </div>
 
 <div mat-dialog-actions

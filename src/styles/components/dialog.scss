@@ -1,11 +1,22 @@
+@import 'keyframes';
+
 .mat-dialog-content {
+  // animation-name: appear;
+  // animation-duration: 3s;
+
+
   height: 100%;
   display: flex;
   flex-direction: column;
-  // justify-content: stretch;
   overflow-y: scroll;
 }
 
 .mat-expansion-panel {
   margin: 0.5em 0;
+}
+
+
+p {
+  display: flex;
+  flex-direction: column;
 }

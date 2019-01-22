@@ -49,7 +49,7 @@ export class CourseManagerComponent implements OnInit {
   styleUrls: ['./dialog.scss']
 })
 export class CourseDialog {
-  downloadURL: Observable<string>;
+  downloadURL$: Observable<string>;
 
   constructor(
     public dialogRef: MatDialogRef<CourseDialog>,
@@ -60,7 +60,7 @@ export class CourseDialog {
   }
 
   async onFileSet(file: File) {
-    this.downloadURL = await this.storageService.uploadVideo(file);
+    this.downloadURL$ = await this.storageService.uploadVideo(file);
   }
 
   add(name, description) {

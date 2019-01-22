@@ -14,24 +14,27 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div fxLayout="column">
-        <p *ngFor="let subCategory of category.children">
-          {{ subCategory.name }}
-        </p>
+      <ng-template matExpansionPanelContent>
+        <div fxLayout="column">
+          <p *ngFor="let subCategory of category.children">
+            {{ subCategory.name }}
+          </p>
 
-        <div fxFlex="grow"
-             fxLayout="row">
-          <mat-form-field fxFlex="grow">
-            <input matInput
-                   placeholder="New category"
-                   #input>
-          </mat-form-field>
-          <button mat-icon-button
-                  (click)="submit(input.value, category)">
-            <mat-icon>add</mat-icon>
-          </button>
+          <div fxFlex="grow"
+               fxLayout="row">
+            <mat-form-field fxFlex="grow">
+              <input matInput
+                     placeholder="New category"
+                     #input>
+            </mat-form-field>
+            <button mat-icon-button
+                    (click)="submit(input.value, category)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
         </div>
-      </div>
+      </ng-template>
+
 
     </mat-expansion-panel>
   </mat-accordion>
@@ -44,18 +47,21 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <div fxFlex="grow"
-           fxLayout="row">
-        <mat-form-field fxFlex="grow">
-          <input matInput
-                 placeholder="New category"
-                 #input>
-        </mat-form-field>
-        <button mat-icon-button
-                (click)="submit(input.value)">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
+      <ng-template matExpansionPanelContent>
+        <div fxFlex="grow"
+             fxLayout="row">
+          <mat-form-field fxFlex="grow">
+            <input matInput
+                   placeholder="New category"
+                   #input>
+          </mat-form-field>
+          <button mat-icon-button
+                  (click)="submit(input.value)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </ng-template>
+
     </mat-expansion-panel>
   </mat-accordion>
 
