@@ -34,6 +34,8 @@ import { MainComponent } from '@core/containers/main/main.component';
 /* others */
 import { environment } from '../environments/environment';
 import { ToastrModule } from 'ngx-toastr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 
 @NgModule({
@@ -59,6 +61,10 @@ import { ToastrModule } from 'ngx-toastr';
       timeOut: 1000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
+    }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
     }),
     AppRoutingModule,
   ],
