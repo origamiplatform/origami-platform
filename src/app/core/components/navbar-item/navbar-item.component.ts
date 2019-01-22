@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Host, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'navbar-item',
   templateUrl: './navbar-item.component.html',
   styleUrls: ['./navbar-item.component.scss']
 })
-export class NavbarItemComponent implements OnInit {
+export class NavbarItemComponent {
 
-  constructor() { }
+  constructor(private elRef: ElementRef) {
 
-  ngOnInit() {
   }
 
+  isSelected(): boolean {
+    return this.elRef.nativeElement.classList.contains('selected');
+  }
 }

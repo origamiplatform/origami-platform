@@ -68,6 +68,17 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
     : [];
 
 /**
+ * Router Reducers
+ */
+export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>('router');
+
+// export const getRouterInfo = createSelector(
+//     getRouterState,
+//     (state: any) => state.state
+// );
+
+
+/**
  * Layout Reducers
  */
 export const getLayoutState = createFeatureSelector<fromLayout.State>('layout');

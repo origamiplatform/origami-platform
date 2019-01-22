@@ -1,5 +1,9 @@
 @import 'variables';
 
+:host {
+    margin: 0 0.1em;
+}
+
 button {
     font-family: $font;
 }
