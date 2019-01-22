@@ -8,6 +8,7 @@ import { Course, Lecture } from '@core/models/course';
 
 import { LectureManagerComponent } from '../lecture-manager/lecture-manager.component';
 import { CategoryService } from '@shared/services/category.service';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'course-manager',
@@ -49,6 +50,7 @@ export class CourseManagerComponent implements OnInit {
   styleUrls: ['./dialog.scss']
 })
 export class CourseDialog {
+  courseForm: FormGroup;
   downloadURL$: Observable<string>;
 
   constructor(
@@ -57,18 +59,35 @@ export class CourseDialog {
     private courseService: CourseService,
     private categoryService: CategoryService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.courseForm = new FormGroup({
+        name: new FormControl(null, Validators.required),
+        description: new FormControl(null, Validators.required),
+        category: new FormControl(null, Validators.required),
+        imageUrl: new FormControl(null, Validators.required)
+      });
   }
 
   async onFileSet(file: File) {
     this.downloadURL$ = await this.storageService.uploadVideo(file);
   }
 
-  add(name, description) {
+  add() {
     const lectures: Lecture[] = [];
-    const course: Course = { name, description, lectures };
+    const course: Course = { lectures, ...this.courseForm.value };
+
+    console.log(course);
+    console.log(this.courseForm);
+
     this.courseService.create(course);
   }
 
+  onImageLoaded(url) {
+    this.courseForm.controls['imageUrl'].setValue(url);
+  }
+
+  getFormControl(target): AbstractControl {
+    return this.courseForm.controls[target];
+  }
   close(): void {
     this.dialogRef.close();
   }

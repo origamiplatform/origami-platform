@@ -2,54 +2,78 @@
 
 <div mat-dialog-content>
 
-  <p>
-    <span>Course Category</span>
-    <mat-form-field>
-      <mat-select placeholder="Category">
-        <mat-option>-- None --</mat-option>
-        <mat-optgroup *ngFor="let category of categoryService.categories$ | async as categories"
-                      [label]="category.name">
-          <mat-option *ngFor="let subCategory of category.children"
-                      [value]="subCategory.name">
-            {{subCategory.name}}
-          </mat-option>
-        </mat-optgroup>
-      </mat-select>
-    </mat-form-field>
-  </p>
+  <form [formGroup]="courseForm">
 
-  <p>
-    <span>Course Name</span>
-    <mat-form-field>
-      <input matInput
-             placeholder="Name"
-             #name>
-    </mat-form-field>
-  </p>
+    <p>
+      <span>Course Name</span>
+      <mat-form-field>
+        <input matInput
+               formControlName="name"
+               placeholder="Name"
+               #name>
+        <mat-error *ngIf="getFormControl('name').hasError('required')">
+          Course Name is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </p>
 
-  <p>
-    <span>Course Description</span>
-    <mat-form-field>
-      <textarea matInput
-                placeholder="Description"
-                #desc></textarea>
-    </mat-form-field>
-  </p>
+    <p>
+      <span>Course Description</span>
+      <mat-form-field>
+        <textarea matInput
+                  formControlName="description"
+                  placeholder="Description"
+                  #desc></textarea>
+        <mat-error *ngIf="getFormControl('description').hasError('required')">
+          Course Description is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </p>
 
-  <div *ngIf="downloadURL$">
-    <div *ngIf="downloadURL$ | async as downloadURL; else loading">
-      <ng-container *ngIf="downloadURL">
-        <img [src]="downloadURL">
-      </ng-container>
+    <p>
+      <span>Course Category</span>
+      <mat-form-field>
+        <mat-select placeholder="Category"
+                    formControlName="category">
+          <mat-option>-- None --</mat-option>
+          <mat-optgroup *ngFor="let category of categoryService.categories$ | async as categories"
+                        [label]="category.name">
+            <mat-option *ngFor="let subCategory of category.children"
+                        [value]="subCategory.name">
+              {{subCategory.name}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+
+        <mat-error *ngIf="getFormControl('category').hasError('required')">
+          Course Category is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <div *ngIf="downloadURL$">
+      <div *ngIf="downloadURL$ | async as downloadURL; else loading">
+        <ng-container *ngIf="downloadURL">
+          <img [src]="downloadURL"
+               (load)="onImageLoaded(downloadURL)">
+        </ng-container>
+      </div>
+      <ng-template #loading>
+        <mat-spinner [diameter]="50"></mat-spinner>
+      </ng-template>
     </div>
-    <ng-template #loading>
-      <mat-spinner [diameter]="50"></mat-spinner>
-    </ng-template>
-  </div>
 
-  <file-upload-button (fileSet)='onFileSet($event)'>
-    Upload Image
-  </file-upload-button>
+    <input formControlName="imageUrl"
+           fxHide>
+
+    <file-upload-button (fileSet)='onFileSet($event)'
+                        #upload>
+      {{ upload.file ? 'Upload Image' : 'Upload Image' }}
+    </file-upload-button>
+  </form>
 
 </div>
 
@@ -61,5 +85,6 @@
 
   <button mat-raised-button
           color="primary"
-          (click)="add(name.value, desc.value)">Add</button>
+          [disabled]="courseForm.invalid"
+          (click)="add()">Add</button>
 </div>
