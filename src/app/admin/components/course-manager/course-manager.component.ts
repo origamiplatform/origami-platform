@@ -75,9 +75,6 @@ export class CourseDialog {
     const lectures: Lecture[] = [];
     const course: Course = { lectures, ...this.courseForm.value };
 
-    console.log(course);
-    console.log(this.courseForm);
-
     this.courseService.create(course);
   }
 
