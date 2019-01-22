@@ -1,3 +1,5 @@
+@import 'variables';
+
 .card-icon {
   display: flex;
   flex-direction: row;
@@ -11,9 +13,9 @@
   margin-top: -23px;
 
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14),
-    0 7px 10px -5px rgba(76, 175, 80, .4);
+    0 7px 10px -5px rgba($primary-dark, .4);
 
-  background: linear-gradient(60deg, #66bb6a, #43a047)
+  background: linear-gradient(60deg, $primary-light, $primary-normal)
 }
 
 .mat-card-avatar .mat-icon {
