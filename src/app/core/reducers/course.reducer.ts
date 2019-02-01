@@ -3,10 +3,12 @@ import { Course } from '@core/models/course';
 
 export interface State {
     courses: Course[];
+    course: Course;
 }
 
 const initialState: State = {
     courses: [],
+    course: null
 };
 
 export function reducer(
@@ -19,9 +21,15 @@ export function reducer(
                 ...state,
                 courses: action.payload,
             };
+        case CourseActions.ActionTypes.GetOneComplete:
+            return {
+                ...state,
+                course: action.payload,
+            };
         default:
             return state;
     }
 }
 
 export const getCourses = (state: State) => state.courses;
+export const getCourse = (state: State) => state.course;

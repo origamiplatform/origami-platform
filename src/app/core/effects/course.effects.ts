@@ -20,6 +20,7 @@ const COLLECTION_NAME = 'courses';
 export class CourseEffects {
     courseCollection: AngularFirestoreCollection<Course>;
     courses$: Observable<Course[]>;
+    course$: Observable<Course>;
 
     @Effect({ dispatch: false })
     Create$ = this.actions$.pipe(
@@ -51,6 +52,43 @@ export class CourseEffects {
             this.courseCollection.doc(course.id).update(course);
         })
     );
+
+    // @Effect()
+    // ReadOne$: Observable<Action> = this.actions$.pipe(
+    //     ofType<CourseActions.ReadOne>(CourseActions.ActionTypes.ReadOne),
+    //     exhaustMap(() => {
+    //         console.log(this.course$);
+
+    //         return this.course$.pipe(
+    //             tap(() => this.course$ = null),
+    //             map(course => new CourseActions.GetOneComplete(course))
+    //         );
+    //     })
+    // );
+
+    @Effect()
+    GetOneById$: Observable<Action> = this.actions$.pipe(
+        ofType<CourseActions.GetOneById>(CourseActions.ActionTypes.GetOneById),
+        map(action => action.payload),
+        exhaustMap(id => {
+            console.log('GetOneById', id);
+            this.course$ = this.afs.doc<Course>(`${COLLECTION_NAME}/${id}`).valueChanges();
+            return this.course$.pipe(
+                map(course => new CourseActions.GetOneComplete(course))
+            );
+        })
+    );
+
+    // @Effect({ dispatch: false })
+    // GetOneById$ = this.actions$.pipe(
+    //     ofType<CourseActions.GetOneById>(CourseActions.ActionTypes.GetOneById),
+    //     map(action => action.payload),
+    //     tap(id => {
+    //         console.log(this.course$);
+    //         this.course$ = this.afs.doc<Course>(`${COLLECTION_NAME}/${id}`).valueChanges();
+    //         console.log(this.course$);
+    //     })
+    // );
 
     constructor(
         private actions$: Actions,

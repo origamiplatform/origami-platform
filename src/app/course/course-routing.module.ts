@@ -11,8 +11,8 @@ const routes: Routes = [
         component: CourseComponent,
         children: [
             { path: '', redirectTo: 'explore', pathMatch: 'full' },
-            { path: ':id', component: CourseDetailComponent },
             { path: 'explore', component: ExploreComponent },
+            { path: 'explore/:id', component: CourseDetailComponent },
             { path: '**', redirectTo: 'explore' }
         ]
     },

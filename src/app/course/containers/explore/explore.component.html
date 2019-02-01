@@ -1,7 +1,10 @@
 <section>
-  <mat-card *ngFor="let course of this.courseService.courses$ | async as categories">
+  <mat-card *ngFor="let course of this.courseService.courses$ | async as categories"
+            [routerLink]="course.id">
     <!-- <mat-card-title> {{ course.name }} </mat-card-title> -->
     <img mat-card-image
          [src]="course?.imageUrl">
+
+    <div>{{course.id}}</div>
   </mat-card>
 </section>
