@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CourseComponent } from './containers/course/course.component';
 import { ExploreComponent } from './containers/explore/explore.component';
+import { CourseDetailComponent } from './containers/course-detail/course-detail.component';
 
 const routes: Routes = [
     {
@@ -10,13 +11,8 @@ const routes: Routes = [
         component: CourseComponent,
         children: [
             { path: '', redirectTo: 'explore', pathMatch: 'full' },
+            { path: ':id', component: CourseDetailComponent },
             { path: 'explore', component: ExploreComponent },
-            // { path: 'posts/:id', component: PostViewComponent },
-            // {
-            //     path: 'dashboard',
-            //     component: PostDashboardComponent,
-            //     canActivate: [AuthGuard],
-            // },
             { path: '**', redirectTo: 'explore' }
         ]
     },

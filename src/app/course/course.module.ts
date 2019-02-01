@@ -5,10 +5,12 @@ import { ComponentsModule } from './components/components.module';
 import { CourseComponent } from './containers/course/course.component';
 import { ExploreComponent } from './containers/explore/explore.component';
 import { CourseRoutingModule } from './course-routing.module';
+import { CourseDetailComponent } from './containers/course-detail/course-detail.component';
 
 export const CONTAINERS = [
   CourseComponent,
-  ExploreComponent
+  ExploreComponent,
+  CourseDetailComponent
 ];
 
 @NgModule({
