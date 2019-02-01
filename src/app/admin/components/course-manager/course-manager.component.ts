@@ -1,14 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { Observable } from 'rxjs';
-
-import { StorageService } from '@shared/services/storage.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { CourseService } from '@shared/services/course.service';
-import { Course, Lecture } from '@core/models/course';
+import { Course } from '@core/models/course';
 
-import { LectureManagerComponent } from '../lecture-manager/lecture-manager.component';
-import { CategoryService } from '@shared/services/category.service';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
+import { LectureDialogComponent } from '../lecture-dialog/lecture-dialog.component';
 
 @Component({
   selector: 'course-manager',
@@ -19,7 +15,7 @@ export class CourseManagerComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private courseService: CourseService,
+    public courseService: CourseService,
   ) {
 
   }
@@ -29,7 +25,7 @@ export class CourseManagerComponent implements OnInit {
   }
 
   openLectureDialog(course: Course): void {
-    const dialogRef = this.dialog.open(LectureManagerComponent, {
+    const dialogRef = this.dialog.open(LectureDialogComponent, {
       width: '100vw',
       height: '80vh',
       data: course
@@ -37,55 +33,9 @@ export class CourseManagerComponent implements OnInit {
   }
 
   openCourseDialog(): void {
-    const dialogRef = this.dialog.open(CourseDialog, {
+    const dialogRef = this.dialog.open(CourseDialogComponent, {
       width: '100vw',
       height: '80vh',
     });
-  }
-}
-
-@Component({
-  selector: 'course-dialog',
-  templateUrl: './dialog.html',
-  styleUrls: ['./dialog.scss']
-})
-export class CourseDialog {
-  courseForm: FormGroup;
-  downloadURL$: Observable<string>;
-
-  constructor(
-    public dialogRef: MatDialogRef<CourseDialog>,
-    private storageService: StorageService,
-    private courseService: CourseService,
-    private categoryService: CategoryService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-      this.courseForm = new FormGroup({
-        name: new FormControl(null, Validators.required),
-        description: new FormControl(null, Validators.required),
-        category: new FormControl(null, Validators.required),
-        imageUrl: new FormControl(null, Validators.required)
-      });
-  }
-
-  async onFileSet(file: File) {
-    this.downloadURL$ = await this.storageService.uploadVideo(file);
-  }
-
-  add() {
-    const lectures: Lecture[] = [];
-    const course: Course = { lectures, ...this.courseForm.value };
-
-    this.courseService.create(course);
-  }
-
-  onImageLoaded(url) {
-    this.courseForm.controls['imageUrl'].setValue(url);
-  }
-
-  getFormControl(target): AbstractControl {
-    return this.courseForm.controls[target];
-  }
-  close(): void {
-    this.dialogRef.close();
   }
 }

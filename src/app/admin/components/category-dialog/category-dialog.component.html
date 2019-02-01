@@ -28,7 +28,8 @@
                      #input>
             </mat-form-field>
             <button mat-icon-button
-                    (click)="submit(input.value, category)">
+                    [disabled]='!hasValue(input.value)'
+                    (click)="submit(input, category)">
               <mat-icon>add</mat-icon>
             </button>
           </div>

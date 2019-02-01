@@ -8,15 +8,15 @@ import { v4 as uuid } from 'uuid';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'lecture-manager',
-  templateUrl: './lecture-manager.component.html',
-  styleUrls: ['./lecture-manager.component.scss']
+  selector: 'app-lecture-dialog',
+  templateUrl: './lecture-dialog.component.html',
+  styleUrls: ['./lecture-dialog.component.scss']
 })
-export class LectureManagerComponent  {
+export class LectureDialogComponent {
   downloadURL: Observable<string>;
 
   constructor(
-    public dialogRef: MatDialogRef<LectureManagerComponent>,
+    public dialogRef: MatDialogRef<LectureDialogComponent>,
     private storageService: StorageService,
     private courseService: CourseService,
     @Inject(MAT_DIALOG_DATA) public data: Course) {
@@ -32,7 +32,7 @@ export class LectureManagerComponent  {
     const id = uuid();
 
 
-    const lecture: Lecture = {id, name, description, videoUrl};
+    const lecture: Lecture = { id, name, description, videoUrl };
 
     const currentLectures = _.clone(this.data.lectures);
     const updatedLectures = _.concat(currentLectures, lecture);

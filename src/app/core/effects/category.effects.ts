@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import {
     map,
     exhaustMap,
+    tap,
 } from 'rxjs/operators';
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
@@ -20,17 +21,14 @@ export class CategoryEffects {
     categoryCollection: AngularFirestoreCollection<CategoryNode>;
     categories$: Observable<CategoryNode[]>;
 
-    @Effect()
-    Create$: Observable<Action> = this.actions$.pipe(
+    @Effect({ dispatch: false })
+    Create$ = this.actions$.pipe(
         ofType<CategoryActions.Create>(CategoryActions.ActionTypes.Create),
         map(action => action.payload),
-        exhaustMap(category => {
+        tap(category => {
             const jsonObject = JSON.parse(JSON.stringify(category));
             const id = this.afs.createId();
             this.categoryCollection.doc(id).set({ id, ...jsonObject });
-            return this.categories$.pipe(
-                map(categories => new CategoryActions.Complete(categories))
-            );
         })
     );
 
@@ -45,16 +43,13 @@ export class CategoryEffects {
         })
     );
 
-    @Effect()
-    Update$: Observable<Action> = this.actions$.pipe(
+    @Effect({ dispatch: false })
+    Update$ = this.actions$.pipe(
         ofType<CategoryActions.Update>(CategoryActions.ActionTypes.Update),
         map(action => action.payload),
-        exhaustMap(category => {
+        tap(category => {
             const jsonObject = JSON.parse(JSON.stringify(category));
             this.categoryCollection.doc(category.id).update(jsonObject);
-            return this.categories$.pipe(
-                map(categories => new CategoryActions.Complete(categories))
-            );
         })
     );
 

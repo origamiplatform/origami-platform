@@ -6,9 +6,7 @@ import { CourseEffects } from './effects/course.effects';
 
 import { SharedModule } from '@shared/shared.module';
 import { ComponentsModule } from './components/components.module';
-
 import { MainComponent } from './containers/main/main.component';
-
 
 
 export const CONTAINERS = [
@@ -20,6 +18,7 @@ export const CONTAINERS = [
     SharedModule,
     ComponentsModule,
     EffectsModule.forFeature([LayoutEffects, CategoryEffects, CourseEffects]),
+
   ],
   declarations: CONTAINERS,
   exports: CONTAINERS,

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import {
     map,
     exhaustMap,
+    tap,
 } from 'rxjs/operators';
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
@@ -20,16 +21,14 @@ export class CourseEffects {
     courseCollection: AngularFirestoreCollection<Course>;
     courses$: Observable<Course[]>;
 
-    @Effect()
-    Create$: Observable<Action> = this.actions$.pipe(
+    @Effect({ dispatch: false })
+    Create$ = this.actions$.pipe(
         ofType<CourseActions.Create>(CourseActions.ActionTypes.Create),
         map(action => action.payload),
-        exhaustMap(course => {
+        tap(course => {
+            const jsonObject = JSON.parse(JSON.stringify(course));
             const id = this.afs.createId();
-            this.courseCollection.doc(id).set({ id, ...course });
-            return this.courses$.pipe(
-                map(courses => new CourseActions.Complete(courses))
-            );
+            this.courseCollection.doc(id).set({ id, ...jsonObject });
         })
     );
 
@@ -44,15 +43,12 @@ export class CourseEffects {
         })
     );
 
-    @Effect()
-    Update$: Observable<Action> = this.actions$.pipe(
+    @Effect({ dispatch: false })
+    Update$ = this.actions$.pipe(
         ofType<CourseActions.Update>(CourseActions.ActionTypes.Update),
         map(action => action.payload),
-        exhaustMap(course => {
+        tap(course => {
             this.courseCollection.doc(course.id).update(course);
-            return this.courses$.pipe(
-                map(courses => new CourseActions.Complete(courses))
-            );
         })
     );
 

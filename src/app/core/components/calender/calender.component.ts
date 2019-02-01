@@ -40,14 +40,11 @@ const colors: any = {
 
 @Component({
   selector: 'app-calender',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calender.component.html',
   styleUrls: ['./calender.component.scss']
 })
-export class CalenderComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class CalenderComponent {
+  viewDate: Date = new Date();
+  events = [];
 }
