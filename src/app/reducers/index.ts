@@ -113,7 +113,7 @@ export const getCourses = createSelector(
     fromCourse.getCourses
 );
 
-export const getCourse = createSelector(
-    getCourseState,
-    fromCourse.getCourse
-);
+// export const getCourse = createSelector(
+//     getCourseState,
+//     fromCourse.getCourse
+// );

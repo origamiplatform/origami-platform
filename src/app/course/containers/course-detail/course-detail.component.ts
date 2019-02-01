@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CourseService } from '@shared/services/course.service';
 import { Course } from '@core/models/course';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-course-detail',
@@ -15,15 +16,16 @@ export class CourseDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private courseService: CourseService
+    private readonly afs: AngularFirestore,
   ) {
     this.courseId = this.route.snapshot.paramMap.get('id');
+    this.course$ = this.afs.doc<Course>(`courses/${this.courseId}`).valueChanges();
   }
 
   ngOnInit() {
     console.log('courseId', this.courseId);
-    this.courseService.getOneById(this.courseId);
-    this.course$ = this.courseService.course$;
+    // this.courseService.getOneById(this.courseId);
+    // this.course$ = this.courseService.course$;
     // this.post$ = this.ssrFirestoreDoc(this.postId);
   }
 

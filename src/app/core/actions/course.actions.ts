@@ -7,9 +7,6 @@ export enum ActionTypes {
     Update = '[Course] Update',
     Delete = '[Course] Delete',
     Complete = '[Course] Complete',
-    ReadOne = '[Course] ReadOne',
-    GetOneById = '[Course] GetOneById',
-    GetOneComplete = '[Course] GetOneComplete',
 }
 
 export class Create implements Action {
@@ -36,25 +33,9 @@ export class Complete implements Action {
     readonly type = ActionTypes.Complete;
 }
 
-export class ReadOne implements Action {
-    readonly type = ActionTypes.ReadOne;
-}
-
-export class GetOneById implements Action {
-    constructor(public payload: string) { }
-    readonly type = ActionTypes.GetOneById;
-}
-
-export class GetOneComplete implements Action {
-    constructor(public payload: Course) { }
-    readonly type = ActionTypes.GetOneComplete;
-}
 
 export type ActionUnion = Create
     | Read
     | Update
     | Delete
-    | ReadOne
-    | GetOneById
-    | GetOneComplete
     | Complete;

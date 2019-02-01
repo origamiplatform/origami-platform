@@ -11,11 +11,11 @@ import { Course } from '@core/models/course';
 })
 export class CourseService {
   public courses$: Observable<Course[]>;
-  public course$: Observable<Course>;
+  // public course$: Observable<Course>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.courses$ = this.store.pipe(select(fromRoot.getCourses));
-    this.course$ = this.store.pipe(select(fromRoot.getCourse));
+    // this.course$ = this.store.pipe(select(fromRoot.getCourse));
     this.read();
   }
 
@@ -31,9 +31,9 @@ export class CourseService {
   delete(course: Course): void {
     this.store.dispatch(new CourseActions.Delete(course));
   }
-  getOneById(id: string) {
-    this.store.dispatch(new CourseActions.GetOneById(id));
-  }
+  // getOneById(id: string) {
+  //   this.store.dispatch(new CourseActions.GetOneById(id));
+  // }
   // readOne(): void {
   //   this.store.dispatch(new CourseActions.ReadOne());
   // }
