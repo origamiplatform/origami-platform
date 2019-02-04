@@ -29,4 +29,8 @@ export class CourseDetailComponent implements OnInit {
     // this.post$ = this.ssrFirestoreDoc(this.postId);
   }
 
+  s(a) {
+    return JSON.stringify(a);
+  }
+
 }

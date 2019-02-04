@@ -4,6 +4,7 @@ import { ExternalModule } from '@shared/externals/external.module';
 
 import { FileUploadButtonComponent } from './file-upload-button/file-upload-button.component';
 
+
 const COMPONENTS = [
   FileUploadButtonComponent
 ];

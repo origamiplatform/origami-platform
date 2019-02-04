@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from './components/components.module';
 import { ExternalModule } from './externals/external.module';
 import { ServiceModule } from './services/service.module';
+import { DirectivesModule } from './directives/directives.module';
 
 const MODULES = [
   CommonModule,
@@ -13,6 +14,7 @@ const MODULES = [
   FormsModule,
   ReactiveFormsModule,
   ComponentsModule,
+  DirectivesModule,
   ExternalModule,
   ServiceModule,
 ];

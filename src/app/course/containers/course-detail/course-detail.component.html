@@ -1,1 +1,4 @@
-<div> {{ (course$ | async)?.id }} </div>
+<div *ngIf="course$ | async as course">
+  
+  <p> {{ s(course) }} </p>
+</div>

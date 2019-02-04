@@ -26,14 +26,9 @@ export class MainComponent {
     private router: Router,
   ) {
     this.loading$ = this.store.pipe(select(fromRoot.getLoading));
-    // this.router$ = this.store.pipe(select(fromRoot.getRouterState));
-    // this.router$.subscribe(state => this.onRouterUpdate(state));
   }
 
-  // onRouterUpdate(router: fromRouter.RouterReducerState<RouterStateUrl>) {
-  //   if (!router) { return; }
-  //   this.currentUrl = router.state.url;
-  // }
+
   showLink(onlyAdmin: boolean): boolean {
     // if (onlyAdmin) {
     //   if (!this.auth.authState) {
@@ -46,8 +41,4 @@ export class MainComponent {
   navigateTo(path: string) {
     this.router.navigate([path]);
   }
-
-  // isCurrentRoute(value: string) {
-  //   return this.currentUrl.includes(value);
-  // }
 }
