@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { CourseService } from '@shared/services/course.service';
 import { Course } from '@core/models/course';
+import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
+import { AddCourseDialogComponent } from '../add-course-dialog/add-course-dialog.component';
 
-import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
-import { LectureDialogComponent } from '../lecture-dialog/lecture-dialog.component';
 
 @Component({
   selector: 'course-manager',
   templateUrl: './course-manager.component.html',
   styleUrls: ['./course-manager.component.scss']
 })
-export class CourseManagerComponent implements OnInit {
+export class CourseManagerComponent {
 
   constructor(
     public dialog: MatDialog,
@@ -20,20 +20,16 @@ export class CourseManagerComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-
-  }
-
-  openLectureDialog(course: Course): void {
-    const dialogRef = this.dialog.open(LectureDialogComponent, {
+  openEditDialog(course: Course): void {
+    const dialogRef = this.dialog.open(EditCourseDialogComponent, {
       width: '100vw',
-      height: '80vh',
+      height: '95vh',
       data: course
     });
   }
 
-  openCourseDialog(): void {
-    const dialogRef = this.dialog.open(CourseDialogComponent, {
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(AddCourseDialogComponent, {
       width: '100vw',
       height: '80vh',
     });

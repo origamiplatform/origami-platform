@@ -1,22 +1,48 @@
 @import 'keyframes';
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
 
 .mat-dialog-content {
   // animation-name: appear;
   // animation-duration: 3s;
 
-
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+ 
 }
 
 .mat-expansion-panel {
   margin: 0.5em 0;
 }
 
-
+.mat-accordion {
+  margin-bottom: 30px;
+}
 p {
   display: flex;
   flex-direction: column;
+}
+
+.imageDisplay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background-color: $transparent-black-stronger;
+  height: 300px;
+  overflow: hidden;
+
+  img {
+    height: 90%;
+    // max-height: 300px;
+  }
 }

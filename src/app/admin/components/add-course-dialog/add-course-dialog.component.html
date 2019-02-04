@@ -1,0 +1,91 @@
+<h1 mat-dialog-title> Add New Course</h1>
+
+<form mat-dialog-content
+      fxFlex='grow'
+      [formGroup]="courseForm">
+
+  <div *ngIf="downloadURL$">
+    <div *ngIf="downloadURL$ | async as downloadURL; else loading">
+      <ng-container *ngIf="downloadURL">
+        <p class='imageDisplay'>
+          <img [src]="downloadURL"
+               (load)="onImageLoaded(downloadURL)">
+        </p>
+      </ng-container>
+    </div>
+    <ng-template #loading>
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </ng-template>
+  </div>
+
+  <input formControlName="imageUrl"
+         fxHide>
+
+  <file-upload-button (fileSet)='onFileSet($event)'
+                      #upload>
+    {{ upload.file ? 'Upload Image' : 'Upload Image' }}
+  </file-upload-button>
+
+  <p>
+    <mat-form-field>
+      <input matInput
+             formControlName="name"
+             placeholder="Name"
+             #name>
+      <mat-error *ngIf="getFormControl('name').hasError('required')">
+        Course Name is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <textarea matInput
+                formControlName="description"
+                placeholder="Description"
+                matTextareaAutosize
+                matAutosizeMinRows=10
+                matAutosizeMaxRows=10
+                #desc></textarea>
+      <mat-error *ngIf="getFormControl('description').hasError('required')">
+        Course Description is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <mat-select placeholder="Category"
+                  formControlName="category">
+        <mat-option>-- None --</mat-option>
+        <mat-optgroup *ngFor="let category of categoryService.categories$ | async as categories"
+                      [label]="category.name">
+          <mat-option *ngFor="let subCategory of category.children"
+                      [value]="subCategory.name">
+            {{subCategory.name}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+
+      <mat-error *ngIf="getFormControl('category').hasError('required')">
+        Course Category is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+</form>
+
+<div mat-dialog-actions
+     align="end">
+  <button mat-button
+          color="primary"
+          [mat-dialog-close]>Close</button>
+
+  <button mat-button
+          color="primary"
+          [disabled]="courseForm.invalid"
+          (click)="add()">Add</button>
+</div>

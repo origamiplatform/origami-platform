@@ -3,6 +3,7 @@ export interface Course {
     name: string;
     description: string;
     lectures: Lecture[];
+    category: string;
     imageUrl?: string;
 }
 

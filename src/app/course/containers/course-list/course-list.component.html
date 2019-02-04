@@ -4,7 +4,7 @@
             [routerLink]="course.id">
     <!-- <mat-card-title> {{ course.name }} </mat-card-title> -->
     <img mat-card-image
-         [src]="course?.imageUrl">
+         [src]="course?.imageUrl || 'assets/images/noimage.png'">
 
     <div>{{course.id}}</div>
   </mat-card>

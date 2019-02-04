@@ -7,11 +7,11 @@
     <mat-card-title>Category</mat-card-title>
   </mat-card-header>
 
-<mat-card-content>
+  <mat-card-content>
 
     <mat-tree [dataSource]="dataSource"
               [treeControl]="treeControl">
-              
+
       <mat-tree-node *matTreeNodeDef="let node"
                      matTreeNodeToggle
                      matTreeNodePadding>
@@ -37,6 +37,7 @@
 
   <mat-card-actions align='end'>
     <button mat-button
-            (click)="openDialog()">ADD</button>
+            color="primary"
+            (click)="openDialog()">EDIT</button>
   </mat-card-actions>
 </mat-card>

@@ -1,0 +1,151 @@
+<h1 mat-dialog-title> Edit Course </h1>
+
+<form mat-dialog-content
+      fxFlex='grow'
+      [formGroup]="courseForm">
+
+  <p class='imageDisplay'>
+    <img [src]="data.imageUrl">
+  </p>
+
+  <p>
+    <mat-form-field>
+      <input matInput
+             formControlName="name"
+             placeholder="Name"
+             #name>
+      <mat-error *ngIf="getFormControl('name').hasError('required')">
+        Course Name is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <textarea matInput
+                formControlName="description"
+                placeholder="Description"
+                matTextareaAutosize
+                matAutosizeMinRows=10
+                matAutosizeMaxRows=10
+                #desc></textarea>
+      <mat-error *ngIf="getFormControl('description').hasError('required')">
+        Course Description is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <mat-select placeholder="Category"
+                  formControlName="category">
+        <mat-option>-- None --</mat-option>
+        <mat-optgroup *ngFor="let category of categoryService.categories$ | async as categories"
+                      [label]="category.name">
+          <mat-option *ngFor="let subCategory of category.children"
+                      [value]="subCategory.name">
+            {{subCategory.name}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+
+      <mat-error *ngIf="getFormControl('category').hasError('required')">
+        Course Category is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor='let lecture of data.lectures'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ lecture.name }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form fxLayout="column">
+
+        <mat-form-field>
+          <input matInput
+                 placeholder="Name"
+                 [(ngModel)]="lecture.name">
+        </mat-form-field>
+
+        <mat-form-field>
+          <textarea matInput
+                    placeholder="Description"
+                    [(ngModel)]="lecture.description"></textarea>
+        </mat-form-field>
+
+        <file-upload-button (fileSet)='onFileSet($event)'
+                            #upload>
+          {{ upload.file ? 'Upload Video' : 'Upload Video' }}
+        </file-upload-button>
+
+      </form>
+
+      <mat-action-row>
+        <button mat-button
+                color="primary"
+                [disabled]='!(downloadURL | async)'>Add Lecture</button>
+      </mat-action-row>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ADD
+        </mat-panel-title>
+        <mat-panel-description>
+          <span>
+            Add new lecture
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <form fxLayout="column">
+
+        <mat-form-field>
+          <input matInput
+                 placeholder="Name">
+        </mat-form-field>
+
+        <mat-form-field>
+          <textarea matInput
+                    placeholder="Description"></textarea>
+        </mat-form-field>
+
+        <file-upload-button (fileSet)='onFileSet($event)'
+                            #upload>
+          {{ upload.file ? 'Upload Video' : 'Upload Video' }}
+        </file-upload-button>
+
+      </form>
+
+      <mat-action-row>
+        <button mat-button
+                color="primary"
+                [disabled]='!(downloadURL | async)'>Add Lecture</button>
+      </mat-action-row>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</form>
+
+<div mat-dialog-actions
+     align="end">
+  <button mat-button
+          color="warn"
+          [mat-dialog-close]>Delete</button>
+
+  <button mat-button
+          color="primary"
+          [mat-dialog-close]>Close</button>
+</div>

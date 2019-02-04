@@ -9,11 +9,12 @@
 
   <div *ngFor="let course of courseService.courses$ | async">
     <button mat-button
-            (click)="openLectureDialog(course)"> {{ course.name }}</button>
+            (click)="openEditDialog(course)"> {{ course.name }}</button>
   </div>
 
   <mat-card-actions align='end'>
     <button mat-button
-            (click)="openCourseDialog()">ADD</button>
+            color="primary"
+            (click)="openAddDialog()">ADD</button>
   </mat-card-actions>
 </mat-card>

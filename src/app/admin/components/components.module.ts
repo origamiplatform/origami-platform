@@ -8,16 +8,17 @@ import { CategoryManagerComponent } from './category-manager/category-manager.co
 
 /* Dialogs */
 import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
-import { CourseDialogComponent } from './course-dialog/course-dialog.component';
-import { LectureDialogComponent } from './lecture-dialog/lecture-dialog.component';
+import { AddCourseDialogComponent } from './add-course-dialog/add-course-dialog.component';
+import { EditCourseDialogComponent } from './edit-course-dialog/edit-course-dialog.component';
+
 
 const COMPONENTS = [
   CourseManagerComponent,
   CategoryManagerComponent,
 
   CategoryDialogComponent,
-  CourseDialogComponent,
-  LectureDialogComponent
+  AddCourseDialogComponent,
+  EditCourseDialogComponent
 ];
 
 @NgModule({
@@ -25,9 +26,9 @@ const COMPONENTS = [
     SharedModule
   ],
   entryComponents: [
-    CourseDialogComponent,
     CategoryDialogComponent,
-    LectureDialogComponent
+    AddCourseDialogComponent,
+    EditCourseDialogComponent
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS

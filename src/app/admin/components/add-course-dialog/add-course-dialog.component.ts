@@ -11,20 +11,19 @@ import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/fo
 
 
 @Component({
-  selector: 'app-course-dialog',
-  templateUrl: './course-dialog.component.html',
-  styleUrls: ['./course-dialog.component.scss']
+  selector: 'course-dialog',
+  templateUrl: './add-course-dialog.component.html',
+  styleUrls: ['./add-course-dialog.component.scss']
 })
-export class CourseDialogComponent {
-
+export class AddCourseDialogComponent {
   courseForm: FormGroup;
   downloadURL$: Observable<string>;
 
   constructor(
-    public dialogRef: MatDialogRef<CourseDialogComponent>,
+    public dialogRef: MatDialogRef<AddCourseDialogComponent>,
     private storageService: StorageService,
     private courseService: CourseService,
-    private categoryService: CategoryService,
+    public categoryService: CategoryService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.courseForm = new FormGroup({
       name: new FormControl(null, Validators.required),
