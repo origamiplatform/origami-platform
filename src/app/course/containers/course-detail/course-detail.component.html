@@ -1,4 +1,7 @@
 <div *ngIf="course$ | async as course">
+  <div class='imageDisplay'>
+    <img [src]="course?.imageUrl || 'assets/images/noimage.png'">
+  </div>
   <h2> {{ course.name }} </h2>
   <p> {{ course.description }} </p>
 
@@ -20,4 +23,7 @@
 
 
   <p> {{ s(course) }} </p>
+  <button mat-raised-button
+          color="primary">Enroll</button>
+
 </div>

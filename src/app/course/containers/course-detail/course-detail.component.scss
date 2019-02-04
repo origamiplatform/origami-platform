@@ -1,0 +1,14 @@
+@import 'variables';
+
+.imageDisplay {
+  background-color: $transparent-black-stronger;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  img {
+    height: 500px;
+    width: auto;
+  }
+}

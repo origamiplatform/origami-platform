@@ -1,7 +1,29 @@
+@import 'variables';
+
 section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-template-rows: auto;
   grid-gap: 5px;
   // margin: 0 auto;
+}
+
+.mat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.imageDisplay {
+  background-color: $transparent-black-stronger;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  img {
+    height: 250px;
+    width: auto;
+  }
 }
