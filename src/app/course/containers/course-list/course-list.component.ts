@@ -3,12 +3,11 @@ import { CourseService } from '@shared/services/course.service';
 import { Course } from '@core/models/course';
 
 @Component({
-  selector: 'app-explore',
-  templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.scss']
+  selector: 'app-course-list',
+  templateUrl: './course-list.component.html',
+  styleUrls: ['./course-list.component.scss']
 })
-export class ExploreComponent implements OnInit {
-
+export class CourseListComponent implements OnInit {
   constructor(private courseService: CourseService) { }
 
   ngOnInit() {
@@ -19,5 +18,4 @@ export class ExploreComponent implements OnInit {
     console.log(courses);
 
   }
-
 }

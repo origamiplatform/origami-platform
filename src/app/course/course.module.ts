@@ -3,13 +3,14 @@ import { SharedModule } from '@shared/shared.module';
 import { ComponentsModule } from './components/components.module';
 
 import { CourseComponent } from './containers/course/course.component';
-import { ExploreComponent } from './containers/explore/explore.component';
-import { CourseRoutingModule } from './course-routing.module';
 import { CourseDetailComponent } from './containers/course-detail/course-detail.component';
+import { CourseListComponent } from './containers/course-list/course-list.component';
+
+import { CourseRoutingModule } from './course-routing.module';
 
 export const CONTAINERS = [
   CourseComponent,
-  ExploreComponent,
+  CourseListComponent,
   CourseDetailComponent
 ];
 
