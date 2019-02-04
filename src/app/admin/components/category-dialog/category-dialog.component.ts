@@ -3,9 +3,10 @@ import { CategoryService } from '@shared/services/category.service';
 import { CategoryNode } from '@core/models/category';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
+import { v4 as uuid } from 'uuid';
 
 @Component({
-  selector: 'app-category-dialog',
+  selector: 'category-dialog',
   templateUrl: './category-dialog.component.html',
   styleUrls: ['./category-dialog.component.scss']
 })
@@ -20,28 +21,33 @@ export class CategoryDialogComponent {
   hasValue(value: string): boolean {
     return value.length > 0;
   }
-  submit(input: any, node?: CategoryNode) {
-    const name = input.value;
-    const newNode = new CategoryNode();
-    newNode.name = name;
-    newNode.level = 0;
 
-    if (node && node.id) {
-      newNode.level = 1;
-      const parent = new CategoryNode();
-      parent.id = node.id;
-      parent.name = node.name;
-      parent.level = node.level;
-      parent.children = _.concat(node.children, newNode);
-      this.categoryService.update(parent);
-      // return this.dialogRef.close(parent);
-      console.log('update', parent);
+  addNode(_name: string) {
+    const node = new CategoryNode();
+    node.name = _name;
+    node.level = 0;
+    this.categoryService.create(node);
+  }
 
-    } else {
-      this.categoryService.create(newNode);
-      // return this.dialogRef.close(child);
-      console.log('create');
-    }
+  removeNode(_node: CategoryNode) {
+    this.categoryService.delete(_node);
+  }
 
+  appendChild(_name: string, _parent: CategoryNode) {
+    const node = new CategoryNode();
+    node.name = _name;
+    node.level = 0;
+    node.id = uuid();
+    node.level = 1;
+
+    const parent = new CategoryNode(_parent.id, _parent.name, _parent.level);
+    parent.children = _.concat(_parent.children, node);
+    this.categoryService.update(parent);
+  }
+
+  removeChild(_node: CategoryNode, _parent: CategoryNode) {
+    const parent = new CategoryNode(_parent.id, _parent.name, _parent.level);
+    _.remove(parent.children, o => o.id === _node.id);
+    this.categoryService.update(parent);
   }
 }

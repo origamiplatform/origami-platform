@@ -53,6 +53,17 @@ export class CategoryEffects {
         })
     );
 
+    @Effect({ dispatch: false })
+    Delete$ = this.actions$.pipe(
+        ofType<CategoryActions.Delete>(CategoryActions.ActionTypes.Delete),
+        map(action => action.payload),
+        tap(category => {
+            console.log(category);
+
+            this.categoryCollection.doc(category.id).delete();
+        })
+    );
+
     constructor(
         private actions$: Actions,
         private readonly afs: AngularFirestore,

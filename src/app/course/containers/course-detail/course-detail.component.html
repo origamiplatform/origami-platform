@@ -1,4 +1,23 @@
 <div *ngIf="course$ | async as course">
-  
+  <h2> {{ course.name }} </h2>
+  <p> {{ course.description }} </p>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let lecture of course.lectures">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{lecture.name }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        {{ lecture.description }}
+        {{ s(lecture) }}
+      </ng-template>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
   <p> {{ s(course) }} </p>
 </div>

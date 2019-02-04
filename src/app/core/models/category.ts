@@ -4,7 +4,10 @@ export class CategoryNode {
     level: number;
     children: CategoryNode[];
 
-    constructor() {
+    constructor(id?, name?, level?) {
+        id && (this.id = id);
+        name && (this.name = name);
+        level && (this.level = level);
         this.children = [];
     }
 }

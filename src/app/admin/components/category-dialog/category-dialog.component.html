@@ -9,33 +9,44 @@
         </mat-panel-title>
         <mat-panel-description>
           <span>
-            {{ (category.children.length || '0' )}} sub categories
+            {{ (category?.children?.length || '0' )}} sub categories
           </span>
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <ng-template matExpansionPanelContent>
-        <div fxLayout="column">
-          <p *ngFor="let subCategory of category.children">
+      <!-- <ng-template matExpansionPanelContent> -->
+      <div fxLayout="column">
+        <div fxLayout="row"
+             fxLayoutAlign="start center"
+             *ngFor="let subCategory of category.children">
+          <button mat-icon-button
+                  (click)="removeChild(subCategory, category)">
+            <mat-icon>clear</mat-icon>
+          </button>
+          <span>
             {{ subCategory.name }}
-          </p>
-
-          <div fxFlex="grow"
-               fxLayout="row">
-            <mat-form-field fxFlex="grow">
-              <input matInput
-                     placeholder="New category"
-                     #input>
-            </mat-form-field>
-            <button mat-icon-button
-                    [disabled]='!hasValue(input.value)'
-                    (click)="submit(input, category)">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
+          </span>
         </div>
-      </ng-template>
+      </div>
+      <!-- </ng-template> -->
 
+      <mat-action-row>
+        <mat-form-field fxFlex="grow">
+          <input matInput
+                 placeholder="New category"
+                 #input>
+        </mat-form-field>
+        <button mat-icon-button
+                [disabled]='!hasValue(input.value)'
+                (click)="appendChild(input.value, category)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-action-row>
+      <mat-action-row>
+        <button mat-button
+                color="warn"
+                (click)="removeNode(category)">Delete Category</button>
+      </mat-action-row>
 
     </mat-expansion-panel>
   </mat-accordion>
@@ -44,8 +55,13 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{'ADD'}}
+          ADD
         </mat-panel-title>
+        <mat-panel-description>
+          <span>
+            Add new main category
+          </span>
+        </mat-panel-description>
       </mat-expansion-panel-header>
 
       <ng-template matExpansionPanelContent>
@@ -57,7 +73,8 @@
                    #input>
           </mat-form-field>
           <button mat-icon-button
-                  (click)="submit(input.value)">
+                  [disabled]='!hasValue(input.value)'
+                  (click)="addNode(input.value)">
             <mat-icon>add</mat-icon>
           </button>
         </div>
