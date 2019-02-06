@@ -1,26 +1,25 @@
 <h1 mat-dialog-title> Edit Course </h1>
 
 <form mat-dialog-content
+      *ngIf="course"
       fxFlex='grow'
-      [formGroup]="courseForm">
+      [formGroup]="formGroup">
 
   <p class='imageDisplay'>
-    <img [src]="data.imageUrl">
+    <img [src]="course?.imageUrl">
   </p>
 
-  <p>
+  <form formGroupName="course">
     <mat-form-field>
       <input matInput
              formControlName="name"
              placeholder="Name">
-      <mat-error *ngIf="getFormControl('name').hasError('required')">
+      <mat-error *ngIf="getFormControl('course.name').hasError('required')">
         Course Name is
         <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </p>
 
-  <p>
     <mat-form-field>
       <textarea matInput
                 formControlName="description"
@@ -28,14 +27,12 @@
                 matTextareaAutosize
                 matAutosizeMinRows=10
                 matAutosizeMaxRows=10></textarea>
-      <mat-error *ngIf="getFormControl('description').hasError('required')">
+      <mat-error *ngIf="getFormControl('course.description').hasError('required')">
         Course Description is
         <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </p>
 
-  <p>
     <mat-form-field>
       <mat-select placeholder="Category"
                   formControlName="category">
@@ -49,95 +46,88 @@
         </mat-optgroup>
       </mat-select>
 
-      <mat-error *ngIf="getFormControl('category').hasError('required')">
+      <mat-error *ngIf="getFormControl('course.category').hasError('required')">
         Course Category is
         <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </p>
+  </form>
 
-  <mat-accordion>
-    <mat-expansion-panel *ngFor='let lecture of data.lectures'>
+  <mat-accordion formArrayName="lectures">
+    <mat-expansion-panel *ngFor="let control of formGroup.get('lectures').controls; index as i;">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{ lecture.name }}
+          Lecure: {{ i + 1 }}
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <form fxLayout="column">
+      <ng-template matExpansionPanelContent>
+        <form fxLayout="column"
+              [formGroupName]="i">
+          <mat-form-field>
+            <input matInput
+                   formControlName="name"
+                   [value]="control.get('name').value"
+                   placeholder="Name">
+          </mat-form-field>
 
-        <mat-form-field>
-          <input matInput
-                 placeholder="Name"
-                 [(ngModel)]="lecture.name"
-                 #name>
-        </mat-form-field>
-
-        <mat-form-field>
-          <textarea matInput
-                    placeholder="Description"
-                    [(ngModel)]="lecture.description"
-                    #desc></textarea>
-        </mat-form-field>
-
-        <file-upload-button (fileSet)='onFileSet($event)'
-                            #upload>
-          {{ upload.file ? 'Upload Video' : 'Upload Video' }}
-        </file-upload-button>
-
-      </form>
-
-      <mat-action-row>
-        <button mat-button
-                color="primary"
-                [disabled]='!(downloadURL | async)'
-                (click)="addLecture(name.value, desc.value)">Add Lecture</button>
-      </mat-action-row>
-
+          <mat-form-field>
+            <textarea matInput
+                      formControlName="description"
+                      [value]="control.get('description').value"
+                      placeholder="Description"></textarea>
+          </mat-form-field>
+        </form>
+      </ng-template>
     </mat-expansion-panel>
+
   </mat-accordion>
 
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          ADD
-        </mat-panel-title>
-        <mat-panel-description>
-          <span>
-            Add new lecture
-          </span>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
 
-      <form fxLayout="column">
 
-        <mat-form-field>
-          <input matInput
-                 placeholder="Name" #name>
-        </mat-form-field>
+  <!-- <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            ADD
+          </mat-panel-title>
+          <mat-panel-description>
+            <span>
+              Add new lecture
+            </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-        <mat-form-field>
-          <textarea matInput
-                    placeholder="Description" #desc></textarea>
-        </mat-form-field>
+        <form fxLayout="column">
 
-        <file-upload-button (fileSet)='onFileSet($event)'
-                            #upload>
-          {{ upload.file ? 'Upload Video' : 'Upload Video' }}
-        </file-upload-button>
+          <mat-form-field>
+            <input matInput
+                   placeholder="Name"
+                   #name>
+          </mat-form-field>
 
-      </form>
+          <mat-form-field>
+            <textarea matInput
+                      placeholder="Description"
+                      #desc></textarea>
+          </mat-form-field>
 
-      <mat-action-row>
-        <button mat-button
-                color="primary"
-                [disabled]='!(downloadURL | async)'
-                (click)="addLecture(name.value, desc.value)">Add Lecture</button>
-      </mat-action-row>
+          <file-upload-button (fileSet)='onFileSet($event)'
+                              #upload>
+            {{ upload.file ? 'Upload Video' : 'Upload Video' }}
+          </file-upload-button>
 
-    </mat-expansion-panel>
-  </mat-accordion>
+        </form>
+
+        <mat-action-row>
+          <button mat-button
+                  color="primary"
+                  [disabled]='!(downloadURL | async)'
+                  (click)="addLecture(name.value, desc.value)">Add Lecture</button>
+        </mat-action-row>
+
+      </mat-expansion-panel>
+    </mat-accordion> -->
 
 </form>
 

@@ -24,7 +24,7 @@ export class CourseManagerComponent {
     const dialogRef = this.dialog.open(EditCourseDialogComponent, {
       width: '100vw',
       height: '95vh',
-      data: course
+      data: course.id
     });
   }
 
