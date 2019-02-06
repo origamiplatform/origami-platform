@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import { StorageService } from '@shared/services/storage.service';
@@ -15,18 +15,13 @@ import { CategoryService } from '@shared/services/category.service';
   styleUrls: ['./edit-course-dialog.component.scss']
 })
 export class EditCourseDialogComponent {
-  course$: Observable<Course>;
-  course: Course;
-  formGroup: FormGroup;
-  downloadURL: Observable<string>;
-
-  subscription: Subscription;
   constructor(
     public dialogRef: MatDialogRef<EditCourseDialogComponent>,
     private storageService: StorageService,
     private courseService: CourseService,
     public categoryService: CategoryService,
     private formBuilder: FormBuilder,
+    private elRef: ElementRef,
     @Inject(MAT_DIALOG_DATA) public data: string // courseId
   ) {
     this.formGroup = this.formBuilder.group({
@@ -46,32 +41,33 @@ export class EditCourseDialogComponent {
     this.course$ = this.courseService.getObservableById(data);
     this.course$.subscribe(course => this.onInit(course));
   }
+  course$: Observable<Course>;
+  course: Course;
+  formGroup: FormGroup;
 
+  subscription: Subscription;
+
+  async;
   onInit(course: Course) {
-    this.formGroup.patchValue({ course: course });
-    this.formGroup.setControl('lectures', new FormArray([]));
-    const lectures = course.lectures.map(el => this.createLectureGroup(el));
-    lectures.forEach(el => (<FormArray>this.formGroup.controls['lectures']).push(el));
-
     this.course = course;
+    this.formGroup.patchValue({ course: course });
+    this.updateLectureGroups(course.lectures);
+
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     this.subscription = this.formGroup.valueChanges.subscribe(change => this.onUpdate(change));
 
-    console.log(this.formGroup);
+    setTimeout(() => { this.openExpansionPanel(0); }, 3000);
+
   }
 
   onUpdate(_update) {
-
     const course: Course = {
       id: this.course.id,
       imageUrl: this.course.imageUrl,
       ..._update
     };
-    // console.log(_update);
-
-    // console.log('update');
   }
 
   createLectureGroup(data: Lecture): FormGroup {
@@ -80,13 +76,29 @@ export class EditCourseDialogComponent {
     });
   }
 
-  async onFileSet(file: File) {
-    this.downloadURL = await this.storageService.uploadVideo(file);
-    const videoUrl = await this.downloadURL.toPromise();
+  updateLectureGroups(lectures: Lecture[]) {
+    this.formGroup.setControl('lectures', new FormArray([]));
+    const controls = lectures.map(el => this.createLectureGroup(el));
+    controls.forEach(el => (<FormArray>this.formGroup.controls['lectures']).push(el));
+  }
+
+  async onNewLectureFileSet(file: File) {
+    const downloadURL = await this.storageService.uploadVideo(file);
+    const videoUrl = await downloadURL.toPromise();
     this.formGroup.get('newLecture').patchValue({ videoUrl: videoUrl });
   }
 
-  async addLecture() {
+  async onEditLectureFileSet(file: File, lecture: Lecture) {
+    const downloadURL = await this.storageService.uploadVideo(file);
+    const videoUrl = await downloadURL.toPromise();
+    const update: Lecture[] = _.map(this.course.lectures, o => {
+      o.id === lecture.id && (o.videoUrl = videoUrl);
+      return o;
+    });
+    this.updateLectureGroups(update);
+  }
+
+  addLecture() {
     const id = uuid();
     const control = this.formGroup.get('newLecture');
     const lecture: Lecture = { id, ...control.value };
@@ -99,7 +111,7 @@ export class EditCourseDialogComponent {
     control.reset();
   }
 
-  updateLecture(lecture: Lecture) {
+  async updateLecture(lecture: Lecture) {
     const update = _.map(this.course.lectures, o => o.id === lecture.id ? lecture : o);
     this.course.lectures = update;
     this.courseService.update(this.course);
@@ -114,5 +126,12 @@ export class EditCourseDialogComponent {
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  openExpansionPanel(index: number) {
+    const lectures = this.elRef.nativeElement.querySelector('#lecture-list');
+
+    console.log(lectures);
+
   }
 }
