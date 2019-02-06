@@ -64,6 +64,10 @@
       <ng-template matExpansionPanelContent>
         <form fxLayout="column"
               [formGroupName]="i">
+          <input fxHide
+                 formControlName="id">
+          <input fxHide
+                 formControlName="videoUrl">
           <mat-form-field>
             <input matInput
                    formControlName="name"
@@ -79,55 +83,64 @@
           </mat-form-field>
         </form>
       </ng-template>
+
+      <mat-action-row>
+        <button mat-button
+                color="warn"
+                (click)="removeLecture(control.value)">Delete</button>
+      </mat-action-row>
     </mat-expansion-panel>
 
   </mat-accordion>
 
 
 
-  <!-- <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            ADD
-          </mat-panel-title>
-          <mat-panel-description>
-            <span>
-              Add new lecture
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <form fxLayout="column">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ADD
+        </mat-panel-title>
+        <mat-panel-description>
+          <span>
+            Add new lecture
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <form fxLayout="column"
+              formGroupName="newLecture">
 
           <mat-form-field>
             <input matInput
                    placeholder="Name"
-                   #name>
+                   formControlName="name">
           </mat-form-field>
 
           <mat-form-field>
             <textarea matInput
                       placeholder="Description"
-                      #desc></textarea>
+                      formControlName="description"></textarea>
           </mat-form-field>
 
+          <input fxHide
+                 formControlName="videoUrl">
           <file-upload-button (fileSet)='onFileSet($event)'
                               #upload>
             {{ upload.file ? 'Upload Video' : 'Upload Video' }}
           </file-upload-button>
-
         </form>
 
-        <mat-action-row>
-          <button mat-button
-                  color="primary"
-                  [disabled]='!(downloadURL | async)'
-                  (click)="addLecture(name.value, desc.value)">Add Lecture</button>
-        </mat-action-row>
+      </ng-template>
 
-      </mat-expansion-panel>
-    </mat-accordion> -->
+      <mat-action-row>
+        <button mat-button
+                color="primary"
+                [disabled]="formGroup.get('newLecture').invalid"
+                (click)="addLecture()">Add Lecture</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
 
 </form>
 
