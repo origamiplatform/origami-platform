@@ -88,6 +88,10 @@
         <button mat-button
                 color="warn"
                 (click)="removeLecture(control.value)">Delete</button>
+        <button mat-button
+                color="primary"
+                [disabled]="control.invalid"
+                (click)="updateLecture(control.value)">Update</button>
       </mat-action-row>
     </mat-expansion-panel>
 
@@ -138,6 +142,8 @@
                 color="primary"
                 [disabled]="formGroup.get('newLecture').invalid"
                 (click)="addLecture()">Add Lecture</button>
+
+
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>

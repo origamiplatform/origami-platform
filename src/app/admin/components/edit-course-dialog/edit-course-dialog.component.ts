@@ -63,15 +63,15 @@ export class EditCourseDialogComponent {
   }
 
   onUpdate(_update) {
-    console.log(_update);
 
     const course: Course = {
       id: this.course.id,
       imageUrl: this.course.imageUrl,
       ..._update
     };
+    // console.log(_update);
 
-    console.log('update');
+    // console.log('update');
   }
 
   createLectureGroup(data: Lecture): FormGroup {
@@ -99,7 +99,12 @@ export class EditCourseDialogComponent {
     control.reset();
   }
 
-  removeLecture(lecture) {
+  updateLecture(lecture: Lecture) {
+    const update = _.map(this.course.lectures, o => o.id === lecture.id ? lecture : o);
+    this.course.lectures = update;
+    this.courseService.update(this.course);
+  }
+  removeLecture(lecture: Lecture) {
     _.remove(this.course.lectures, o => o.id === lecture.id);
     this.courseService.update(this.course);
   }
