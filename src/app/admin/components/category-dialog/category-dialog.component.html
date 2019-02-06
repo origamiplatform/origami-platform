@@ -73,7 +73,7 @@
         <button mat-button
                 color="primary"
                 [disabled]='!hasValue(input.value)'
-                (click)="appendChild(input.value, category); input.value=null">Add Category</button>
+                (click)="addNode(input.value); input.value=null">Add Category</button>
       </mat-action-row>
 
     </mat-expansion-panel>

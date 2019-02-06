@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ElementRef } from '@angular/core';
+import { Component, Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import { StorageService } from '@shared/services/storage.service';
@@ -15,13 +15,14 @@ import { CategoryService } from '@shared/services/category.service';
   styleUrls: ['./edit-course-dialog.component.scss']
 })
 export class EditCourseDialogComponent {
+  selectedLectureIndex: number;
+
   constructor(
     public dialogRef: MatDialogRef<EditCourseDialogComponent>,
     private storageService: StorageService,
     private courseService: CourseService,
     public categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    private elRef: ElementRef,
     @Inject(MAT_DIALOG_DATA) public data: string // courseId
   ) {
     this.formGroup = this.formBuilder.group({
@@ -47,7 +48,6 @@ export class EditCourseDialogComponent {
 
   subscription: Subscription;
 
-  async;
   onInit(course: Course) {
     this.course = course;
     this.formGroup.patchValue({ course: course });
@@ -57,9 +57,6 @@ export class EditCourseDialogComponent {
       this.subscription.unsubscribe();
     }
     this.subscription = this.formGroup.valueChanges.subscribe(change => this.onUpdate(change));
-
-    setTimeout(() => { this.openExpansionPanel(0); }, 3000);
-
   }
 
   onUpdate(_update) {
@@ -88,7 +85,14 @@ export class EditCourseDialogComponent {
     this.formGroup.get('newLecture').patchValue({ videoUrl: videoUrl });
   }
 
-  async onEditLectureFileSet(file: File, lecture: Lecture) {
+  async onEditLectureFileSet(file: File, lecture: Lecture, index: number) {
+    this.selectedLectureIndex = index;
+    const cleaned: Lecture[] = _.map(this.course.lectures, o => {
+      o.id === lecture.id && (o.videoUrl = null);
+      return o;
+    });
+    this.updateLectureGroups(cleaned);
+
     const downloadURL = await this.storageService.uploadVideo(file);
     const videoUrl = await downloadURL.toPromise();
     const update: Lecture[] = _.map(this.course.lectures, o => {
@@ -96,6 +100,7 @@ export class EditCourseDialogComponent {
       return o;
     });
     this.updateLectureGroups(update);
+    this.selectedLectureIndex = null;
   }
 
   addLecture() {
@@ -126,12 +131,5 @@ export class EditCourseDialogComponent {
 
   close(): void {
     this.dialogRef.close();
-  }
-
-  openExpansionPanel(index: number) {
-    const lectures = this.elRef.nativeElement.querySelector('#lecture-list');
-
-    console.log(lectures);
-
   }
 }

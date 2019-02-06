@@ -53,8 +53,10 @@
     </mat-form-field>
   </form>
 
-  <mat-accordion formArrayName="lectures" id="lecture-list">
-    <mat-expansion-panel *ngFor="let control of formGroup.get('lectures').controls; index as i;">
+  <mat-accordion formArrayName="lectures"
+                 id="lecture-list">
+    <mat-expansion-panel *ngFor="let control of formGroup.get('lectures').controls; index as i;"
+                         [expanded]="i == this.selectedLectureIndex">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Lecure: {{ i + 1 }}
@@ -87,7 +89,7 @@
                    placeholder="Video"
                    formControlName="videoUrl">
           </mat-form-field>
-          <file-upload-button (fileSet)='onEditLectureFileSet($event, control.value)'
+          <file-upload-button (fileSet)='onEditLectureFileSet($event, control.value, i);'
                               #upload>
             {{ upload.file ? 'Upload Video' : 'Upload Video' }}
           </file-upload-button>

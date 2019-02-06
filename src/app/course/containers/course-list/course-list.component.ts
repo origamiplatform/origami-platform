@@ -8,7 +8,7 @@ import { Course } from '@core/models/course';
   styleUrls: ['./course-list.component.scss']
 })
 export class CourseListComponent implements OnInit {
-  constructor(private courseService: CourseService) { }
+  constructor(public courseService: CourseService) { }
 
   ngOnInit() {
     this.courseService.courses$.subscribe(data => this.onCourseUpdate(data));
