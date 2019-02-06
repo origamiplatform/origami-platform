@@ -50,6 +50,9 @@ export class EditCourseDialogComponent {
   }
 
   async addLecture(name = '', description = '') {
+    console.log(name);
+    console.log(description);
+
     if (!this.downloadURL) { return; }
     const videoUrl = await this.downloadURL.toPromise();
     const id = uuid();
@@ -59,10 +62,11 @@ export class EditCourseDialogComponent {
     const currentLectures = _.clone(this.data.lectures);
     const updatedLectures = _.concat(currentLectures, lecture);
 
-    const copy = _.clone(this.data);
-    copy.lectures = updatedLectures;
-    // this.data.lectures = updatedLectures;
-    this.courseService.update(copy);
+    const update = _.clone(this.data);
+    update.lectures = updatedLectures;
+    console.log(update);
+
+    this.courseService.update(update);
   }
 
   getFormControl(target): AbstractControl {

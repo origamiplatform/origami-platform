@@ -26,6 +26,8 @@ export class CourseService {
     this.store.dispatch(new CourseActions.Read());
   }
   update(course: Course): void {
+    console.log(course);
+
     this.store.dispatch(new CourseActions.Update(course));
   }
   delete(course: Course): void {
