@@ -1,33 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CourseService } from '@shared/services/course.service';
 import { Course } from '@core/models/course';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { CourseService } from '@shared/services/course.service';
 
 @Component({
   selector: 'app-course-detail',
   templateUrl: './course-detail.component.html',
   styleUrls: ['./course-detail.component.scss']
 })
-export class CourseDetailComponent implements OnInit {
+export class CourseDetailComponent {
   course$: Observable<Course>;
   courseId: string;
 
   constructor(
     private route: ActivatedRoute,
-    private readonly afs: AngularFirestore,
+    private courseService: CourseService,
   ) {
     this.courseId = this.route.snapshot.paramMap.get('id');
-    this.course$ = this.afs.doc<Course>(`courses/${this.courseId}`).valueChanges();
+    this.course$ = this.courseService.getObservableById(this.courseId);
   }
 
-  ngOnInit() {
-    console.log('courseId', this.courseId);
-    // this.courseService.getOneById(this.courseId);
-    // this.course$ = this.courseService.course$;
-    // this.post$ = this.ssrFirestoreDoc(this.postId);
-  }
 
   s(a) {
     return JSON.stringify(a);

@@ -24,7 +24,7 @@ export class EditCourseDialogComponent {
     private storageService: StorageService,
     private courseService: CourseService,
     public categoryService: CategoryService,
-    @Inject(MAT_DIALOG_DATA) public data: Course) {
+    @Inject(MAT_DIALOG_DATA) public courseId: string) {
     this.courseForm = new FormGroup({
       name: new FormControl(data.name, Validators.required),
       description: new FormControl(data.description, Validators.required),

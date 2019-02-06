@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as CourseActions from '@core/actions/course.actions';
 import { Course } from '@core/models/course';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -11,11 +12,12 @@ import { Course } from '@core/models/course';
 })
 export class CourseService {
   public courses$: Observable<Course[]>;
-  // public course$: Observable<Course>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(
+    private store: Store<fromRoot.State>,
+    private readonly afs: AngularFirestore,
+  ) {
     this.courses$ = this.store.pipe(select(fromRoot.getCourses));
-    // this.course$ = this.store.pipe(select(fromRoot.getCourse));
     this.read();
   }
 
@@ -33,10 +35,8 @@ export class CourseService {
   delete(course: Course): void {
     this.store.dispatch(new CourseActions.Delete(course));
   }
-  // getOneById(id: string) {
-  //   this.store.dispatch(new CourseActions.GetOneById(id));
-  // }
-  // readOne(): void {
-  //   this.store.dispatch(new CourseActions.ReadOne());
-  // }
+
+  getObservableById(id: string): Observable<Course> {
+    return this.afs.doc<Course>(`courses/${id}`).valueChanges();
+  }
 }

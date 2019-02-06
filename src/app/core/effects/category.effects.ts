@@ -48,8 +48,6 @@ export class CategoryEffects {
         ofType<CategoryActions.Update>(CategoryActions.ActionTypes.Update),
         map(action => action.payload),
         tap(category => {
-            console.log(category);
-
             const jsonObject = JSON.parse(JSON.stringify(category));
             this.categoryCollection.doc(category.id).update(jsonObject);
         })
@@ -60,8 +58,6 @@ export class CategoryEffects {
         ofType<CategoryActions.Delete>(CategoryActions.ActionTypes.Delete),
         map(action => action.payload),
         tap(category => {
-            console.log(category);
-
             this.categoryCollection.doc(category.id).delete();
         })
     );
