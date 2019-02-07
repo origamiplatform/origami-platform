@@ -12,11 +12,11 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
   }
 
-  printUser(event) {
+  onSuccess(event) {
     console.log(event);
   }
 
-  printError(event) {
+  onError(event) {
     console.error(event);
   }
 }

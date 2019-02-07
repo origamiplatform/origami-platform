@@ -1,13 +1,19 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 import { AuthComponent } from './containers/auth/auth.component';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
+import { AuthEffects } from './effects/auth.effects';
+import { reducers } from './reducers';
+
 import { SharedModule } from '@shared/shared.module';
+
 
 export const CONTAINERS = [AuthComponent];
 
@@ -25,8 +31,8 @@ export class AuthModule {
     return {
       ngModule: RootAuthModule,
       providers: [
-        // AuthService,
-        // AuthGuard
+        AuthService,
+        AuthGuard
       ],
     };
   }
@@ -39,8 +45,8 @@ export class AuthModule {
       { path: 'auth', component: AuthComponent },
       // { path: 'reg', component: SignupPageComponent },
     ]),
-    // StoreModule.forFeature('auth', reducers),
-    // EffectsModule.forFeature([AuthEffects]),
+    StoreModule.forFeature('auth', reducers),
+    EffectsModule.forFeature([AuthEffects]),
   ],
 })
 export class RootAuthModule { }
