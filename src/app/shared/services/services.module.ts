@@ -14,4 +14,4 @@ import { CourseService } from './course.service';
         CourseService
     ]
 })
-export class ServiceModule {}
+export class ServicesModule {}

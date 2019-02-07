@@ -133,3 +133,4 @@ export class EditCourseDialogComponent {
     this.dialogRef.close();
   }
 }
+

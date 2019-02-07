@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from './components/components.module';
 import { ExternalModule } from './externals/external.module';
-import { ServiceModule } from './services/service.module';
+import { ServicesModule } from './services/services.module';
 import { DirectivesModule } from './directives/directives.module';
 
 const MODULES = [
@@ -16,7 +16,7 @@ const MODULES = [
   ComponentsModule,
   DirectivesModule,
   ExternalModule,
-  ServiceModule,
+  ServicesModule,
 ];
 
 @NgModule({
