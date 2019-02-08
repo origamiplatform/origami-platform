@@ -13,6 +13,7 @@ import { auth } from 'firebase';
 })
 export class AuthService {
   user$: Observable<User>;
+
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -21,6 +22,7 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
+          console.log(user);
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           return of(null);
@@ -40,13 +42,12 @@ export class AuthService {
     return this.router.navigate(['/']);
   }
 
-  updateUserData({ uid, email, displayName, photoURL }: User ) {
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`user/${uid}`);
+  updateUserData({ uid, email, displayName, photoURL }: User ): Promise<void> {
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${uid}`);
 
     const data: User = {
       uid, email, displayName, photoURL
     };
-
     return userRef.set(data, {merge: true});
   }
 }

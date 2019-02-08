@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+// import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 import { AuthComponent } from './containers/auth/auth.component';
 
@@ -14,14 +14,24 @@ import { reducers } from './reducers';
 
 import { SharedModule } from '@shared/shared.module';
 
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '@environments/environment';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 
 export const CONTAINERS = [AuthComponent];
 
 @NgModule({
   imports: [
     CommonModule,
+    // AngularFireModule.initializeApp(environment.firebase),
+    // AngularFireAuthModule,
+    // AngularFireStorageModule,
+    // AngularFirestoreModule,
     SharedModule,
-    NgxAuthFirebaseUIModule,
+    // NgxAuthFirebaseUIModule,
   ],
   declarations: CONTAINERS,
   exports: CONTAINERS

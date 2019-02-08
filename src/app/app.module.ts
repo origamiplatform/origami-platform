@@ -16,7 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {
   StoreRouterConnectingModule,
-  RouterStateSerializer,
+  RouterStateSerializer
 } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers, metaReducers } from './reducers';
@@ -50,34 +50,34 @@ import { ToastrModule } from 'ngx-toastr';
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument({
       name: 'comodule-fe DevTools',
-      logOnly: environment.production,
+      logOnly: environment.production
     }),
     EffectsModule.forRoot([]),
-    NgxAuthFirebaseUIModule.forRoot(
-      environment.firebase,
-      () => 'app',
-      {
-        toastMessageOnAuthSuccess: true, // whether to open/show a snackbar message on auth success - default : true
-        toastMessageOnAuthError: true // whether to open/show a snackbar message on auth error - default : true
-      }),
-ToastrModule.forRoot({
-  timeOut: 1000,
-  positionClass: 'toast-bottom-right',
-  preventDuplicates: true,
-}),
-  AuthModule.forRoot(),
-  CoreModule,
-  SharedModule.forRoot(),
-  AppRoutingModule,
+    // NgxAuthFirebaseUIModule.forRoot(
+    //   environment.firebase,
+    //   () => 'app',
+    //   {
+    //     toastMessageOnAuthSuccess: true, // whether to open/show a snackbar message on auth success - default : true
+    //     toastMessageOnAuthError: true // whether to open/show a snackbar message on auth error - default : true
+    //   }),
+    ToastrModule.forRoot({
+      timeOut: 1000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true
+    }),
+    AuthModule.forRoot(),
+    CoreModule,
+    SharedModule.forRoot(),
+    AppRoutingModule
   ],
-providers: [
-  /**
-   * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
-   * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
-   * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
-   */
-  { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
-],
+  providers: [
+    /**
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }
+  ],
   bootstrap: [MainComponent]
 })
-export class AppModule { }
+export class AppModule {}
