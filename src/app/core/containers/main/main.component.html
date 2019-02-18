@@ -8,10 +8,10 @@
     ORIGAMI
   </span> -->
 
-  <div>
-    <img src="assets/logos/png/ori-logo-full-white.png"
-         style="height: 50%; margin: 0.5em 2.5em 0 0;">
-  </div>
+
+  <img fxFlexAlign="center"
+       src="assets/logos/png/ori-logo-full-white.png"
+       style="height: 50%; margin: 0 2.5em 0 0.5em;">
 
   <navbar-item *ngFor="let route of routes"
                [ngClass]="{ 'selected': router.url.includes(route.path) }"
