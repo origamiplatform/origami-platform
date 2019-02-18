@@ -1,24 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
     map,
     exhaustMap,
     tap,
+    switchMap,
 } from 'rxjs/operators';
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 
 import * as AuthActions from '../actions/auth.actions';
 import { User } from '@auth/models/user';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 const COLLECTION_NAME = 'users';
 
 @Injectable()
 export class AuthEffects {
-    userCollection: AngularFirestoreCollection<User>;
-    user$: Observable<User[]>;
+    user$: Observable<User>;
 
     @Effect({ dispatch: false })
     Login$ = this.actions$.pipe(
@@ -54,9 +56,19 @@ export class AuthEffects {
 
     constructor(
         private actions$: Actions,
+        private router: Router,
         private readonly afs: AngularFirestore,
+        private readonly afAuth: AngularFireAuth
     ) {
-        this.userCollection = this.afs.collection<User>(COLLECTION_NAME);
-        this.user$ = this.userCollection.valueChanges();
+        this.user$ = this.afAuth.authState.pipe(
+            switchMap(user => {
+                if (user) {
+                    console.log(user);
+                    return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+                } else {
+                    return of(null);
+                }
+            })
+        );
     }
 }
