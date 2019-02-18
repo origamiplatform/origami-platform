@@ -4,9 +4,14 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <span style="margin-right: 2.5em;">
+  <!-- <span style="margin-right: 2.5em;">
     ORIGAMI
-  </span>
+  </span> -->
+
+  <div>
+    <img src="assets/logos/png/ori-logo-full-white.png"
+         style="height: 50%; margin: 0.5em 2.5em 0 0;">
+  </div>
 
   <navbar-item *ngFor="let route of routes"
                [ngClass]="{ 'selected': router.url.includes(route.path) }"
