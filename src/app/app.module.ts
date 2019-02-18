@@ -23,7 +23,6 @@ import { reducers, metaReducers } from './reducers';
 
 /* app moduleds */
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from '@auth/auth.module';
 import { CoreModule } from '@core/core.module';
 import { SharedModule } from '@shared/shared.module';
 import { CustomRouterStateSerializer } from '@core/utils/CustomRouterStateSerializer';
@@ -65,7 +64,6 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
-    AuthModule.forRoot(),
     CoreModule,
     SharedModule.forRoot(),
     AppRoutingModule

@@ -4,11 +4,6 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <!-- <span style="margin-right: 2.5em;">
-    ORIGAMI
-  </span> -->
-
-
   <img fxFlexAlign="center"
        src="assets/logos/png/ori-logo-full-white.png"
        style="height: 50%; margin: 0 2.5em 0 0.5em;">
@@ -19,6 +14,13 @@
                [fxShow]="showLink(route.onlyAdmin)">
     {{ route.label }}
   </navbar-item>
+
+  <button mat-icon-button
+          (click)="auth.googleSignin()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span> {{ (auth.user$ | async)?.displayName | json}} </span>
 </app-navbar>
 
 <mat-progress-bar *ngIf="(loading$ | async) > 0"

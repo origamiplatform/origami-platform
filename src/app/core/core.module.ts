@@ -18,7 +18,6 @@ export const CONTAINERS = [
     SharedModule,
     ComponentsModule,
     EffectsModule.forFeature([LayoutEffects, CategoryEffects, CourseEffects]),
-
   ],
   declarations: CONTAINERS,
   exports: CONTAINERS,

@@ -9,6 +9,7 @@ import { RouterStateUrl } from '@core/utils/CustomRouterStateSerializer';
 
 import { IRoutes } from '@config/routes.config';
 import { appConfig } from '@config/app.config';
+import { AuthService } from '@shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,7 @@ export class MainComponent {
   constructor(
     private store: Store<fromRoot.State>,
     private router: Router,
+    public auth: AuthService
   ) {
     this.loading$ = this.store.pipe(select(fromRoot.getLoading));
   }
