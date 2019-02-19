@@ -15,15 +15,14 @@
 
       <ng-template matExpansionPanelContent>
         {{ lecture.description }}
-        {{ s(lecture) }}
       </ng-template>
 
     </mat-expansion-panel>
   </mat-accordion>
 
 
-  <p> {{ s(course) }} </p>
   <button mat-raised-button
-          color="primary">Enroll</button>
+          color="primary"
+          (click)="enroll()">Enroll</button>
 
 </div>

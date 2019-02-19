@@ -1,3 +1,4 @@
+import { AuthService } from './../../../shared/services/auth.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,6 +15,7 @@ export class CourseDetailComponent {
   courseId: string;
 
   constructor(
+    public auth: AuthService,
     private route: ActivatedRoute,
     private courseService: CourseService,
   ) {
@@ -21,9 +23,7 @@ export class CourseDetailComponent {
     this.course$ = this.courseService.getObservableById(this.courseId);
   }
 
-
-  s(a) {
-    return JSON.stringify(a);
+  enroll() {
+    this.auth.enrollToCourse(this.courseId);
   }
-
 }
