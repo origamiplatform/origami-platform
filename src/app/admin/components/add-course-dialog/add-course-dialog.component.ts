@@ -8,6 +8,7 @@ import { Course, Lecture } from '@core/models/course';
 
 import { CategoryService } from '@shared/services/category.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { User } from '@core/models/user';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class AddCourseDialogComponent {
     private storageService: StorageService,
     private courseService: CourseService,
     public categoryService: CategoryService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: User) {
     this.courseForm = new FormGroup({
       name: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
@@ -39,7 +40,8 @@ export class AddCourseDialogComponent {
 
   add() {
     const lectures: Lecture[] = [];
-    const course: Course = { lectures, ...this.courseForm.value };
+    const createdBy = this.data.uid;
+    const course: Course = { lectures, createdBy, ...this.courseForm.value };
 
     this.courseService.create(course);
   }

@@ -8,6 +8,7 @@ import { v4 as uuid } from 'uuid';
 import * as _ from 'lodash';
 import { FormGroup, Validators, AbstractControl, FormBuilder, FormArray } from '@angular/forms';
 import { CategoryService } from '@shared/services/category.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'edit-course-dialog',
@@ -23,7 +24,7 @@ export class EditCourseDialogComponent {
     private courseService: CourseService,
     public categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: string // courseId
+    @Inject(MAT_DIALOG_DATA) public data: { courseId: any, user: User } // courseId
   ) {
     this.formGroup = this.formBuilder.group({
       course: this.formBuilder.group({
@@ -39,7 +40,7 @@ export class EditCourseDialogComponent {
         videoUrl: [null, Validators.required],
       }),
     });
-    this.course$ = this.courseService.getObservableById(data);
+    this.course$ = this.courseService.getObservableById(data.courseId);
     this.course$.subscribe(course => this.onInit(course));
   }
   course$: Observable<Course>;
@@ -106,7 +107,8 @@ export class EditCourseDialogComponent {
   addLecture() {
     const id = uuid();
     const control = this.formGroup.get('newLecture');
-    const lecture: Lecture = { id, ...control.value };
+    const createdBy = this.data.user.uid;
+    const lecture: Lecture = { id, createdBy, ...control.value };
     const currentLectures = _.clone(this.course.lectures);
     const updatedLectures = _.concat(currentLectures, lecture);
 
@@ -128,7 +130,9 @@ export class EditCourseDialogComponent {
   getFormControl(target: string): AbstractControl {
     return this.formGroup.get(target);
   }
-
+  removeCourse() {
+    this.courseService.delete(this.course);
+  }
   close(): void {
     this.dialogRef.close();
   }

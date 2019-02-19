@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { CategoryService } from '@shared/services/category.service';
 import { CategoryNode } from '@core/models/category';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { User } from '@core/models/user';
 import * as _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 
@@ -15,7 +16,7 @@ export class CategoryDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
     public categoryService: CategoryService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: User) {
   }
 
   hasValue(value: string): boolean {
@@ -26,6 +27,7 @@ export class CategoryDialogComponent {
     const node = new CategoryNode();
     node.name = _name;
     node.level = 0;
+    node.createdBy = this.data.uid;
     this.categoryService.create(node);
   }
 
@@ -36,9 +38,9 @@ export class CategoryDialogComponent {
   appendChild(_name: string, _parent: CategoryNode) {
     const node = new CategoryNode();
     node.name = _name;
-    node.level = 0;
     node.id = uuid();
     node.level = 1;
+    node.createdBy = this.data.uid;
 
     const parent = new CategoryNode(_parent.id, _parent.name, _parent.level);
     parent.children = _.concat(_parent.children, node);

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of as observableOf } from 'rxjs';
-import { CategoryService } from '@shared/services/category.service';
-import { CategoryNode, CategoryFlatNode } from '@core/models/category';
 import { MatDialog, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material';
 import { FlatTreeControl } from '@angular/cdk/tree';
+import { Observable, of as observableOf } from 'rxjs';
+import { AuthService } from '@shared/services/auth.service';
+import { CategoryService } from '@shared/services/category.service';
+import { CategoryNode, CategoryFlatNode } from '@core/models/category';
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'category-manager',
@@ -15,11 +17,15 @@ export class CategoryManagerComponent implements OnInit {
   treeControl: FlatTreeControl<CategoryFlatNode>;
   treeFlattener: MatTreeFlattener<CategoryNode, CategoryFlatNode>;
   dataSource: MatTreeFlatDataSource<CategoryNode, CategoryFlatNode>;
+  user: User;
 
   constructor(
     public dialog: MatDialog,
+    public auth: AuthService,
     private categoryService: CategoryService,
-  ) { }
+  ) {
+    this.auth.user$.subscribe(data => this.user = data);
+  }
 
   ngOnInit() {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this._getLevel,
@@ -51,17 +57,7 @@ export class CategoryManagerComponent implements OnInit {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {
       width: '100vw',
       height: '80vh',
-      data: this.categoryService.categories$
-    });
-
-    dialogRef.afterClosed().subscribe(category => {
-      // if (category) {
-      //   if (category.children.length > 0) {
-      //     this.categoryService.update(category);
-      //   } else {
-      //     this.categoryService.create(category);
-      //   }
-      // }
+      data: this.user
     });
   }
 }

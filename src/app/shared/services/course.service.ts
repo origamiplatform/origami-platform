@@ -33,7 +33,6 @@ export class CourseService {
   delete(course: Course): void {
     this.store.dispatch(new CourseActions.Delete(course));
   }
-
   getObservableById(id: string): Observable<Course> {
     return this.afs.doc<Course>(`courses/${id}`).valueChanges();
   }

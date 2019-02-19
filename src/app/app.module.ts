@@ -76,6 +76,6 @@ import { ToastrModule } from 'ngx-toastr';
      */
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }
   ],
-  bootstrap: [MainComponent]
+  bootstrap: [MainComponent],
 })
 export class AppModule {}
