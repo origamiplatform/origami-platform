@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { switchMap } from 'rxjs/operators';
 import { auth } from 'firebase';
-
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +44,9 @@ export class AuthService {
 
   updateUserData({ uid, email, displayName, photoURL }: User ): Promise<void> {
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${uid}`);
-
+    const courses = [];
     const data: User = {
-      uid, email, displayName, photoURL
+      uid, email, displayName, photoURL, courses
     };
     return userRef.set(data, {merge: true});
   }
