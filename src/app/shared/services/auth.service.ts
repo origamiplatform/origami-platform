@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { User } from '@core/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { switchMap, tap, map, exhaustMap, catchError } from 'rxjs/operators';
+import { switchMap, map, exhaustMap, catchError } from 'rxjs/operators';
 import { auth } from 'firebase';
 
 import * as _ from 'lodash';
@@ -46,7 +46,6 @@ export class AuthService {
           uid, email, displayName, photoURL,
           courses: userDoc.courses || [],
         };
-
         return update;
       }),
       switchMap(update => userRef.set(update, { merge: true })),

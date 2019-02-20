@@ -40,7 +40,7 @@ export class EditCourseDialogComponent {
         videoUrl: [null, Validators.required],
       }),
     });
-    this.course$ = this.courseService.getObservableById(data.courseId);
+    this.course$ = this.courseService.getById(data.courseId);
     this.course$.subscribe(course => this.onInit(course));
   }
   course$: Observable<Course>;

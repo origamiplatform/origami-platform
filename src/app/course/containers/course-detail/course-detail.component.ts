@@ -20,7 +20,7 @@ export class CourseDetailComponent {
     private courseService: CourseService,
   ) {
     this.courseId = this.route.snapshot.paramMap.get('id');
-    this.course$ = this.courseService.getObservableById(this.courseId);
+    this.course$ = this.courseService.getById(this.courseId);
   }
 
   enroll(): void {
