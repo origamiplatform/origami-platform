@@ -1,1 +1,10 @@
 <h2 appPathIndicator> Courses </h2>
+
+<div *ngIf="auth.user$ | async as user">
+  <pre>
+    {{ user | json }}
+  </pre>
+  <div *ngFor="let courseId of user.courses">
+    {{ courseId }}
+  </div>
+</div>
