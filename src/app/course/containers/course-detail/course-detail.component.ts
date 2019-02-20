@@ -23,7 +23,7 @@ export class CourseDetailComponent {
     this.course$ = this.courseService.getObservableById(this.courseId);
   }
 
-  enroll() {
-    this.auth.enrollToCourse(this.courseId);
+  enroll(): void {
+    this.auth.enrollToCourse(this.courseId).subscribe();
   }
 }

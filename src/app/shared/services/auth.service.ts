@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 import { User } from '@core/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap, map, exhaustMap } from 'rxjs/operators';
 import { auth } from 'firebase';
-import * as firebase 'firebase';
+
 import * as _ from 'lodash';
 
 @Injectable({
@@ -14,7 +14,6 @@ import * as _ from 'lodash';
 })
 export class AuthService {
   user$: Observable<User>;
-  user: User;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -22,20 +21,26 @@ export class AuthService {
     private router: Router
   ) {
     this.user$ = this.afAuth.authState.pipe(
-      switchMap(user => {
-        if (user) {
-          this.updateUserData(user);
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
-        } else {
-          return of(null);
-        }
-      })
+      switchMap(user => user ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null)),
+      tap((userDoc: User) => {
+        const user: User = {
+          courses: [],
+          ...userDoc
+        };
+        _.has(userDoc, 'courses') && (user.courses = userDoc.courses);
+        this.updateUserData(user);
+      }),
     );
   }
 
   async googleSignin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
+    const user = {
+      courses: [],
+      ...credential
+    };
+    _.has(credential, 'courses') && (user.courses = user.courses);
     return this.updateUserData(credential.user);
   }
 
@@ -44,33 +49,22 @@ export class AuthService {
     return this.router.navigate(['/']);
   }
 
-  async updateUserData({ uid, email, displayName, photoURL }: User ): Promise<void> {
+  updateUserData({ uid, email, displayName, photoURL, courses }: User ) {
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${uid}`);
-    const options: GetOptions = { source: 'server' };
-    // const document = userRef.get('uid');
-
-    console.log(document);
-
-    const user = await userRef.ref.get();
-    console.log(user);
-
-    const courses = this.user.courses || [];
     const update: User = {
       uid, email, displayName, photoURL, courses
     };
-    this.user = update;
     return userRef.set(update, {merge: true});
   }
 
-  async enrollToCourse(courseId: string) {
-    if (this.user.courses.includes(courseId)) { return; }
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.user.uid}`);
-    const courses = _.clone(this.user.courses);
-    courses.push(courseId);
-    const update: User = {
-      courses: courses,
-      ...this.user
-    };
-    return userRef.set(update, { merge: true });
+  enrollToCourse(courseId: string): Observable<void> {
+    return this.user$.pipe(
+      exhaustMap(user => {
+        if (user.courses.includes(courseId)) { return of(null); }
+        const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+        user.courses.push(courseId);
+        return userRef.set(user, { merge: true });
+      })
+    );
   }
 }
