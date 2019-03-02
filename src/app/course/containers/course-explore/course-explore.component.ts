@@ -3,11 +3,12 @@ import { CourseService } from '@shared/services/course.service';
 import { Course } from '@core/models/course';
 
 @Component({
-  selector: 'app-course-list',
-  templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.scss']
+  selector: 'app-course-explore',
+  templateUrl: './course-explore.component.html',
+  styleUrls: ['./course-explore.component.scss']
 })
-export class CourseListComponent implements OnInit {
+export class CourseExploreComponent implements OnInit {
+
   constructor(public courseService: CourseService) { }
 
   ngOnInit() {
@@ -16,6 +17,5 @@ export class CourseListComponent implements OnInit {
 
   onCourseUpdate(courses: Course[]) {
     console.log(courses);
-
   }
 }

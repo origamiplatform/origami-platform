@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
-// import { CourseManagerComponent, CourseDialog } from './course-manager/course-manager.component';
-// import { CategoryManagerComponent, CategoryDialog } from './category-manager/category-manager.component';
+import { CourseListComponent } from './course-list/course-list.component';
 
 const COMPONENTS = [
-  // CourseManagerComponent,
-  // CourseDialog,
-  // CategoryManagerComponent,
-  // CategoryDialog
+  CourseListComponent
 ];
 
 @NgModule({

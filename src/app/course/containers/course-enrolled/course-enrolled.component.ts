@@ -17,7 +17,10 @@ import { of, zip, Observable } from 'rxjs';
 export class CourseEnrolledComponent implements OnInit {
   courses$: Observable<Course>;
 
-  constructor(public auth: AuthService, public courseService: CourseService) {}
+  constructor(
+    public auth: AuthService,
+    public courseService: CourseService
+  ) { }
 
   ngOnInit() {
     this.courses$ = this.auth.user$
@@ -29,7 +32,7 @@ export class CourseEnrolledComponent implements OnInit {
           return user.courses;
         }),
         map(ids => ids.map(id => this.courseService.getById(id))),
-        switchMap( courses$ => {
+        switchMap(courses$ => {
           return zip(...courses$);
         }),
         catchError(e => of(e))

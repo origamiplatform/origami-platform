@@ -1,8 +1,9 @@
 <h2 appPathIndicator> Courses </h2>
 
+<app-course-list [courses]="courses$"></app-course-list>
 
-<div *ngFor="let course of courses$ | async">
+<!-- <div *ngFor="let course of courses$ | async">
   <pre>
     {{ course | json}}
   </pre>
-</div>
+</div> -->

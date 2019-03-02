@@ -1,6 +1,5 @@
-<h2 appPathIndicator> Explore </h2>
 <section>
-  <mat-card *ngFor="let course of this.courseService.courses$ | async as categories"
+  <mat-card *ngFor="let course of courses | async as categories"
             [routerLink]="course.id">
     <!-- <mat-card-title> {{ course.name }} </mat-card-title> -->
     <div class='imageDisplay'>
