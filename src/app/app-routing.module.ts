@@ -6,6 +6,7 @@ export const routes: Routes = [
   {
     path: 'course',
     loadChildren: './course/course.module#CourseModule',
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'admin',
@@ -16,7 +17,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

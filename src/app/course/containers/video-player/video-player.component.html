@@ -2,5 +2,13 @@
   <pre>
     {{ lecture | json }}
   </pre>
-  <mat-video [src]="lecture.videoUrl"></mat-video>
+
+  <video controls
+         #video
+         (ended)="end()">
+    <source [src]="lecture.videoUrl"
+            type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
 </div>
