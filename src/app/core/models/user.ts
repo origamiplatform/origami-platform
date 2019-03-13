@@ -4,4 +4,5 @@ export interface User {
     photoURL?: string;
     displayName?: string;
     courses?: string[]; // list of courseIds
+    admin?: boolean;
 }

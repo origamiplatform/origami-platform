@@ -32,11 +32,9 @@ export class MainComponent {
 
 
   showLink(onlyAdmin: boolean): boolean {
-    // if (onlyAdmin) {
-    //   if (!this.auth.authState) {
-    //     return false;
-    //   }
-    // }
+    if (onlyAdmin) {
+      return this.auth.isAdmin;
+    }
     return true;
   }
 

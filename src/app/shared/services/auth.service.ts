@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 })
 export class AuthService {
   user$: Observable<User>;
+  isAdmin: boolean;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -42,8 +43,11 @@ export class AuthService {
     return this.user$.pipe(
       map(userDoc => {
         if (!userDoc) { throw new Error('Error: userDoc not found'); }
+        this.isAdmin = userDoc.admin || false;
+        
         const update = {
-          uid, email, displayName, photoURL,
+          uid, email, displayName, photoURL, 
+          admin: userDoc.admin || false,
           courses: userDoc.courses || [],
         };
         return update;
