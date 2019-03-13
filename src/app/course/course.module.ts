@@ -6,6 +6,7 @@ import { CourseComponent } from './containers/course/course.component';
 import { CourseDetailComponent } from './containers/course-detail/course-detail.component';
 import { CourseExploreComponent } from './containers/course-explore/course-explore.component';
 import { CourseEnrolledComponent } from './containers/course-enrolled/course-enrolled.component';
+import { VideoPlayerComponent } from './containers/video-player/video-player.component';
 
 import { CourseRoutingModule } from './course-routing.module';
 
@@ -13,7 +14,8 @@ export const CONTAINERS = [
   CourseComponent,
   CourseExploreComponent,
   CourseDetailComponent,
-  CourseEnrolledComponent
+  CourseEnrolledComponent,
+  VideoPlayerComponent
 ];
 
 @NgModule({

@@ -1,0 +1,6 @@
+<div *ngIf="lecture$ | async as lecture">
+  <pre>
+    {{ lecture | json }}
+  </pre>
+  <mat-video [src]="lecture.videoUrl"></mat-video>
+</div>
