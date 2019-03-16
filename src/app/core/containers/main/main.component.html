@@ -11,7 +11,7 @@
   <navbar-item *ngFor="let route of routes"
                [ngClass]="{ 'selected': router.url.includes(route.path) }"
                (click)="navigateTo(route.path)"
-               [fxShow]="showLink(route.onlyAdmin)">
+               [fxShow]="showLink(route)">
     {{ route.label }}
   </navbar-item>
 
@@ -63,9 +63,7 @@
   <mat-drawer #drawer
               class="sidenav"
               mode="side">
-    <p>sidenav</p>
-
-    <app-calender></app-calender>
+    <!-- <app-calender></app-calender> -->
   </mat-drawer>
 
   <mat-drawer-content class="sidenav-content">

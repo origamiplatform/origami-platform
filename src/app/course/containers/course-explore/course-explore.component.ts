@@ -16,6 +16,6 @@ export class CourseExploreComponent implements OnInit {
   }
 
   onCourseUpdate(courses: Course[]) {
-    console.log(courses);
+
   }
 }

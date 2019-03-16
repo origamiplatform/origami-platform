@@ -4,8 +4,9 @@ import { Observable, of } from 'rxjs';
 import { User } from '@core/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { switchMap, map, exhaustMap, catchError } from 'rxjs/operators';
+import { switchMap, map, exhaustMap, catchError, tap } from 'rxjs/operators';
 import { auth } from 'firebase';
+import { BlockchainService } from './blockchain.service';
 
 import * as _ from 'lodash';
 
@@ -14,12 +15,12 @@ import * as _ from 'lodash';
 })
 export class AuthService {
   user$: Observable<User>;
-  isAdmin: boolean;
 
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private blockchain: BlockchainService
   ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => user !== null ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null))
@@ -43,24 +44,24 @@ export class AuthService {
     return this.user$.pipe(
       map(userDoc => {
         if (!userDoc) { throw new Error('Error: userDoc not found'); }
-        this.isAdmin = userDoc.admin || false;
-        
         const update = {
-          uid, email, displayName, photoURL, 
+          uid, email, displayName, photoURL,
           admin: userDoc.admin || false,
           courses: userDoc.courses || [],
         };
         return update;
       }),
+      tap(async (user) => await this.blockchain.updateUser(user)),
       switchMap(update => userRef.set(update, { merge: true })),
       catchError(e => of(e))
     );
   }
 
-  enrollToCourse(courseId: string): Observable<void> {
+  enrollToCourse(courseId: string) {
     return this.user$.pipe(
-      exhaustMap(user => {
+      exhaustMap(async (user) => {
         if (user.courses.includes(courseId)) { return of(null); }
+        const tx = await this.blockchain.enrollToCourse(courseId, user.uid);
         const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
         user.courses.push(courseId);
         return userRef.set(user, { merge: true });

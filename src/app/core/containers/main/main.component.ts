@@ -10,6 +10,7 @@ import { RouterStateUrl } from '@core/utils/CustomRouterStateSerializer';
 import { IRoutes } from '@config/routes.config';
 import { appConfig } from '@config/app.config';
 import { AuthService } from '@shared/services/auth.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class MainComponent {
   loading$: Observable<number>;
   router$: Observable<fromRouter.RouterReducerState<RouterStateUrl>>;
   currentUrl: string;
+  user: User;
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -28,14 +30,21 @@ export class MainComponent {
     public auth: AuthService
   ) {
     this.loading$ = this.store.pipe(select(fromRoot.getLoading));
+    this.auth.user$.subscribe(user => this.user = user);
   }
 
 
-  showLink(onlyAdmin: boolean): boolean {
-    if (onlyAdmin) {
-      return this.auth.isAdmin;
+  showLink(route: IRoutes): boolean {
+    if (!route.onlyLogin) { return true; }
+
+    if (this.user) {
+      if (route.onlyAdmin) {
+        return this.user.admin;
+      }
+      if (route.onlyLogin) {
+        return !!this.user;
+      }
     }
-    return true;
   }
 
   navigateTo(path: string) {

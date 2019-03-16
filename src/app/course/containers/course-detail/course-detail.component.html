@@ -21,6 +21,7 @@
       <mat-action-row>
         <button mat-button
                 color="primary"
+                [disabled]="!(auth.user$ | async)"
                 (click)="playVideo(lecture.id)">Watch</button>
       </mat-action-row>
     </mat-expansion-panel>
@@ -32,6 +33,7 @@
        style="margin: 1em 0;">
     <button mat-raised-button
             color="primary"
+            [disabled]="!(auth.user$ | async)"
             (click)="enroll()">Enroll</button>
   </div>
 </div>

@@ -12,6 +12,7 @@ import {
 import * as _ from 'lodash';
 import * as CourseActions from '../actions/course.actions';
 import { Course } from '@core/models/course';
+import { BlockchainService } from '@shared/services/blockchain.service';
 
 const COLLECTION_NAME = 'courses';
 
@@ -25,10 +26,14 @@ export class CourseEffects {
   Create$ = this.actions$.pipe(
     ofType<CourseActions.Create>(CourseActions.ActionTypes.Create),
     map(action => action.payload),
-    tap(course => {
+    tap(async (course) => {
       const jsonObject = JSON.parse(JSON.stringify(course));
       const id = this.afs.createId();
-      this.courseCollection.doc(id).set({ id, ...jsonObject });
+      const courseObject: Course = { id, ...jsonObject };
+      const bcCourse = await this.blockchain.createCourse(courseObject);
+      console.log(bcCourse);
+
+      this.courseCollection.doc(id).set(courseObject);
     })
   );
 
@@ -62,7 +67,8 @@ export class CourseEffects {
 
   constructor(
     private actions$: Actions,
-    private readonly afs: AngularFirestore
+    private readonly afs: AngularFirestore,
+    private blockchain: BlockchainService
   ) {
     this.courseCollection = this.afs.collection<Course>(COLLECTION_NAME);
     this.courses$ = this.courseCollection.valueChanges();

@@ -6,6 +6,7 @@ import { CategoryService } from './category.service';
 import { CourseService } from './course.service';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
+import { BlockchainService } from './blockchain.service';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AuthGuard } from './auth.guard';
         StorageService,
         CommonActionService,
         CategoryService,
-        CourseService
+        CourseService,
+        BlockchainService
     ]
 })
 export class ServicesModule {}

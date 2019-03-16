@@ -11,7 +11,9 @@ export const environment = {
     projectId: 'origami-mvp',
     storageBucket: 'origami-mvp.appspot.com',
     messagingSenderId: '94839141407'
-  }
+  },
+  blockchainDomain: 'com.origami.platform',
+  blockchainAPI: 'http://35.192.19.169:3000/api'
 };
 
 /*

@@ -6,6 +6,7 @@ export interface Course {
   category: string;
   imageUrl?: string;
   createdBy: string;
+  transactionId?: string;
 }
 
 export interface Lecture {
@@ -15,3 +16,26 @@ export interface Lecture {
   videoUrl: string;
   createdBy: string;
 }
+
+export interface BcCourse {
+  $class: string;
+  id: string;
+  category: string;
+  name: string;
+  publisher: string;
+  lectures?: string[];
+  enrolled?: string[];
+  completed?: string[];
+}
+
+export interface BcLecture {
+  $class: string;
+  id: string;
+  name: string;
+  course: string;
+  publisher: string;
+  completed: [
+    {}
+  ];
+}
+
