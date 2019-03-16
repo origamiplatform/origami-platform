@@ -33,7 +33,7 @@
        style="margin: 1em 0;">
     <button mat-raised-button
             color="primary"
-            [disabled]="!(auth.user$ | async)"
-            (click)="enroll()">Enroll</button>
+            [disabled]="!(auth.user$ | async) || isEnrolled((auth.user$ | async))"
+            (click)="enroll()">{{ isEnrolled((auth.user$ | async)) ? 'Enrolled' : 'Enroll'}}</button>
   </div>
 </div>

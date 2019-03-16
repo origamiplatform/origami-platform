@@ -1,6 +1,6 @@
 <section>
   <mat-card *ngFor="let course of courses | async as categories"
-            [routerLink]="course.id">
+            (click)="onClick(course.id)">
     <!-- <mat-card-title> {{ course.name }} </mat-card-title> -->
     <div class='imageDisplay'>
       <img [src]="course?.imageUrl || 'assets/images/noimage.png'">

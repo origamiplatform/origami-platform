@@ -4,6 +4,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Course } from '@core/models/course';
 import { CourseService } from '@shared/services/course.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-course-detail',
@@ -25,7 +26,11 @@ export class CourseDetailComponent {
   }
 
   playVideo(lectureId) {
-    this.router.navigate([`course/watch/${this.courseId}/${lectureId}`])
+    this.router.navigate([`course/watch/${this.courseId}/${lectureId}`]);
+  }
+
+  isEnrolled(user: User): boolean {
+    return user.courses.includes(this.courseId);
   }
 
   enroll(): void {

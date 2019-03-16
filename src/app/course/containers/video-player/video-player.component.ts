@@ -34,7 +34,7 @@ export class VideoPlayerComponent {
     });
   }
 
-  init(){
+  init() {
     this.course$ = this.courseService.getById(this.courseId);
     this.lecture$ = this.getLecture();
   }
@@ -44,15 +44,15 @@ export class VideoPlayerComponent {
       map(course => {
         let target: Lecture;
         course.lectures.forEach((lecture, i) => {
-          if (lecture.id == this.lectureId) {
+          if (lecture.id === this.lectureId) {
             target = lecture;
             this.setPreviousLecture(course.lectures, i);
             this.setNextLecture(course.lectures, i);
           }
         });
-        return target
+        return target;
       })
-    )
+    );
   }
 
   setPreviousLecture(lectures: Lecture[], index: number) {
@@ -68,8 +68,8 @@ export class VideoPlayerComponent {
   end() {
     if (this.nextLectureId) {
       setTimeout(() => {
-        this.router.navigate([`course/watch/${this.courseId}/${this.nextLectureId}`])
-      }, 1000)
+        this.router.navigate([`course/watch/${this.courseId}/${this.nextLectureId}`]);
+      }, 1000);
     }
   }
 }
