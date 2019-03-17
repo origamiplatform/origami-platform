@@ -14,8 +14,6 @@ export class CourseListComponent {
   constructor(private router: Router) { }
 
   onClick(courseId) {
-    console.log(`course/${courseId}`);
-
     this.router.navigate([`course/explore/${courseId}`]);
   }
 }

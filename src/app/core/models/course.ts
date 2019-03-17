@@ -34,8 +34,6 @@ export interface BcLecture {
   name: string;
   course: string;
   publisher: string;
-  completed: [
-    {}
-  ];
+  completed?: string[];
 }
 

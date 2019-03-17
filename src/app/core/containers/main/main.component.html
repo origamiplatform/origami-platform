@@ -21,9 +21,10 @@
 
     <div *ngIf="auth.user$ | async as user; then authenticated else guest"></div>
 
+
     <ng-template #authenticated>
       <button mat-mini-fab
-              *ngIf="auth.user$ | async as user"
+              *ngIf="user"
               [style.background]="'url('+ user.photoURL + ')'"
               [style.backgroundSize]="'cover'"
               style="margin: 0 1em;"
@@ -31,8 +32,23 @@
       </button>
       <mat-menu #menu="matMenu">
         <!-- <button mat-menu-item>Item 1</button> -->
-        <button mat-menu-item
-                (click)="auth.signOut()"> Logout </button>
+        <mat-list>
+          <h3 mat-subheader>Info</h3>
+          <mat-list-item>
+            <mat-icon mat-list-icon>account_circle</mat-icon>
+            <p mat-line> {{ user.displayName }} </p>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon mat-list-icon>email</mat-icon>
+            <p mat-line> {{ user.email }} </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+        <mat-action-list>
+          <button mat-list-item
+                  (click)="auth.signOut()"> Logout </button>
+        </mat-action-list>
+
       </mat-menu>
     </ng-template>
 

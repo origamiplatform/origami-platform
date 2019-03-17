@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { FormGroup, Validators, AbstractControl, FormBuilder, FormArray } from '@angular/forms';
 import { CategoryService } from '@shared/services/category.service';
 import { User } from '@core/models/user';
+import { BlockchainService } from '@shared/services/blockchain.service';
 
 @Component({
   selector: 'edit-course-dialog',
@@ -24,6 +25,7 @@ export class EditCourseDialogComponent {
     private courseService: CourseService,
     public categoryService: CategoryService,
     private formBuilder: FormBuilder,
+    private blockchain: BlockchainService,
     @Inject(MAT_DIALOG_DATA) public data: { courseId: any, user: User } // courseId
   ) {
     this.formGroup = this.formBuilder.group({
@@ -104,11 +106,14 @@ export class EditCourseDialogComponent {
     this.selectedLectureIndex = null;
   }
 
-  addLecture() {
+  async addLecture() {
     const id = uuid();
     const control = this.formGroup.get('newLecture');
     const createdBy = this.data.user.uid;
     const lecture: Lecture = { id, createdBy, ...control.value };
+    const bcLecture = await this.blockchain.updateLecture(lecture, this.data.courseId);
+    const tx = await this.blockchain.addLectureToCourse(lecture.id, this.data.courseId);
+
     const currentLectures = _.clone(this.course.lectures);
     const updatedLectures = _.concat(currentLectures, lecture);
 
@@ -120,6 +125,7 @@ export class EditCourseDialogComponent {
 
   async updateLecture(lecture: Lecture) {
     const update = _.map(this.course.lectures, o => o.id === lecture.id ? lecture : o);
+    const bcLecture = await this.blockchain.updateLecture(lecture, this.data.courseId);
     this.course.lectures = update;
     this.courseService.update(this.course);
   }

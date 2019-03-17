@@ -30,9 +30,7 @@ export class CourseEffects {
       const jsonObject = JSON.parse(JSON.stringify(course));
       const id = this.afs.createId();
       const courseObject: Course = { id, ...jsonObject };
-      const bcCourse = await this.blockchain.createCourse(courseObject);
-      console.log(bcCourse);
-
+      const bcCourse = await this.blockchain.updateCourse(courseObject);
       this.courseCollection.doc(id).set(courseObject);
     })
   );
@@ -51,7 +49,8 @@ export class CourseEffects {
   Update$ = this.actions$.pipe(
     ofType<CourseActions.Update>(CourseActions.ActionTypes.Update),
     map(action => action.payload),
-    tap(course => {
+    tap(async (course) => {
+      const bcCourse = await this.blockchain.updateCourse(course);
       this.courseCollection.doc(course.id).update(course);
     })
   );
@@ -60,7 +59,8 @@ export class CourseEffects {
   Delete$ = this.actions$.pipe(
     ofType<CourseActions.Delete>(CourseActions.ActionTypes.Delete),
     map(action => action.payload),
-    tap(course => {
+    tap(async (course) => {
+      const bcCourse = await this.blockchain.deleteCourse(course.id);
       this.courseCollection.doc(course.id).delete();
     })
   );

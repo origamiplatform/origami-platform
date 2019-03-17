@@ -23,7 +23,7 @@ export class AuthService {
     private blockchain: BlockchainService
   ) {
     this.user$ = this.afAuth.authState.pipe(
-      switchMap(user => user !== null ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null))
+      switchMap(user => user == null ? of(null) : this.afs.doc<User>(`users/${user.uid}`).valueChanges())
     );
   }
 
@@ -40,15 +40,16 @@ export class AuthService {
 
   updateUserData({ uid, email, displayName, photoURL }: User): Observable<void> {
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${uid}`);
-
     return this.user$.pipe(
       map(userDoc => {
-        if (!userDoc) { throw new Error('Error: userDoc not found'); }
-        const update = {
+        const update: User = {
           uid, email, displayName, photoURL,
-          admin: userDoc.admin || false,
-          courses: userDoc.courses || [],
         };
+
+        if (userDoc) {
+          update.admin = userDoc.admin || false;
+          update.courses = userDoc.courses || [];
+        }
         return update;
       }),
       tap(async (user) => await this.blockchain.updateUser(user)),
