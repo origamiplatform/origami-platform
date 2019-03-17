@@ -1,3 +1,11 @@
 <h2 appPathIndicator> Courses </h2>
 
-<app-course-list [courses]="courses$"></app-course-list>
+<div *ngIf="(courses$ | async)?.length > 0; then hasCourses else empty"></div>
+
+<ng-template #hasCourses>
+  <app-course-list [courses]="courses$"></app-course-list>
+</ng-template>
+
+<ng-template #empty>
+  <h3> You have no enrolled courses </h3>
+</ng-template>
