@@ -4,9 +4,10 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <img fxFlexAlign="center"
+  <app-logo></app-logo>
+  <!-- <img fxFlexAlign="center"
        src="assets/logos/png/ori-logo-full-white.png"
-       style="height: 50%; margin: 0 2.5em 0 0.5em;">
+       style="height: 50%; margin: 0 2.5em 0 0.5em;"> -->
 
   <navbar-item *ngFor="let route of routes"
                [ngClass]="{ 'selected': router.url.includes(route.path) }"
@@ -36,17 +37,21 @@
           <h3 mat-subheader>Info</h3>
           <mat-list-item>
             <mat-icon mat-list-icon>account_circle</mat-icon>
-            <p mat-line> {{ user.displayName }} </p>
+            <p mat-line> {{ user?.displayName }} </p>
           </mat-list-item>
           <mat-list-item>
             <mat-icon mat-list-icon>email</mat-icon>
-            <p mat-line> {{ user.email }} </p>
+            <p mat-line> {{ user?.email }} </p>
           </mat-list-item>
           <mat-divider></mat-divider>
         </mat-list>
-        <mat-action-list>
-          <button mat-list-item
-                  (click)="auth.signOut()"> Logout </button>
+
+        <mat-action-list style="padding: 0.5em 1em 0 1em; display: flex; justify-content: flex-end;">
+          <button mat-button
+                  (click)="auth.signOut()">
+            <span>Logout</span>
+            <mat-icon>exit_to_app</mat-icon>
+          </button>
         </mat-action-list>
 
       </mat-menu>
@@ -54,13 +59,16 @@
 
     <ng-template #guest>
       <button mat-button
+              style="margin-right: 1em;"
               (click)="auth.googleSignin()">
-        <div fxLayout="row"
+        <mat-icon>account_circle</mat-icon>
+        <span>Login</span>
+        <!-- <div fxLayout="row"
              fxLayoutAlign="space-around center"
              style="width: 75px">
           <mat-icon>account_circle</mat-icon>
           <span>Login</span>
-        </div>
+        </div> -->
       </button>
     </ng-template>
 
@@ -79,7 +87,14 @@
   <mat-drawer #drawer
               class="sidenav"
               mode="side">
-    <!-- <app-calender></app-calender> -->
+
+    <iframe *ngIf="calenderURL"
+            [src]="calenderURL"
+            style="border: 0"
+            width="400"
+            height="400"
+            frameborder="0"
+            scrolling="no"></iframe>
   </mat-drawer>
 
   <mat-drawer-content class="sidenav-content">
