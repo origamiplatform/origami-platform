@@ -34,14 +34,6 @@
         <mat-icon> forum </mat-icon>
         <mat-icon matBadge="2"> notifications </mat-icon>
       </div>
-      <!-- 
-      <button mat-mini-fab
-              *ngIf="user"
-              [style.background]="'url('+ user.photoURL + ')'"
-              [style.backgroundSize]="'cover'"
-              style="margin: 0 1em;"
-              [matMenuTriggerFor]="menu">
-      </button> -->
 
       <div id="username"
            fxLayout="row"
@@ -49,8 +41,14 @@
            [matMenuTriggerFor]="menu">
         <span> {{ user?.displayName }} </span>
         <mat-icon> expand_more </mat-icon>
-        <img class='avator'
-             [src]="user.photoURL">
+        <button mat-mini-fab
+                *ngIf="user"
+                [style.background]="'url('+ user.photoURL + ')'"
+                [style.backgroundSize]="'cover'"
+                style="margin: 0 1em;"
+                [matMenuTriggerFor]="menu">
+        </button>
+
       </div>
 
       <mat-menu #menu="matMenu">
@@ -80,12 +78,15 @@
     </ng-template>
 
     <ng-template #guest>
-      <button mat-button
-              style="margin-right: 1em;"
-              (click)="auth.googleSignin()">
-        <mat-icon>account_circle</mat-icon>
-        <span>Login</span>
-      </button>
+      <div fxLayout="row"
+           fxLayoutAlign="space-around center">
+        <button mat-button
+                style="margin-right: 1em;"
+                (click)="auth.googleSignin()">
+          <mat-icon>account_circle</mat-icon>
+          <span>Login</span>
+        </button>
+      </div>
     </ng-template>
 
   </div>

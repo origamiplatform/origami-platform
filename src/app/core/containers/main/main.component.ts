@@ -33,8 +33,11 @@ export class MainComponent {
   ) {
     this.loading$ = this.store.pipe(select(fromRoot.getLoading));
     this.auth.user$.subscribe(user => {
+      if(user) {
+        this.calenderURL = this.getCalenderURL(user);
+      }
       this.user = user;
-      this.calenderURL = this.getCalenderURL(this.user);
+
     });
   }
 
