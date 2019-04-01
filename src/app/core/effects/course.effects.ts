@@ -11,7 +11,7 @@ import {
 
 import * as _ from 'lodash';
 import * as CourseActions from '../actions/course.actions';
-import { Course } from '@core/models/course';
+import { Course, Lecture } from '@core/models/course';
 import { BlockchainService } from '@shared/services/blockchain.service';
 
 const COLLECTION_NAME = 'courses';
@@ -30,7 +30,16 @@ export class CourseEffects {
       const jsonObject = JSON.parse(JSON.stringify(course));
       const id = this.afs.createId();
       const courseObject: Course = { id, ...jsonObject };
+      console.log(courseObject);
+      
       const bcCourse = await this.blockchain.updateCourse(courseObject);
+      const lecture: Lecture = _.find(courseObject.lectures, o => o.update);
+      if (lecture) {
+        const bcLecture = await this.blockchain.updateLecture(lecture, courseObject.id)
+        if (bcLecture) {
+          courseObject.lectures.forEach(lecture => bcLecture.id == lecture.id && (lecture.update = false))
+        }
+      }
       this.courseCollection.doc(id).set(courseObject);
     })
   );
@@ -49,8 +58,15 @@ export class CourseEffects {
   Update$ = this.actions$.pipe(
     ofType<CourseActions.Update>(CourseActions.ActionTypes.Update),
     map(action => action.payload),
-    tap(async (course) => {      
+    tap(async (course) => {
       const bcCourse = await this.blockchain.updateCourse(course);
+      const lecture: Lecture = _.find(course.lectures, o => o.update);
+      if (lecture) {
+        const bcLecture = await this.blockchain.updateLecture(lecture, course.id)
+        if (bcLecture) {
+          course.lectures.forEach(lecture => bcLecture.id == lecture.id && (lecture.update = false))
+        }
+      }
       this.courseCollection.doc(course.id).update(course);
     })
   );
@@ -60,7 +76,11 @@ export class CourseEffects {
     ofType<CourseActions.Delete>(CourseActions.ActionTypes.Delete),
     map(action => action.payload),
     tap(async (course) => {
-      const bcCourse = await this.blockchain.deleteCourse(course.id);
+      const lecture: Lecture = _.find(course.lectures, o => o.delete);
+      if (lecture) {
+        await this.blockchain.deleteLecture(lecture.id);
+      }
+      await this.blockchain.deleteCourse(course.id);
       this.courseCollection.doc(course.id).delete();
     })
   );

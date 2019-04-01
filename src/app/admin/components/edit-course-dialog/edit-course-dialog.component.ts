@@ -9,7 +9,6 @@ import * as _ from 'lodash';
 import { FormGroup, Validators, AbstractControl, FormBuilder, FormArray } from '@angular/forms';
 import { CategoryService } from '@shared/services/category.service';
 import { User } from '@core/models/user';
-import { BlockchainService } from '@shared/services/blockchain.service';
 
 @Component({
   selector: 'edit-course-dialog',
@@ -29,7 +28,6 @@ export class EditCourseDialogComponent {
     private courseService: CourseService,
     public categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    private blockchain: BlockchainService,
     @Inject(MAT_DIALOG_DATA) public data: { courseId: any, user: User } // courseId
   ) {
     this.formGroup = this.formBuilder.group({
@@ -46,13 +44,17 @@ export class EditCourseDialogComponent {
         videoUrl: [null, Validators.required],
       }),
     });
+  
+    this.formGroup.get('newLecture').get('videoUrl').disable();
+
     this.course$ = this.courseService.getById(data.courseId);
     this.course$.subscribe(course => this.onInit(course));
   }
 
 
   onInit(course: Course) {
-    this.course = course;    
+    this.course = course;
+
     this.formGroup.patchValue({ course: course });
     this.updateLectureGroups(course.lectures);
 
@@ -62,7 +64,7 @@ export class EditCourseDialogComponent {
     this.subscription = this.formGroup.valueChanges.subscribe(change => this.onUpdate(change));
   }
 
-  onUpdate(_update) {        
+  onUpdate(_update) {
     this.course = {
       id: this.course.id,
       imageUrl: this.course.imageUrl,
@@ -110,28 +112,38 @@ export class EditCourseDialogComponent {
     const id = uuid();
     const control = this.formGroup.get('newLecture');
     const createdBy = this.data.user.uid;
-    const lecture: Lecture = { id, createdBy, ...control.value };
-    const bcLecture = await this.blockchain.updateLecture(lecture, this.data.courseId);
-    const tx = await this.blockchain.addLectureToCourse(lecture.id, this.data.courseId);
 
-    const currentLectures = _.clone(this.course.lectures);
+    const lecture: Lecture = { id, createdBy, update: true, ...control.value };
+
+    const currentLectures = _.clone(this.course.lectures) || [];
     const updatedLectures = _.concat(currentLectures, lecture);
+
 
     const update = _.clone(this.course);
     update.lectures = updatedLectures;
+    
     this.courseService.update(update);
     control.reset();
   }
 
   async updateLecture(lecture: Lecture) {
-    const update = _.map(this.course.lectures, o => o.id === lecture.id ? lecture : o);
-    const bcLecture = await this.blockchain.updateLecture(lecture, this.data.courseId);
+    const update = _.map(this.course.lectures, o => {
+      if (o.id !== lecture.id) return o;
+      lecture.update = true;
+      return lecture
+    });
+
     this.course.lectures = update;
     this.courseService.update(this.course);
   }
   removeLecture(lecture: Lecture) {
-    _.remove(this.course.lectures, o => o.id === lecture.id);
-    this.courseService.update(this.course);
+    const update = _.map(this.course.lectures, o => {
+      if (o.id !== lecture.id) return o;
+      lecture.delete = true;
+      return lecture
+    });
+    this.course.lectures = update;
+    this.courseService.delete(this.course);
   }
   getFormControl(target: string): AbstractControl {
     return this.formGroup.get(target);

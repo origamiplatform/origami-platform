@@ -18,19 +18,41 @@
 
   <div fxFlex="grow"
        fxLayout="row"
-       fxLayoutAlign="end">
+       fxLayoutAlign="end"
+       style="height: 100%;">
 
     <div *ngIf="auth.user$ | async as user; then authenticated else guest"></div>
 
 
     <ng-template #authenticated>
+
+      <div id='info'
+           fxLayout="row"
+           fxLayoutAlign="space-around center">
+
+        <mat-icon> all_out </mat-icon>
+        <mat-icon> forum </mat-icon>
+        <mat-icon matBadge="2"> notifications </mat-icon>
+      </div>
+      <!-- 
       <button mat-mini-fab
               *ngIf="user"
               [style.background]="'url('+ user.photoURL + ')'"
               [style.backgroundSize]="'cover'"
               style="margin: 0 1em;"
               [matMenuTriggerFor]="menu">
-      </button>
+      </button> -->
+
+      <div id="username"
+           fxLayout="row"
+           fxLayoutAlign="space-around center"
+           [matMenuTriggerFor]="menu">
+        <span> {{ user?.displayName }} </span>
+        <mat-icon> expand_more </mat-icon>
+        <img class='avator'
+             [src]="user.photoURL">
+      </div>
+
       <mat-menu #menu="matMenu">
         <!-- <button mat-menu-item>Item 1</button> -->
         <mat-list>
@@ -63,19 +85,10 @@
               (click)="auth.googleSignin()">
         <mat-icon>account_circle</mat-icon>
         <span>Login</span>
-        <!-- <div fxLayout="row"
-             fxLayoutAlign="space-around center"
-             style="width: 75px">
-          <mat-icon>account_circle</mat-icon>
-          <span>Login</span>
-        </div> -->
       </button>
     </ng-template>
 
   </div>
-  <!-- <div style="width: 30px;"></div> -->
-
-  <!-- <span> {{ (auth.user$ | async)?.displayName | json}} </span> -->
 </app-navbar>
 
 <mat-progress-bar *ngIf="(loading$ | async) > 0"

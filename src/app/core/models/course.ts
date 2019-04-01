@@ -15,6 +15,8 @@ export interface Lecture {
   description: string;
   videoUrl: string;
   createdBy: string;
+  update?: boolean;
+  delete?: boolean;
 }
 
 export interface BcCourse {

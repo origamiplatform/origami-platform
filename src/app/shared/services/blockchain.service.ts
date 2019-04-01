@@ -36,9 +36,7 @@ export class BlockchainService {
     return this._http.put<BcUser>(`${environment.blockchainAPI}/User/${user.uid}`, bcUser).toPromise();
   }
 
-  async updateCourse(course: Course): Promise<BcCourse> {
-    console.log(course);
-    
+  async updateCourse(course: Course): Promise<BcCourse> {    
     const bcCourse: BcCourse = {
       $class: `${environment.blockchainDomain}.Course`,
       id: course.id,
@@ -62,6 +60,7 @@ export class BlockchainService {
   }
 
   async updateLecture(lecture: Lecture, courseId: string): Promise<BcLecture> {
+    
     const bcLecture: BcLecture = {
       $class: `${environment.blockchainDomain}.Lecture`,
       id: lecture.id,

@@ -12,6 +12,7 @@ app-logo {
   height: 60%;
   margin: 0 1em 0 0.5em;
 }
+
 .sidenav {
   padding: 20px;
 }
@@ -27,4 +28,26 @@ app-logo {
 .mat-list-item-content {
   justify-content: flex-end;
   text-align: end;
+}
+
+#info {
+  margin: 0 1em;
+  min-width: 150px;
+  cursor: pointer;
+}
+
+#username {
+  font-size: 0.7em;
+  cursor: pointer;
+  margin: 0.2em;
+
+  span {
+    border-left: 2px solid grey;
+    padding-left: 1em;
+  }
+
+  .avator {
+    height: 60%;
+    border-radius: 50%;
+  }
 }
