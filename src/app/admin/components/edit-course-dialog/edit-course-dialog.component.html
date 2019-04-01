@@ -166,13 +166,22 @@
 </form>
 
 <div mat-dialog-actions
-     align="end">
-  <button mat-button
-          color="warn"
-          (click)="removeCourse()"
-          [mat-dialog-close]>Delete</button>
+     fxLayout="row"
+     fxLayoutAlign="space-between">
+  <div>
+    <button mat-button
+            color="primary"
+            [mat-dialog-close]>Close</button>
+  </div>
+  <div>
+    <button mat-button
+            color="warn"
+            (click)="removeCourse()"
+            [mat-dialog-close]>Delete</button>
 
-  <button mat-button
-          color="primary"
-          [mat-dialog-close]>Close</button>
+    <button mat-button
+            color="primary"
+            (click)="saveChange()"
+            [mat-dialog-close]>Save</button>
+  </div>
 </div>

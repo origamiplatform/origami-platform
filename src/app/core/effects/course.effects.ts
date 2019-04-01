@@ -49,7 +49,7 @@ export class CourseEffects {
   Update$ = this.actions$.pipe(
     ofType<CourseActions.Update>(CourseActions.ActionTypes.Update),
     map(action => action.payload),
-    tap(async (course) => {
+    tap(async (course) => {      
       const bcCourse = await this.blockchain.updateCourse(course);
       this.courseCollection.doc(course.id).update(course);
     })

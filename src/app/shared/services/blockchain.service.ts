@@ -37,6 +37,8 @@ export class BlockchainService {
   }
 
   async updateCourse(course: Course): Promise<BcCourse> {
+    console.log(course);
+    
     const bcCourse: BcCourse = {
       $class: `${environment.blockchainDomain}.Course`,
       id: course.id,
@@ -51,11 +53,12 @@ export class BlockchainService {
       // if no user is on blockchain create new user
       return this._http.post<BcCourse>(`${environment.blockchainAPI}/Course`, bcCourse).toPromise();
     }
+
     if (JSON.stringify(existingCourse) === JSON.stringify(bcCourse)) {
       // if the data is same do nothing
       return of(bcCourse).toPromise();
     }
-    return this._http.put<BcCourse>(`${environment.blockchainAPI}/Course`, bcCourse).toPromise();
+    return this._http.put<BcCourse>(`${environment.blockchainAPI}/Course/${bcCourse.id}`, bcCourse).toPromise();
   }
 
   async updateLecture(lecture: Lecture, courseId: string): Promise<BcLecture> {

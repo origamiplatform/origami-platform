@@ -1,4 +1,4 @@
-import { Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import { StorageService } from '@shared/services/storage.service';
@@ -18,7 +18,11 @@ import { BlockchainService } from '@shared/services/blockchain.service';
 })
 export class EditCourseDialogComponent {
   selectedLectureIndex: number;
+  course$: Observable<Course>;
+  course: Course;
+  formGroup: FormGroup;
 
+  subscription: Subscription;
   constructor(
     public dialogRef: MatDialogRef<EditCourseDialogComponent>,
     private storageService: StorageService,
@@ -45,14 +49,10 @@ export class EditCourseDialogComponent {
     this.course$ = this.courseService.getById(data.courseId);
     this.course$.subscribe(course => this.onInit(course));
   }
-  course$: Observable<Course>;
-  course: Course;
-  formGroup: FormGroup;
 
-  subscription: Subscription;
 
   onInit(course: Course) {
-    this.course = course;
+    this.course = course;    
     this.formGroup.patchValue({ course: course });
     this.updateLectureGroups(course.lectures);
 
@@ -62,12 +62,12 @@ export class EditCourseDialogComponent {
     this.subscription = this.formGroup.valueChanges.subscribe(change => this.onUpdate(change));
   }
 
-  onUpdate(_update) {
-    const course: Course = {
+  onUpdate(_update) {        
+    this.course = {
       id: this.course.id,
       imageUrl: this.course.imageUrl,
-      ..._update
-    };
+      ..._update.course
+    }; 
   }
 
   createLectureGroup(data: Lecture): FormGroup {
@@ -141,6 +141,10 @@ export class EditCourseDialogComponent {
   }
   close(): void {
     this.dialogRef.close();
+  }
+
+  saveChange() {
+    this.courseService.update(this.course);
   }
 }
 
