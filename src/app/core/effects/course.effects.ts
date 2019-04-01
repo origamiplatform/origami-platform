@@ -30,7 +30,6 @@ export class CourseEffects {
       const jsonObject = JSON.parse(JSON.stringify(course));
       const id = this.afs.createId();
       const courseObject: Course = { id, ...jsonObject };
-      console.log(courseObject);
       
       const bcCourse = await this.blockchain.updateCourse(courseObject);
       const lecture: Lecture = _.find(courseObject.lectures, o => o.update);
@@ -59,14 +58,20 @@ export class CourseEffects {
     ofType<CourseActions.Update>(CourseActions.ActionTypes.Update),
     map(action => action.payload),
     tap(async (course) => {
+
+      
       const bcCourse = await this.blockchain.updateCourse(course);
       const lecture: Lecture = _.find(course.lectures, o => o.update);
       if (lecture) {
-        const bcLecture = await this.blockchain.updateLecture(lecture, course.id)
+        const bcLecture = await this.blockchain.updateLecture(lecture, bcCourse.id)
         if (bcLecture) {
-          course.lectures.forEach(lecture => bcLecture.id == lecture.id && (lecture.update = false))
+          course.lectures.forEach(lecture => {
+            const update = _.clone(lecture);
+            bcLecture.id == lecture.id && (update.update = false)
+          })
         }
       }
+
       this.courseCollection.doc(course.id).update(course);
     })
   );

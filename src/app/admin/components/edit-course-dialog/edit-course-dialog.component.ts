@@ -45,7 +45,7 @@ export class EditCourseDialogComponent {
       }),
     });
   
-    this.formGroup.get('newLecture').get('videoUrl').disable();
+    // this.formGroup.get('newLecture').get('videoUrl').disable();
 
     this.course$ = this.courseService.getById(data.courseId);
     this.course$.subscribe(course => this.onInit(course));
