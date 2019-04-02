@@ -68,6 +68,7 @@ export class EditCourseDialogComponent {
     this.course = {
       id: this.course.id,
       imageUrl: this.course.imageUrl,
+      lectures: this.course.lectures,
       ..._update.course
     }; 
   }
@@ -118,10 +119,9 @@ export class EditCourseDialogComponent {
     const currentLectures = _.clone(this.course.lectures) || [];
     const updatedLectures = _.concat(currentLectures, lecture);
 
-
     const update = _.clone(this.course);
     update.lectures = updatedLectures;
-    
+
     this.courseService.update(update);
     control.reset();
   }
@@ -148,15 +148,21 @@ export class EditCourseDialogComponent {
   getFormControl(target: string): AbstractControl {
     return this.formGroup.get(target);
   }
-  removeCourse() {
-    this.courseService.delete(this.course);
-  }
+
   close(): void {
     this.dialogRef.close();
   }
 
   saveChange() {
+    this.course.update = true;
     this.courseService.update(this.course);
+  }
+
+  removeCourse() {
+    const clone = _.cloneDeep(this.course);
+    clone.delete = true;
+    clone.lectures.forEach(lecture => lecture.delete = true);
+    this.courseService.delete(clone);
   }
 }
 

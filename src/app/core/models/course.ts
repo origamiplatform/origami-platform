@@ -7,6 +7,8 @@ export interface Course {
   imageUrl?: string;
   createdBy: string;
   transactionId?: string;
+  update?: boolean;
+  delete?: boolean;
 }
 
 export interface Lecture {

@@ -30,11 +30,12 @@ export class CourseEffects {
       const jsonObject = JSON.parse(JSON.stringify(course));
       const id = this.afs.createId();
       const courseObject: Course = { id, ...jsonObject };
-      
-      const bcCourse = await this.blockchain.updateCourse(courseObject);
+
+      await this.blockchain.updateCourse(courseObject, true);
+
       const lecture: Lecture = _.find(courseObject.lectures, o => o.update);
       if (lecture) {
-        const bcLecture = await this.blockchain.updateLecture(lecture, courseObject.id)
+        const bcLecture = await this.blockchain.updateLecture(lecture, courseObject.id, true)
         if (bcLecture) {
           courseObject.lectures.forEach(lecture => bcLecture.id == lecture.id && (lecture.update = false))
         }
@@ -58,21 +59,20 @@ export class CourseEffects {
     ofType<CourseActions.Update>(CourseActions.ActionTypes.Update),
     map(action => action.payload),
     tap(async (course) => {
+      const clone = _.cloneDeep(course);
 
-      
-      const bcCourse = await this.blockchain.updateCourse(course);
-      const lecture: Lecture = _.find(course.lectures, o => o.update);
-      if (lecture) {
-        const bcLecture = await this.blockchain.updateLecture(lecture, bcCourse.id)
-        if (bcLecture) {
-          course.lectures.forEach(lecture => {
-            const update = _.clone(lecture);
-            bcLecture.id == lecture.id && (update.update = false)
-          })
-        }
+      if (clone.update) {
+        await this.blockchain.updateCourse(clone);
       }
 
-      this.courseCollection.doc(course.id).update(course);
+      const lecture: Lecture = _.find(clone.lectures, o => o.update);
+      if (lecture) {
+        const bcLecture = await this.blockchain.updateLecture(lecture, clone.id)
+        if (bcLecture) {
+          clone.lectures.forEach(lecture => (bcLecture.id == lecture.id) && (lecture.update = false))
+        }
+      }
+      this.courseCollection.doc(clone.id).update(clone);
     })
   );
 
@@ -81,12 +81,21 @@ export class CourseEffects {
     ofType<CourseActions.Delete>(CourseActions.ActionTypes.Delete),
     map(action => action.payload),
     tap(async (course) => {
-      const lecture: Lecture = _.find(course.lectures, o => o.delete);
-      if (lecture) {
-        await this.blockchain.deleteLecture(lecture.id);
+      const clone = _.cloneDeep(course);
+      const lectures: Lecture[] = _.filter(clone.lectures, o => o.delete);
+      if (lectures) {
+        try {
+          lectures.forEach(async (lecture) => await this.blockchain.deleteLecture(lecture.id))
+        } catch (e) { }
+        this.courseCollection.doc(clone.id).update(clone);
       }
-      await this.blockchain.deleteCourse(course.id);
-      this.courseCollection.doc(course.id).delete();
+
+      if (course.delete) {
+        try {
+          await this.blockchain.deleteCourse(clone.id);
+        } catch (e) { }
+        this.courseCollection.doc(clone.id).delete();
+      }
     })
   );
 

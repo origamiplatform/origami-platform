@@ -36,7 +36,7 @@ export class BlockchainService {
     return this._http.put<BcUser>(`${environment.blockchainAPI}/User/${user.uid}`, bcUser).toPromise();
   }
 
-  async updateCourse(course: Course): Promise<BcCourse> {    
+  async updateCourse(course: Course, create?: boolean): Promise<BcCourse> {    
     const bcCourse: BcCourse = {
       $class: `${environment.blockchainDomain}.Course`,
       id: course.id,
@@ -44,22 +44,27 @@ export class BlockchainService {
       name: course.name,
       publisher: `${environment.blockchainDomain}.User#${course.createdBy}`,
     };
-    let existingCourse;
-    try {
-      existingCourse = await this.getCourseById(course.id).toPromise();
-    } catch (err) {
-      // if no user is on blockchain create new user
+    if(create) {
       return this._http.post<BcCourse>(`${environment.blockchainAPI}/Course`, bcCourse).toPromise();
     }
+    if(!create) {
+      let existingCourse;
+      try {
+        existingCourse = await this.getCourseById(course.id).toPromise();
+      } catch (err) {
+        // if no user is on blockchain create new user
+        return this._http.post<BcCourse>(`${environment.blockchainAPI}/Course`, bcCourse).toPromise();
+      }
 
-    if (JSON.stringify(existingCourse) === JSON.stringify(bcCourse)) {
-      // if the data is same do nothing
-      return of(bcCourse).toPromise();
+      if (JSON.stringify(existingCourse) === JSON.stringify(bcCourse)) {
+        // if the data is same do nothing
+        return of(bcCourse).toPromise();
+      }
     }
     return this._http.put<BcCourse>(`${environment.blockchainAPI}/Course/${bcCourse.id}`, bcCourse).toPromise();
   }
 
-  async updateLecture(lecture: Lecture, courseId: string): Promise<BcLecture> {
+  async updateLecture(lecture: Lecture, courseId: string, create?: boolean): Promise<BcLecture> {
     
     const bcLecture: BcLecture = {
       $class: `${environment.blockchainDomain}.Lecture`,
@@ -68,18 +73,24 @@ export class BlockchainService {
       course: `${environment.blockchainDomain}.Course#${courseId}`,
       publisher: `${environment.blockchainDomain}.User#${lecture.createdBy}`,
     };
-    let existingLecture;
-    try {
-      existingLecture = await this.getLectureById(lecture.id).toPromise();
-    } catch (err) {
-      // if no user is on blockchain create new user
+    if (create) {
       return this._http.post<BcLecture>(`${environment.blockchainAPI}/Lecture`, bcLecture).toPromise();
     }
-    if (JSON.stringify(existingLecture) === JSON.stringify(bcLecture)) {
-      // if the data is same do nothing
-      return of(bcLecture).toPromise();
+    if (!create) {
+      let existingLecture;
+      try {
+        existingLecture = await this.getLectureById(lecture.id).toPromise();
+      } catch (err) {
+        // if no user is on blockchain create new user
+        return this._http.post<BcLecture>(`${environment.blockchainAPI}/Lecture`, bcLecture).toPromise();
+      }
+      if (JSON.stringify(existingLecture) === JSON.stringify(bcLecture)) {
+        // if the data is same do nothing
+        return of(bcLecture).toPromise();
+      }
     }
-    return this._http.put<BcLecture>(`${environment.blockchainAPI}/Lecture`, bcLecture).toPromise();
+
+    return this._http.put<BcLecture>(`${environment.blockchainAPI}/Lecture/${bcLecture.id}`, bcLecture).toPromise();
   }
 
   async deleteCourse(id: string): Promise<any> {
@@ -88,19 +99,6 @@ export class BlockchainService {
 
   async deleteLecture(id: string): Promise<any> {
     return this._http.delete<any>(`${environment.blockchainAPI}/Lecture/${id}`).toPromise();
-  }
-
-  async addLectureToCourse(lectureId: string, courseId: string): Promise<any> {
-    let bcCourse;
-    try {
-      bcCourse = await this.getCourseById(courseId).toPromise();
-      const lecture = `${environment.blockchainDomain}.Lecture#${lectureId}`;
-      bcCourse.lectures.push(lecture);
-    } catch (err) {
-      // if no user is on blockchain create new user
-      return this._http.post<BcCourse>(`${environment.blockchainAPI}/Course`, bcCourse).toPromise();
-    }
-    return this._http.put<BcCourse>(`${environment.blockchainAPI}/Course`, bcCourse).toPromise();
   }
 
   async enrollToCourse(courseId: string, userId: string): Promise<EnrollToCourse> {

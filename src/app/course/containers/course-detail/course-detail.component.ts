@@ -30,6 +30,7 @@ export class CourseDetailComponent {
   }
 
   isEnrolled(user: User): boolean {
+    if(!user) return;
     return user.courses.includes(this.courseId);
   }
 
