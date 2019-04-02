@@ -1,11 +1,11 @@
 <section>
-  <mat-card *ngFor="let course of courses | async as categories"
+  <mat-card *ngFor="let course of courses | async"
             (click)="onClick(course.id)">
     <!-- <mat-card-title> {{ course.name }} </mat-card-title> -->
     <div class='imageDisplay'>
       <img [src]="course?.imageUrl || 'assets/images/noimage.png'">
     </div>
 
-    <h3>{{course.name}}</h3>
+    <h3>{{course?.name}}</h3>
   </mat-card>
 </section>

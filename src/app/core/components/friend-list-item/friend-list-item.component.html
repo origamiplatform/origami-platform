@@ -1,0 +1,13 @@
+<!-- <div fxLayout="row"
+     fxLayoutAlign="start center">
+  <img [src]="image">
+  <a class='name'> </a>
+</div> -->
+
+<mat-list-item>
+  <img mat-list-icon
+       [src]="image">
+  <h3 mat-line
+      class='name'>{{ name }}</h3>
+  <!-- <p mat-line> {{folder.updated | date}} </p> -->
+</mat-list-item>

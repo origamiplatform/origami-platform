@@ -10,13 +10,15 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FriendListItemComponent } from './friend-list-item/friend-list-item.component';
 
 
 export const COMPONENTS = [
     NavbarComponent,
     NavbarItemComponent,
     CalenderComponent,
-    LogoComponent
+    LogoComponent,
+    FriendListItemComponent
 ];
 
 @NgModule({

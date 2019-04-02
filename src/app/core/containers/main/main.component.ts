@@ -13,6 +13,13 @@ import { AuthService } from '@shared/services/auth.service';
 import { User } from '@core/models/user';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
+const MOCK_FRIENDS = [
+  { img: 'assets/images/mock_users/1.jpg', name: 'Alice' },
+  { img: 'assets/images/mock_users/2.jpg', name: 'Boe' },
+  { img: 'assets/images/mock_users/3.jpg', name: 'Chary' },
+  { img: 'assets/images/mock_users/4.jpg', name: 'Diana' },
+
+];
 @Component({
   selector: 'app-root',
   templateUrl: './main.component.html',
@@ -25,6 +32,9 @@ export class MainComponent {
   user: User;
   calenderURL: SafeResourceUrl;
 
+
+  friends = MOCK_FRIENDS;
+
   constructor(
     private store: Store<fromRoot.State>,
     private router: Router,
@@ -33,7 +43,7 @@ export class MainComponent {
   ) {
     this.loading$ = this.store.pipe(select(fromRoot.getLoading));
     this.auth.user$.subscribe(user => {
-      if(user) {
+      if (user) {
         this.calenderURL = this.getCalenderURL(user);
       }
       this.user = user;

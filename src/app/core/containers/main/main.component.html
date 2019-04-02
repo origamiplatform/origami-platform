@@ -5,9 +5,6 @@
   </button>
 
   <app-logo></app-logo>
-  <!-- <img fxFlexAlign="center"
-       src="assets/logos/png/ori-logo-full-white.png"
-       style="height: 50%; margin: 0 2.5em 0 0.5em;"> -->
 
   <navbar-item *ngFor="let route of routes"
                [ngClass]="{ 'selected': router.url.includes(route.path) }"
@@ -109,6 +106,17 @@
             height="400"
             frameborder="0"
             scrolling="no"></iframe>
+
+    <mat-list>
+      <h3 mat-subheader>Friends</h3>
+      <friend-list-item *ngFor='let friend of friends'
+                        [image]="friend.img"
+                        [name]="friend.name"></friend-list-item>
+
+    </mat-list>
+    <!-- <friend-list-item *ngFor='let friend of friends'
+                      [image]="friend.img"
+                      [name]="friend.name"></friend-list-item> -->
   </mat-drawer>
 
   <mat-drawer-content class="sidenav-content">

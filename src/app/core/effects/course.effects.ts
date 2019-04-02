@@ -28,6 +28,7 @@ export class CourseEffects {
     map(action => action.payload),
     tap(async (course) => {
       const jsonObject = JSON.parse(JSON.stringify(course));
+      
       const id = this.afs.createId();
       const courseObject: Course = { id, ...jsonObject };
 

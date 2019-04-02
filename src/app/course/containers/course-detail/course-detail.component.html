@@ -4,7 +4,7 @@
     <img [src]="course?.imageUrl || 'assets/images/noimage.png'">
   </div>
   <h2> {{ course.name }} </h2>
-  <p> {{ course.description }} </p>
+  <p class="description"> {{ course.description }} </p>
 
   <mat-accordion>
     <mat-expansion-panel *ngFor="let lecture of course.lectures">

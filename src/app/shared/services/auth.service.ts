@@ -63,6 +63,8 @@ export class AuthService {
       exhaustMap(async (user) => {
         if (user.courses.includes(courseId)) { return of(null); }
         const tx = await this.blockchain.enrollToCourse(courseId, user.uid);
+        console.log(tx);
+        
         const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
         user.courses.push(courseId);
         return userRef.set(user, { merge: true });

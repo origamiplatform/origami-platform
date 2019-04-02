@@ -1,0 +1,33 @@
+// :host {
+//   margin: 0 1em;
+//   padding: 0.5em 3em;
+// }
+
+img {
+  //   border-radius: 50%;
+  //   height: 75px;
+}
+
+// .name {
+//   margin: 0 1em;
+//   text-decoration: underline;
+//   font-weight: bold;
+// }
+.mat-list-item {
+  height: 75px !important;
+}
+
+.mat-line {
+  font-size: 1.25em !important;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
+.mat-list-icon {
+  width: 60px !important;
+  height: 60px !important;
+}
