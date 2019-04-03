@@ -1,17 +1,32 @@
-<app-navbar>
-  <button mat-icon-button
-          (click)="drawer.toggle()">
-    <mat-icon>menu</mat-icon>
-  </button>
+<app-navbar class='.dark'>
+  <div class="menu">
+    <button mat-icon-button
+            (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
 
-  <app-logo></app-logo>
+    <app-logo theme='light'></app-logo>
+  </div>
 
-  <navbar-item *ngFor="let route of routes"
-               [ngClass]="{ 'selected': router.url.includes(route.path) }"
-               (click)="navigateTo(route.path)"
-               [fxShow]="showLink(route)">
-    {{ route.label }}
-  </navbar-item>
+  <div mat-tab-nav-bar>
+    <a mat-tab-link
+       *ngFor="let route of routes"
+       [routerLink]="route.path"
+       routerLinkActive
+       #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{route.label}}
+    </a>
+
+    <!-- <navbar-item *ngFor="let route of routes"
+                 [ngClass]="{ 'selected': router.url.includes(route.path) }"
+                 (click)="navigateTo(route.path)"
+                 [fxShow]="showLink(route)">
+      {{ route.label }}
+    </navbar-item> -->
+  </div>
+
+
 
   <div fxFlex="grow"
        fxLayout="row"
@@ -94,20 +109,32 @@
                   [value]="loading$ | async"
                   [bufferValue]="(loading$ | async) + ((loading$ | async) % 7 + 5)"></mat-progress-bar>
 
-<mat-drawer-container fxFlex='grow'>
-  <mat-drawer #drawer
-              class="sidenav"
-              mode="side">
+<mat-sidenav-container fxFlex='grow'>
+  <mat-sidenav #sidenav
+               class="sidenav"
+               mode="side"
+               fixedInViewport="true">
 
-    <iframe *ngIf="calenderURL"
-            [src]="calenderURL"
-            style="border: 0"
-            width="400"
-            height="400"
-            frameborder="0"
-            scrolling="no"></iframe>
+    <app-navbar>
+      <div class="menu">
+        <button mat-icon-button
+                (click)="sidenav.toggle()">
+          <mat-icon>close</mat-icon>
+        </button>
+
+        <app-logo theme='dark'></app-logo>
+      </div>
+    </app-navbar>
 
     <mat-list>
+      <h3 mat-subheader>Schedule</h3>
+      <!-- <mat-list-item> -->
+      <iframe *ngIf="calenderURL"
+              [src]="calenderURL"
+              frameborder="0"
+              scrolling="no"></iframe>
+      <!-- </mat-list-item> -->
+
       <h3 mat-subheader>Friends</h3>
       <friend-list-item *ngFor='let friend of friends'
                         [image]="friend.img"
@@ -117,10 +144,10 @@
     <!-- <friend-list-item *ngFor='let friend of friends'
                       [image]="friend.img"
                       [name]="friend.name"></friend-list-item> -->
-  </mat-drawer>
+  </mat-sidenav>
 
-  <mat-drawer-content class="sidenav-content">
+  <mat-sidenav-content class="sidenav-content">
     <router-outlet></router-outlet>
-  </mat-drawer-content>
+  </mat-sidenav-content>
 
-</mat-drawer-container>
+</mat-sidenav-container>

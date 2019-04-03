@@ -4,6 +4,19 @@
   justify-content: center;
 }
 
+.dark {
+  &>path {
+    fill: rgba(#000, 0.6) !important;
+  }
+}
+
+.light {
+  &>path {
+    fill: rgba(#fff, 0.87) !important;
+  }
+}
+
+
 svg {
   height: 100%;
   width: auto;

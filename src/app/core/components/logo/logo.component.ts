@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-logo',
@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./logo.component.scss']
 })
 export class LogoComponent implements OnInit {
-
+  @Input() theme: string = 'dark';
   constructor() { }
 
   ngOnInit() {
   }
 
+  getTheme(){
+    return { 'dark': this.theme == 'dark', 'light': this.theme == 'light' }
+  }
 }

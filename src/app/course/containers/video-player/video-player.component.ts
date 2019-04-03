@@ -65,11 +65,17 @@ export class VideoPlayerComponent {
     this.nextLectureId = (lectures.length > i) ? lectures[i].id : null;
   }
 
+  back(){
+    this.router.navigate([`course/watch/${this.courseId}/${this.previousLectureId}`]);
+  }
+
+  next(){
+    this.router.navigate([`course/watch/${this.courseId}/${this.nextLectureId}`]);
+  }
+
   end() {
     if (this.nextLectureId) {
-      setTimeout(() => {
-        this.router.navigate([`course/watch/${this.courseId}/${this.nextLectureId}`]);
-      }, 1000);
+      setTimeout(() => this.next(), 1000);
     }
   }
 }

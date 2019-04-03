@@ -8,4 +8,17 @@ import { Component, Input } from '@angular/core';
 export class FriendListItemComponent {
   @Input() image: string;
   @Input() name: string;
+
+  online: boolean;
+
+  constructor(){
+    this.online = Math.random() >= 0.5;
+    console.log(this.online);
+    
+  }
+  isOnline() {
+    return {
+      'online': this.online
+    }
+  }
 }

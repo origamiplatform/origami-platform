@@ -1,7 +1,12 @@
-<div *ngIf="lecture$ | async as lecture">
-  <pre>
+<div *ngIf="lecture$ | async as lecture"
+     fxLayout="column"
+     fxLayoutAlign="center"
+     class='container'>
+  <!-- <pre>
     {{ lecture | json }}
-  </pre>
+  </pre> -->
+  <h3> {{ lecture.name }} </h3>
+
 
   <video controls
          #video
@@ -10,5 +15,17 @@
             type="video/mp4">
     Your browser does not support the video tag.
   </video>
+
+  <div fxLayout="row"
+       fxLayoutAlign="space-between center"
+       class="control">
+
+    <button mat-icon-button (click)="back()">
+      <mat-icon> keyboard_arrow_left </mat-icon>
+    </button>
+    <button mat-icon-button (click)="next()">
+      <mat-icon> keyboard_arrow_right </mat-icon>
+    </button>
+  </div>
 
 </div>
