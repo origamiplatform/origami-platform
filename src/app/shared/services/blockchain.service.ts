@@ -14,6 +14,8 @@ export class BlockchainService {
   constructor(private _http: HttpClient) { }
 
   async updateUser(user: User): Promise<BcUser> {
+    console.log('updateUser', user);
+    
     const bcUser: BcUser = {
       $class: `${environment.blockchainDomain}.User`,
       id: user.uid,

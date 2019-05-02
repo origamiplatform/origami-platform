@@ -12,9 +12,7 @@ export class FriendListItemComponent {
   online: boolean;
 
   constructor(){
-    this.online = Math.random() >= 0.5;
-    console.log(this.online);
-    
+    this.online = Math.random() >= 0.5;    
   }
   isOnline() {
     return {
