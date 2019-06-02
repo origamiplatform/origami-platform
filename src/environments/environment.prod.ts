@@ -9,5 +9,5 @@ export const environment = {
     messagingSenderId: '554205679285'
   },
   blockchainDomain: 'com.origami.platform',
-  blockchainAPI: 'http://35.192.19.169:3000/api'
+  blockchainAPI: 'http://localhost:3000/api'
 };
