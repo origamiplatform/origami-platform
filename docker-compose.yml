@@ -1,0 +1,52 @@
+    
+version: '3.4'
+
+services:
+  client:
+    image: ${DOCKER_REGISTRY-}origamiclient
+    container_name: "origami-platform"
+    build:
+      context: client
+      dockerfile: ./Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - composer_default
+
+  mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+        - 27017:27017
+    networks:
+      - composer_default
+    
+  playground:
+    image: hyperledger/composer-playground
+    container_name: playground
+    ports:
+        - 8080:8080
+    volumes:
+      -  ~/.composer:/home/composer/.composer
+    networks:
+      - composer_default
+
+  rest-server:
+    image: myorg/composer-rest-server
+    container_name: rest-server
+    environment:
+        - COMPOSER_CARD=${COMPOSER_CARD}
+        - COMPOSER_NAMESPACES=${COMPOSER_NAMESPACES}
+        - COMPOSER_AUTHENTICATION=${COMPOSER_AUTHENTICATION}
+        - COMPOSER_MULTIUSER=${COMPOSER_MULTIUSER}
+        - COMPOSER_DATASOURCES=${COMPOSER_DATASOURCES}
+    ports:
+        - 3000:3000
+    volumes:
+      -  ~/.composer:/home/composer/.composer
+    networks:
+      - composer_default
+  
+networks:
+  composer_default:
+    driver: bridge
