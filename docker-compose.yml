@@ -3,8 +3,8 @@ version: '3.4'
 
 services:
   client:
-    image: ${DOCKER_REGISTRY-}origamiclient
-    container_name: "origami-platform"
+    image: origami-platform
+    container_name: origami-platform
     build:
       context: client
       dockerfile: ./Dockerfile
