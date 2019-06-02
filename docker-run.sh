@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -p 80:80 origami-platform
+docker run -d -p 80:80 --name origami-platform origami-platform 

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build origami-platform .
+docker build -t origami-platform .

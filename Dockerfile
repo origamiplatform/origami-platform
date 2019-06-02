@@ -2,13 +2,12 @@ FROM nginx:alpine AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM node:8.11.2-alpine as build
+FROM node:8-alpine as build
 WORKDIR /src
 COPY ./package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-RUN ls -la
 
 FROM base AS final
 RUN rm -rf /usr/share/nginx/html/*
