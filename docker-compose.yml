@@ -82,7 +82,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mxxxxi_ixxxxa/node_project/views/
+      device: /home/deploy/volume
       o: bind
 
 networks:
