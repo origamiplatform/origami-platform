@@ -2,7 +2,6 @@
 version: '2.2'
 
 services:
-
   client:
     image: origami-platform
     container_name: client
@@ -49,7 +48,7 @@ services:
     networks:
       - composer_default
 
-   webserver:
+  webserver:
     image: nginx:mainline-alpine
     container_name: webserver
     restart: unless-stopped
