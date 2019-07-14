@@ -2,14 +2,16 @@
 version: '2.2'
 
 services:
+
   client:
     image: origami-platform
-    container_name: origami-platform
+    container_name: client
     build:
       context: client
       dockerfile: ./Dockerfile
+    restart: unless-stopped
     ports:
-      - 80:80
+      - 1234:80
     networks:
       - composer_default
 
@@ -46,7 +48,44 @@ services:
       -  ~/.composer:/home/composer/.composer
     networks:
       - composer_default
-  
+
+   webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - 80:1234
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - client
+    networks:
+      - composer_default
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email admin@origami.org --agree-tos --no-eff-email --staging -d origamiplatform.org  -d www.origamiplatform.org 
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/mxxxxi_ixxxxa/node_project/views/
+      o: bind
+
 networks:
   composer_default:
     driver: bridge
