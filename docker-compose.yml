@@ -10,8 +10,8 @@ services:
       dockerfile: ./Dockerfile
     restart: unless-stopped
     ports:
-      - 1234:80
     networks:
+      - 4200:80
       - composer_default
 
   mongodb:
@@ -53,7 +53,7 @@ services:
     container_name: webserver
     restart: unless-stopped
     ports:
-      - 80:1234
+      - 80:80
     volumes:
       - web-root:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
