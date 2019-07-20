@@ -87,7 +87,7 @@ volumes:
       device: /home/deploy/volume
       o: bind
   dhparam:
-  driver: local
+    driver: local
     driver_opts:
       type: none
       device: /root/origami-platform/dhparam/
