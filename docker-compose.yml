@@ -56,7 +56,7 @@ services:
       - 80:80
     volumes:
       - web-root:/var/www/html
-      - ./nginx/nginx-conf:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
     depends_on:
