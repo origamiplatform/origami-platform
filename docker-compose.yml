@@ -88,10 +88,10 @@ volumes:
       o: bind
   dhparam:
   driver: local
-  driver_opts:
-    type: none
-    device: /root/origami-platform/dhparam/
-    o: bind
+    driver_opts:
+      type: none
+      device: /root/origami-platform/dhparam/
+      o: bind
 
 networks:
   composer_default:
