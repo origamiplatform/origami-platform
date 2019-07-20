@@ -73,7 +73,7 @@ services:
       - web-root:/var/www/html
     depends_on:
       - webserver
-    command: certonly --webroot --webroot-path=/var/www/html --email admin@origami.org --agree-tos --no-eff-email --staging -d origamiplatform.org  -d www.origamiplatform.org 
+    command: certonly --webroot --webroot-path=/var/www/html --email admin@origami.org --agree-tos --no-eff-email --force-renewal -d origamiplatform.org  -d www.origamiplatform.org 
 
 volumes:
   certbot-etc:
