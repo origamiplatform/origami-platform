@@ -10,8 +10,8 @@ services:
       dockerfile: ./Dockerfile
     restart: unless-stopped
     ports:
+     - 4200:80
     networks:
-      - 4200:80
       - composer_default
 
   mongodb:
