@@ -1,0 +1,98 @@
+    
+version: '2.2'
+
+services:
+  client:
+    image: origami-platform
+    container_name: client
+    build:
+      context: client
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    ports:
+     - 4200:80
+    networks:
+      - composer_default
+
+  mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+        - 27017:27017
+    networks:
+      - composer_default
+    
+  playground:
+    image: hyperledger/composer-playground
+    container_name: playground
+    ports:
+        - 8080:8080
+    volumes:
+      -  ~/.composer:/home/composer/.composer
+    networks:
+      - composer_default
+
+  rest-server:
+    image: myorg/composer-rest-server
+    container_name: rest-server
+    environment:
+        - COMPOSER_CARD=${COMPOSER_CARD}
+        - COMPOSER_NAMESPACES=${COMPOSER_NAMESPACES}
+        - COMPOSER_AUTHENTICATION=${COMPOSER_AUTHENTICATION}
+        - COMPOSER_MULTIUSER=${COMPOSER_MULTIUSER}
+        - COMPOSER_DATASOURCES=${COMPOSER_DATASOURCES}
+    ports:
+        - 3000:3000
+    volumes:
+      -  ~/.composer:/home/composer/.composer
+    networks:
+      - composer_default
+
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
+    depends_on:
+      - client
+    networks:
+      - composer_default
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email admin@origami.org --agree-tos --no-eff-email --force-renewal -d origamiplatform.org  -d www.origamiplatform.org 
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/deploy/volume
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /root/origami-platform/dhparam/
+      o: bind
+
+networks:
+  composer_default:
+    driver: bridge
